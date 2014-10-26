@@ -16,7 +16,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        Parse.setApplicationId(kParseApplicationId, clientKey:kParseClientKey)
+//        PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+        
+        PFFacebookUtils.initializeFacebook()
+        registerForRemoteNotificationTypes(application)
+        
         return true
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        var characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        
+        var deviceTokenString: String = (deviceToken.description as NSString)
+            .stringByTrimmingCharactersInSet( characterSet )
+            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
+        
+        println("[+] DeviceToken: \(deviceTokenString)")
+        
+        // Store the deviceToken in the current Installation and save it to Parse.
+        var currentInstallation:PFInstallation! = PFInstallation.currentInstallation()
+        currentInstallation.setDeviceTokenFromData(deviceToken)
+        //        currentInstallation.saveInBackground()
+    }
+    
+    func application(application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError!)  {
+        println("[+] Fail to register: " + error.localizedDescription)
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -35,12 +61,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
     }
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        
+//        PFFacebookUtils.session().close()
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
+        return FBAppCall.handleOpenURL(url,
+            sourceApplication:sourceApplication,
+            withSession:PFFacebookUtils.session())
     }
 
-
+    // MARK: -
+    // MARK: Configuration
+    
+    func systemPrintln(message: String) {
+        println("[+] System println: \(message)")
+    }
+    
+    func registerForRemoteNotificationTypes(application:UIApplication!) {
+        if UIDevice.currentDevice().systemVersion >= "8.0" {
+            systemPrintln("Device version is \(UIDevice.currentDevice().systemVersion)")
+            
+            var userNotificationTypes: UIUserNotificationType = UIUserNotificationType.Alert |
+                UIUserNotificationType.Badge |
+                UIUserNotificationType.Sound
+            
+            var userNotificationSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: userNotificationTypes,
+                categories: nil)
+            
+            application.registerUserNotificationSettings(userNotificationSettings)
+            application.registerForRemoteNotifications()
+        } else {
+            systemPrintln("Device version is \(UIDevice.currentDevice().systemVersion)")
+            
+            application.registerForRemoteNotificationTypes(UIRemoteNotificationType.Badge |
+                UIRemoteNotificationType.Sound |
+                UIRemoteNotificationType.Alert)
+        }
+    }
 }
 
