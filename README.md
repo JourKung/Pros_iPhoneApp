@@ -1,4 +1,4 @@
-iPhone application: seniorproject-iphoneapp
+seniorproject-iphoneapp
 =======================
 
 Mobile Application Ecosystem for Customer Relationship Management in Food & Beverage Industry.
