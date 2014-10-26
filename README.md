@@ -1,3 +1,4 @@
-iPhone application: Mobile Application Ecosystem for Customer Relationship Management in Food & Beverage Industry
+iPhone application: seniorproject-iphoneapp
 =======================
 
+Mobile Application Ecosystem for Customer Relationship Management in Food & Beverage Industry.
