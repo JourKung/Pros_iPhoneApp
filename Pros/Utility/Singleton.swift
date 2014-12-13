@@ -8,11 +8,16 @@
 
 import UIKit
 
+// ------------------------------
+// MARK: -
+// MARK: dispatch_once
+// ------------------------------
+
 private let MySharedInstance = Singleton()
 
 class Singleton {
+    
     class var sharedInstance: Singleton {
-        
     struct Static {
         static var instance: Singleton? = nil
         static var onceToken: dispatch_once_t = 0
@@ -24,6 +29,7 @@ class Singleton {
     }
     
     init() {
-        println("[+] Singleton: init");
+        println("[+] Singleton: dispatch_once init")
     }
+    
 }

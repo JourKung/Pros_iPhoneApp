@@ -8,7 +8,42 @@
 
 import Foundation
 
+// MARK: Facebook Required Read Permissions
 let kFacebookReadPermissions    = ["public_profile" ,"email", "user_friends", "user_birthday"]
-
 // user_location
 // user_likes
+
+// MARK: Notification Key
+
+
+
+
+
+
+
+
+
+// ------------------------------
+// MARK: -
+// MARK: Properties
+// ------------------------------
+
+// ------------------------------
+// MARK: -
+// MARK: Action
+// ------------------------------
+
+// ------------------------------
+// MARK: -
+// MARK: User Interface
+// ------------------------------
+
+// ------------------------------
+// MARK: -
+// MARK: Data
+// ------------------------------
+
+// ------------------------------
+// MARK: -
+// MARK: Configuration
+// ------------------------------

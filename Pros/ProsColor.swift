@@ -21,3 +21,41 @@ extension UIColor {
         return UIColor(red: 0.659, green: 0.271, blue: 0.988, alpha: 1)
     }
 }
+
+
+/*
++ (UIColor *)orangeColor {
+return [UIColor colorWithRed:241/255.0f
+green:131/255.0f
+blue:33/255.0f
+alpha:1.0];
+}
+
++ (UIColor *)darkOrangeColor {
+return [UIColor colorWithRed:110/255.0f
+green:63/255.0f
+blue:21/255.0f
+alpha:1.0];
+}
+
++ (UIColor *)darkBlueColor {
+return [UIColor colorWithRed:10/255.0f
+green:132/255.0f
+blue:171/255.0f
+alpha:1.0];
+}
+
++ (UIColor *)blueColor {
+return [UIColor colorWithRed:98/255.0f
+green:144/255.0f
+blue:218/255.0f
+alpha:1.0];
+}
+
++ (UIColor *)mercuryColor {
+return [UIColor colorWithRed:230/255.0f
+green:230/255.0f
+blue:230/255.0f
+alpha:1.0];
+}
+*/
