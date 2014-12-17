@@ -25,7 +25,7 @@ class UserDefaults {
     }
     
     init() {
-        println("[+] Singleton: Nested struct init")
+        println("[Log] Singleton: Nested struct init")
     }
     
     var userObjectID = String()

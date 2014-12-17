@@ -18,7 +18,7 @@ protocol HomeViewControllerDelegate {
 class HomeViewController: BaseViewController,
     UITableViewDelegate,
     UITableViewDataSource,
-    FBLoginViewDelegate,
+//    FBLoginViewDelegate,
     SidePanelViewControllerDelegate {
 
     // ------------------------------
@@ -33,14 +33,13 @@ class HomeViewController: BaseViewController,
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userBirthdayLabel: UILabel!
     @IBOutlet weak var sidebarButon: UIBarButtonItem!
+    var logoutView: FBLoginView!
     */
     
-    var logoutView: FBLoginView!
-    let userClass = User()
-    
-    
-    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var logoutButton: UIButton!
+    
+    let userClass = User()
     var cardView: RKCardView!
     var activities = [String: Array<String>]()
     
@@ -56,8 +55,8 @@ class HomeViewController: BaseViewController,
         /*
         NOTE: Facebook Delegate
         */
-        logoutView = FBLoginView()
-        logoutView.delegate = self
+//        logoutView = FBLoginView()
+//        logoutView.delegate = self
         
         updateUI()
     }
@@ -71,6 +70,10 @@ class HomeViewController: BaseViewController,
     // MARK: -
     // MARK: Action
     // ------------------------------
+    
+    @IBAction func performLogout(sender: AnyObject) {
+        FBSession.activeSession().closeAndClearTokenInformation()
+    }
     
     @IBAction func toggleLeftPanel(sender: AnyObject) {
         delegate?.toggleLeftPanel?()
@@ -91,12 +94,14 @@ class HomeViewController: BaseViewController,
         loadData()
     }
     
-    func customNavigationBar() {
-        navigationItem.title = "My cards"
+    func customNavigationBar() -> Void {
+        navigationItem.title = "My Cards"
     }
-    func customUI() {
-        logoutView.frame = CGRectOffset(logoutView.frame, (self.view.center.x - (logoutView.frame.size.width / 2)), 492)
-        view.addSubview(logoutView)
+    func customUI() -> Void {
+//        logoutView.frame = CGRectOffset(logoutView.frame, (self.view.center.x - (logoutView.frame.size.width / 2)), 492)
+//        view.addSubview(logoutView)
+        
+        logoutButton.setTitle("Log out", forState: UIControlState.Normal)
     }
     
     // ------------------------------
@@ -104,7 +109,7 @@ class HomeViewController: BaseViewController,
     // MARK: Data
     // ------------------------------
     
-    func loadData() {
+    func loadData() -> Void {
         activities = ["cover": ["00_coverDummy", "01_coverDummy", "02_coverDummy", "03_coverDummy"],
             "logo": ["00_logoDummy", "01_logoDummy", "02_logoDummy", "03_logoDummy"],
             "title": ["StarBucks", "Black Canyon", "Coffee World", "Cafe Amazon"],
@@ -119,6 +124,7 @@ class HomeViewController: BaseViewController,
     // ------------------------------
     
     // This method will be called when the user information has been fetched
+    /*
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
         
         UserDefaults.sharedInstance.userObjectID = user.objectID
@@ -128,8 +134,9 @@ class HomeViewController: BaseViewController,
         userClass.birthday = user.birthday
         userClass.email = nil
         
-        println("[+] User profile: \(userClass.id) \(userClass.name) \(userClass.birthday)")
+        println("[Log] User profile: \(userClass.id) \(userClass.name) \(userClass.birthday)")
     }
+    */
     
     // ------------------------------
     // MARK: - 

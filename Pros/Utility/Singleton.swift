@@ -29,7 +29,7 @@ class Singleton {
     }
     
     init() {
-        println("[+] Singleton: dispatch_once init")
+        println("[Log] Singleton: dispatch_once init")
     }
     
 }

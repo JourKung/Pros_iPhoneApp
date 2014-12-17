@@ -12,6 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+//    var userAuthen: UserAuthenticationViewController!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -26,24 +27,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // -----
         
-        /*
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        let containerViewController = ContainerViewController()
-        window!.rootViewController = containerViewController
-        window!.makeKeyAndVisible()
-        */
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        mainAuthenticationVC(storyboard)
+
+//        let initialUserAuthenticationVC = storyboard.instantiateViewControllerWithIdentifier("UserAuthenticationViewController") as UserAuthenticationViewController
+//        window?.rootViewController = initialUserAuthenticationVC
+//        window?.makeKeyAndVisible()
         
+        /*
+        // Whenever a person opens the app, check for a cached session
+        if (FBSession.activeSession().state == FBSessionState.OpenTokenExtended) {
+            // If there's one, just open the session silently, without showing the user the login UI
+            FBSession.openActiveSessionWithReadPermissions(kFacebookReadPermissions, allowLoginUI: false, completionHandler: {
+                (session, state, error) -> Void in
+                // Handler for session state changes
+                // This method will be called EACH time the session state changes,
+                // also for intermediate states and NOT just when the session open
+                
+                initialUserAuthenticationVC.sessionStateChanged(session, state: state, error: error)
+            })
+            
+            // If there's no cached session, we will show a login button
+        } else {
+            initialUserAuthenticationVC.loginButton.setTitle("Log in with Facebook", forState: UIControlState.Normal)
+//            self.userAuthen.performHomeViewControllerAnimated(true)
+        }
+        */
         return true
     }
     
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+    func mainHomeVC(storyboard: UIStoryboard!) -> Void {
         
+    }
+    
+    func mainAuthenticationVC(storyboard: UIStoryboard!) -> Void {
+        let initialUserAuthenticationVC = storyboard.instantiateViewControllerWithIdentifier("UserAuthenticationViewController") as UserAuthenticationViewController
+        window?.rootViewController = initialUserAuthenticationVC
+        window?.makeKeyAndVisible()
+    }
+
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         var characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
         var deviceTokenString: String = (deviceToken.description as NSString)
             .stringByTrimmingCharactersInSet( characterSet )
             .stringByReplacingOccurrencesOfString(" ", withString: "") as String
         
-        println("[+] Device token: \(deviceTokenString)")
+        println("[Log] Device token: \(deviceTokenString)")
         
         // Store the deviceToken in the current Installation and save it to Parse.
         var currentInstallation:PFInstallation! = PFInstallation.currentInstallation()
@@ -52,8 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError!)  {
-        
-        println("[+] Fail to register: " + error.localizedDescription)
+        println("[Log] Fail to register: " + error.localizedDescription)
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -74,6 +103,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        
+        // Handle the user leaving the app while the Facebook login dialog is being shown
+        // For example: when the user presses the iOS "home" button while the login dialog is active
         FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
     }
 
@@ -83,9 +115,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFFacebookUtils.session().close()
     }
     
+    // During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
+    // After authentication, your app will be called back with the session information.
+    // Override application:openURL:sourceApplication:annotation to call the FBsession object that handles the incoming URL
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
-        
-        return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication, withSession:PFFacebookUtils.session())
+        return FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession: PFFacebookUtils.session())
     }
 
     // ------------------------------
@@ -94,8 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // ------------------------------
     
     func registerForRemoteNotificationTypes(application:UIApplication!) {
-        
-        println("[+] Device version: \(UIDevice.currentDevice().systemVersion)")
+        println("[Log] Device version: \(UIDevice.currentDevice().systemVersion)")
         
         if UIDevice.currentDevice().systemVersion >= "8.0" {
             

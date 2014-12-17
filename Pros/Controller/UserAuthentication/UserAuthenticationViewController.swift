@@ -1,3 +1,4 @@
+
 //
 //  UserAuthenticationViewController.swift
 //  Pros
@@ -9,7 +10,7 @@
 import UIKit
 
 class UserAuthenticationViewController: BaseViewController,
-FBLoginViewDelegate,
+//FBLoginViewDelegate,
 UIScrollViewDelegate {
     
     // ------------------------------
@@ -17,11 +18,11 @@ UIScrollViewDelegate {
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var pageControl: UIPageControl!
+    @IBOutlet weak var loginButton: UIButton!
     
-    var loginView: FBLoginView!
+//    var loginView: FBLoginView!
     var pageImages: [UIImage] = []
     var pageImageView: [UIImageView?] = []
     
@@ -35,11 +36,11 @@ UIScrollViewDelegate {
         // Do any additional setup after loading the view.
         /*
         NOTE: Initialize FBLoginView & permission
-        */
+
         loginView = FBLoginView()
         loginView.delegate = self
         loginView.readPermissions = kFacebookReadPermissions
-        
+        */
         updateUI()
     }
 
@@ -52,7 +53,28 @@ UIScrollViewDelegate {
     // MARK: -
     // MARK: Action
     // ------------------------------
-
+    
+    @IBAction func loginWithFacebook(sender: AnyObject) {
+        // If the session state is any of the two "open" states when the button is clicked
+        if (FBSession.activeSession().state == FBSessionState.Open ||
+            FBSession.activeSession().state == FBSessionState.OpenTokenExtended) {
+                
+                // Close the session and remove the access token from the cache
+                // The session state handler (in the app delegate) will be called automatically
+                FBSession.activeSession().closeAndClearTokenInformation()
+                
+                // If the session state is not any of the two "open" states when the button is clicked
+        } else {
+            // Open a session showing the user the login UI
+            // You must ALWAYS ask for public_profile permissions when opening a session
+            FBSession.openActiveSessionWithReadPermissions(kFacebookReadPermissions, allowLoginUI: true, completionHandler: {
+                (session, state, error) -> Void in
+                // Retrieve the app delegate
+                self.sessionStateChanged(session, state: state, error: error)
+            })
+        }
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: User Interface
@@ -60,21 +82,18 @@ UIScrollViewDelegate {
     
     func updateUI() {
         customUI()
-//        customNavigationBar()
     }
     
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
     
-//    func customNavigationBar() {
-//        navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Log In")
-//    }
-    
-    func customUI() {
+    func customUI() -> Void {
 //        view.backgroundColor = UIColor(red: 28.0/255.0, green: 119.0/255.0, blue: 201.0/255.0, alpha: 1)
-        loginView.frame = CGRectOffset(loginView.frame, (self.view.center.x - (loginView.frame.size.width / 2)), 492)
-        view.addSubview(loginView)
+//        loginView.frame = CGRectOffset(loginView.frame, (self.view.center.x - (loginView.frame.size.width / 2)), 492)
+//        view.addSubview(loginView)
+        
+        loginButton.setTitle("Log in with Facebook", forState: UIControlState.Normal)
         
         pageImages = [UIImage(named: "image1")!,
             UIImage(named: "image2")!,
@@ -107,32 +126,114 @@ UIScrollViewDelegate {
     // MARK: -
     // MARK: Configuration
     // ------------------------------
-    
+    /*
     // Logged-in user experience
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-        println("[+] View Logged In")
+        println("[Log] View Logged In")
         performHomeViewControllerAnimated(true)
     }
     
     // Logged-out user experience
     func loginViewShowingLoggedOutUser(loginView: FBLoginView!) {
-        println("[+] View Logged Out")
+        println("[Log] View Logged Out")
+        PFUser.logOut()
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    */
+    
+    func sessionStateChanged(session: FBSession!, state: FBSessionState!, error: NSError!) -> Void {
+        
+        // If the session was opened successfully
+        if (!(error != nil) && state == FBSessionState.Open) {
+            println("[Log] Session opened")
+            // Show the user the logged-in UI
+            userLoggedIn()
+            return
+        }
+        
+        if (state == FBSessionState.Closed ||
+            state == FBSessionState.ClosedLoginFailed) {
+                // If the session is closed
+                println("[Log] Session closed")
+                // Show the user the logged-out UI
+//                userLoggedOut()
+        }
+        
+        // Handle errors
+        if (error != nil) {
+            println("[Log] Error")
+            var alertText, alertTitle: String!
+            // If the error requires people using an app to make an action outside of the app in order to recover
+            if (FBErrorUtility.shouldNotifyUserForError(error) == true) {
+                alertTitle = "Something went wrong"
+                alertText = FBErrorUtility.userMessageForError(error)
+                Utilities.showMessage(alertText, title: alertTitle)
+            } else {
+                // If the user cancelled login, do nothing
+                if (FBErrorUtility.errorCategoryForError(error) == FBErrorCategory.UserCancelled) {
+                    println("[Log] User cancelled login")
+                    
+                    // Handle session closures that happen outside of the app
+                } else if (FBErrorUtility.errorCategoryForError(error) == FBErrorCategory.AuthenticationReopenSession) {
+                    alertTitle = "Session Error"
+                    alertText = "Your current session is no longer valid. Please login again."
+                    Utilities.showMessage(alertText, title: alertTitle)
+                    
+                    // Here we will handle all other errors with a generic error message.
+                    // We recommend you check our Handling Errors guide for more information
+                    // https://developers.facebook.com/docs/ios/errors/
+                } else {
+                    // Get more error information from the error
+                    if let info = error.userInfo {
+                        if let dict1 = info["com.facebook.sdk:ParsedJSONResponseKey"] as? NSDictionary {
+                            if let dict2 = dict1["body"] as? NSDictionary {
+                                if let errorInformation = dict2["error"] as? NSDictionary {
+                                    if let msg: AnyObject = errorInformation["message"] {
+                                        // Show the user an error message
+                                        alertTitle = "Something went wrong"
+                                        alertText = ("Please retry. \n\n If the problem persists contact us and mention this error code: \(msg)")
+                                        Utilities.showMessage(alertText, title: alertTitle)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Clear this token
+        FBSession.activeSession().closeAndClearTokenInformation()
+        // Show the user the logged-out UI
+        userLoggedOut()
+    }
+    
+    // Show the user the logged-in UI
+    func userLoggedIn() -> Void {
+        Utilities.showMessage("START", title: "start")
+        
+        performHomeViewControllerAnimated(true)
+    }
+    
+    // Show the user the logged-out UI
+    func userLoggedOut() -> Void {
+        Utilities.showMessage("END", title: "end")
         PFUser.logOut()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     func performHomeViewControllerAnimated(animated: Bool) {
-        let homeVC = storyboard?.instantiateViewControllerWithIdentifier("HomeViewController") as UINavigationController
-//        navigationController?.presentViewController(homeVC, animated: !animated, completion: nil)
-        presentViewController(homeVC, animated: !animated, completion: nil)
-//        performSegueWithIdentifier("HomeViewController", sender: nil)
+        let containerHomeVC = storyboard?.instantiateViewControllerWithIdentifier("HomeViewController") as UINavigationController
+        //        navigationController?.presentViewController(homeVC, animated: !animated, completion: nil)
+        presentViewController(containerHomeVC, animated: !animated, completion: nil)
+        //        performSegueWithIdentifier("HomeViewController", sender: nil)
     }
     
     /*
     NOTE: Scroll view with Paging
     */
     
-    func loadPage(page: Int) {
+    func loadPage(page: Int) -> Void {
         
         if page < 0 || page >= pageImages.count {
             // If it's outside the range of what you have to display, then do nothing
@@ -159,7 +260,7 @@ UIScrollViewDelegate {
         }
     }
     
-    func purgePage(page: Int) {
+    func purgePage(page: Int) -> Void {
         
         if page < 0 || page >= pageImages.count {
             // If it's outside the range of what you have to display, then do nothing
@@ -173,7 +274,7 @@ UIScrollViewDelegate {
         }
     }
     
-    func loadVisiblePages() {
+    func loadVisiblePages() -> Void {
         
         // First, determine which page is currently visible
         let pageWidth = scrollView.frame.size.width
@@ -202,7 +303,7 @@ UIScrollViewDelegate {
         }
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView!) {
+    func scrollViewDidScroll(scrollView: UIScrollView!) -> Void {
         // Load the pages that are now on screen
         loadVisiblePages()
     }
