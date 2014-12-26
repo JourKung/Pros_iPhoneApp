@@ -18,7 +18,6 @@ protocol HomeViewControllerDelegate {
 class HomeViewController: BaseViewController,
     UITableViewDelegate,
     UITableViewDataSource,
-//    FBLoginViewDelegate,
     SidePanelViewControllerDelegate {
 
     // ------------------------------
@@ -28,18 +27,14 @@ class HomeViewController: BaseViewController,
     
     var delegate: HomeViewControllerDelegate?
     
-    /*
-    @IBOutlet weak var userPictureView: FBProfilePictureView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userBirthdayLabel: UILabel!
     @IBOutlet weak var sidebarButon: UIBarButtonItem!
-    var logoutView: FBLoginView!
-    */
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var logoutButton: UIButton!
     
-    let userClass = User()
+    let UserClass = User()
     var cardView: RKCardView!
     var activities = [String: Array<String>]()
     
@@ -51,12 +46,6 @@ class HomeViewController: BaseViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
-        /*
-        NOTE: Facebook Delegate
-        */
-//        logoutView = FBLoginView()
-//        logoutView.delegate = self
         
         updateUI()
     }
@@ -72,7 +61,9 @@ class HomeViewController: BaseViewController,
     // ------------------------------
     
     @IBAction func performLogout(sender: AnyObject) {
-        FBSession.activeSession().closeAndClearTokenInformation()
+//        FBSession.activeSession().closeAndClearTokenInformation()
+        PFUser.logOut()
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func toggleLeftPanel(sender: AnyObject) {
@@ -98,9 +89,6 @@ class HomeViewController: BaseViewController,
         navigationItem.title = "My Cards"
     }
     func customUI() -> Void {
-//        logoutView.frame = CGRectOffset(logoutView.frame, (self.view.center.x - (logoutView.frame.size.width / 2)), 492)
-//        view.addSubview(logoutView)
-        
         logoutButton.setTitle("Log out", forState: UIControlState.Normal)
     }
     
@@ -116,6 +104,32 @@ class HomeViewController: BaseViewController,
             "description": ["Coffee shop", "Coffee shop", "Coffee shop", "Coffee shop"],
             "point": ["99", "100", "7", "55"],
             "expirationDate": ["04/12/2014", "12/11/2014", "26/06/2015", "01/01/2015"]];
+        
+        
+        
+        
+        // ----
+        let userData = UserDefaults.sharedInstance.userActivities
+        
+        UserClass.id = userData["id"] as? String
+        UserClass.name = userData["name"] as? String
+        UserClass.gender = userData["gender"] as? String
+        UserClass.birthday = userData["birthday"] as? String
+        UserClass.email = userData["email"] as? String
+        
+        let fbPictureUrl: NSURL! = NSURL(string: "https://graph.facebook.com/\(self.UserClass.id)/picture?type=large&return_ssl_resources=1")
+        let fbUrlRequest: NSURLRequest! = NSURLRequest(URL: fbPictureUrl)
+        // Run network request asynchronously
+        NSURLConnection.sendAsynchronousRequest(fbUrlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+            (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
+            if (connectionError == nil && data != nil) {
+                // Set the image in the header imageView
+                self.UserClass.picture = UIImage(data: data)
+            }
+        })
+        
+        
+        println("[HomeVC] \(UserClass.id) \(UserClass.email)")
     }
     
     // ------------------------------
@@ -123,20 +137,7 @@ class HomeViewController: BaseViewController,
     // MARK: Configuration
     // ------------------------------
     
-    // This method will be called when the user information has been fetched
-    /*
-    func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
-        
-        UserDefaults.sharedInstance.userObjectID = user.objectID
-        
-        userClass.id = user.objectID
-        userClass.name = user.name
-        userClass.birthday = user.birthday
-        userClass.email = nil
-        
-        println("[Log] User profile: \(userClass.id) \(userClass.name) \(userClass.birthday)")
-    }
-    */
+    
     
     // ------------------------------
     // MARK: - 
@@ -147,7 +148,7 @@ class HomeViewController: BaseViewController,
     let BUFFERY: CGFloat = 35 //distance from top to the card (higher makes shorter card)
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var titleCount: Array = activities["title"]!
+        let titleCount: Array = activities["title"]!
         return titleCount.count
     }
     
