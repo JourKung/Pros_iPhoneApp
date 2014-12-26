@@ -9,7 +9,8 @@
 import Foundation
 
 // MARK: Facebook Required Read Permissions
-let kFacebookReadPermissions    = ["public_profile" ,"email", "user_friends", "user_birthday"]
+let kFacebookReadPermissions    = ["email", "user_friends", "user_birthday"]
+
 // user_location
 // user_likes
 
