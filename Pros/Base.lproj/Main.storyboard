@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="H07-yv-TQe">
+                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="H07-yv-TQe">
                                 <rect key="frame" x="16" y="478" width="288" height="37"/>
                                 <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="currentPageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -39,11 +39,15 @@
                                     <action selector="loginWithFacebook:" destination="C1g-0x-s14" eventType="touchUpInside" id="aFw-hl-Klq"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="11P-gC-BC4">
+                                <rect key="frame" x="150" y="450" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="XhR-xt-QU0"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="11P-gC-BC4" id="hJv-NK-Hf1"/>
                         <outlet property="loginButton" destination="c3y-8q-tYx" id="T1p-AQ-N4i"/>
                         <outlet property="pageControl" destination="H07-yv-TQe" id="3Ju-75-1nQ"/>
                         <outlet property="scrollView" destination="8Zp-Uk-LXH" id="86o-Lh-OTi"/>
@@ -56,7 +60,7 @@
         <!--Home View Controller-->
         <scene sceneID="BDQ-sA-f5O">
             <objects>
-                <viewController storyboardIdentifier="HomeViewController2" id="Mf2-RL-KQL" customClass="HomeViewController" customModule="Pros" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Mf2-RL-KQL" customClass="HomeViewController" customModule="Pros" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MZ7-Ot-G9g"/>
                         <viewControllerLayoutGuide type="bottom" id="nCa-1Q-9kz"/>

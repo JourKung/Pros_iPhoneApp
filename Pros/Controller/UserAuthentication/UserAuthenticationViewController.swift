@@ -10,21 +10,21 @@
 import UIKit
 
 class UserAuthenticationViewController: BaseViewController,
-//FBLoginViewDelegate,
 UIScrollViewDelegate {
     
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
-    
+        
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var pageControl: UIPageControl!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-//    var loginView: FBLoginView!
     var pageImages: [UIImage] = []
     var pageImageView: [UIImageView?] = []
+    let UserClass = User()
     
     // ------------------------------
     // MARK: -
@@ -34,14 +34,24 @@ UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        /*
-        NOTE: Initialize FBLoginView & permission
-
-        loginView = FBLoginView()
-        loginView.delegate = self
-        loginView.readPermissions = kFacebookReadPermissions
-        */
+        
         updateUI()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        byPassingAuthenticationViewController()
+    }
+
+    func byPassingAuthenticationViewController() -> Void {
+        let isCached = PFUser.currentUser() // Check if user is cached
+        let isLinked = PFFacebookUtils.isLinkedWithUser(PFUser.currentUser()) // Check if user is linked to Facebook
+        
+        if (isLinked && isLinked) {
+            // Present the next view controller without animation
+            performHomeViewControllerAnimated(false)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,6 +65,7 @@ UIScrollViewDelegate {
     // ------------------------------
     
     @IBAction func loginWithFacebook(sender: AnyObject) {
+        /*
         // If the session state is any of the two "open" states when the button is clicked
         if (FBSession.activeSession().state == FBSessionState.Open ||
             FBSession.activeSession().state == FBSessionState.OpenTokenExtended) {
@@ -73,6 +84,9 @@ UIScrollViewDelegate {
                 self.sessionStateChanged(session, state: state, error: error)
             })
         }
+        */
+        
+        userLoggedIn()
     }
     
     // ------------------------------
@@ -89,10 +103,6 @@ UIScrollViewDelegate {
     }
     
     func customUI() -> Void {
-//        view.backgroundColor = UIColor(red: 28.0/255.0, green: 119.0/255.0, blue: 201.0/255.0, alpha: 1)
-//        loginView.frame = CGRectOffset(loginView.frame, (self.view.center.x - (loginView.frame.size.width / 2)), 492)
-//        view.addSubview(loginView)
-        
         loginButton.setTitle("Log in with Facebook", forState: UIControlState.Normal)
         
         pageImages = [UIImage(named: "image1")!,
@@ -122,25 +132,42 @@ UIScrollViewDelegate {
     // MARK: Data
     // ------------------------------
     
+    func loadData() -> Void {
+        let request: FBRequest = FBRequest.requestForMe()
+        request.startWithCompletionHandler({
+            (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+            
+            if !(error != nil) {
+                // handle successful response
+                // result is a dictionary with the user's Facebook data
+                let userData = result as [String: AnyObject]
+                UserDefaults.sharedInstance.userActivities = userData
+                
+                PFUser.currentUser().setObject(userData, forKey: "profile")
+                PFUser.currentUser().saveInBackground()
+//                [self _updateProfileData];
+                self.performHomeViewControllerAnimated(true)
+                
+            } else if let info = error.userInfo as? [String: AnyObject] {
+                if let dict1 = info["error"] as? [String: AnyObject] {
+                    if let dict2 = dict1["type"] as? String {
+                        if dict2 == "OAuthException" {
+                            println("[Log] The facebook session was invalidated")
+                            self.userLoggedOut()
+                        }
+                    }
+                }
+            } else {
+                println("[Log] Some other error: \(error)");
+            }
+        })
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: Configuration
     // ------------------------------
     /*
-    // Logged-in user experience
-    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-        println("[Log] View Logged In")
-        performHomeViewControllerAnimated(true)
-    }
-    
-    // Logged-out user experience
-    func loginViewShowingLoggedOutUser(loginView: FBLoginView!) {
-        println("[Log] View Logged Out")
-        PFUser.logOut()
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    */
-    
     func sessionStateChanged(session: FBSession!, state: FBSessionState!, error: NSError!) -> Void {
         
         // If the session was opened successfully
@@ -167,17 +194,16 @@ UIScrollViewDelegate {
             if (FBErrorUtility.shouldNotifyUserForError(error) == true) {
                 alertTitle = "Something went wrong"
                 alertText = FBErrorUtility.userMessageForError(error)
-                Utilities.showMessage(alertText, title: alertTitle)
+                alertController(alertTitle, message: alertText, preferredStyle: .Alert)
             } else {
                 // If the user cancelled login, do nothing
                 if (FBErrorUtility.errorCategoryForError(error) == FBErrorCategory.UserCancelled) {
                     println("[Log] User cancelled login")
-                    
                     // Handle session closures that happen outside of the app
                 } else if (FBErrorUtility.errorCategoryForError(error) == FBErrorCategory.AuthenticationReopenSession) {
                     alertTitle = "Session Error"
                     alertText = "Your current session is no longer valid. Please login again."
-                    Utilities.showMessage(alertText, title: alertTitle)
+                    alertController(alertTitle, message: alertText, preferredStyle: .Alert)
                     
                     // Here we will handle all other errors with a generic error message.
                     // We recommend you check our Handling Errors guide for more information
@@ -192,7 +218,7 @@ UIScrollViewDelegate {
                                         // Show the user an error message
                                         alertTitle = "Something went wrong"
                                         alertText = ("Please retry. \n\n If the problem persists contact us and mention this error code: \(msg)")
-                                        Utilities.showMessage(alertText, title: alertTitle)
+                                        alertController(alertTitle, message: alertText, preferredStyle: .Alert)
                                     }
                                 }
                             }
@@ -207,26 +233,65 @@ UIScrollViewDelegate {
         // Show the user the logged-out UI
         userLoggedOut()
     }
+    */
     
     // Show the user the logged-in UI
     func userLoggedIn() -> Void {
-        Utilities.showMessage("START", title: "start")
         
-        performHomeViewControllerAnimated(true)
+        // Login PFUser using Facebook
+        PFFacebookUtils.logInWithPermissions(kFacebookReadPermissions, block: {
+            (user: PFUser!, error: NSError!) -> Void in
+            // Hide loading indicator
+            self.activityIndicator.stopAnimating()
+            
+            if !(user != nil) {
+                var errorMessage: String! = nil
+                if !(error != nil) {
+                    println("[Log] Uh oh. The user cancelled the Facebook login.")
+                    errorMessage = "Uh oh. The user cancelled the Facebook login."
+                } else {
+                    println("[Log] Uh oh. An error occurred: \(error)")
+                    errorMessage = error.localizedDescription
+                }
+                self.alertController("Log In Error", message: errorMessage, preferredStyle: .Alert)
+            } else {
+                if (user.isNew) {
+                    println("[Log] User with facebook signed up and logged in!")
+                } else {
+                    println("[Log] User with facebook logged in!")
+                }
+//                self.performHomeViewControllerAnimated(true)
+                self.loadData()
+            }
+        })
+        
+        // Show loading indicator until login is finished
+        self.activityIndicator.startAnimating()
     }
-    
+
     // Show the user the logged-out UI
-    func userLoggedOut() -> Void {
-        Utilities.showMessage("END", title: "end")
+    func userLoggedOut() -> Void {        
         PFUser.logOut()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func performHomeViewControllerAnimated(animated: Bool) {
+    func alertController(title: String!, message: String!, preferredStyle: UIAlertControllerStyle!) {
+        /*
+        NOTE: The new way: UIAlertController (AlertView, ActionSheet)
+        Default: Done action button
+        */
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+        let defaultAction = UIAlertAction(title: "Done", style: UIAlertActionStyle.Default, handler: {
+            action in
+            // Handle statement
+        })
+        alertController.addAction(defaultAction)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func performHomeViewControllerAnimated(animated: Bool) -> Void {
         let containerHomeVC = storyboard?.instantiateViewControllerWithIdentifier("HomeViewController") as UINavigationController
-        //        navigationController?.presentViewController(homeVC, animated: !animated, completion: nil)
-        presentViewController(containerHomeVC, animated: !animated, completion: nil)
-        //        performSegueWithIdentifier("HomeViewController", sender: nil)
+        presentViewController(containerHomeVC, animated: animated, completion: nil)
     }
     
     /*
