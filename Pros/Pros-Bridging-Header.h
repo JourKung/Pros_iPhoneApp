@@ -5,6 +5,7 @@
 // Parse Service SDK
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
+#import <Bolts/Bolts.h>
 
 // Facebook SDK
 #import <FacebookSDK/FacebookSDK.h>
