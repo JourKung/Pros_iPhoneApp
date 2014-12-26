@@ -29,4 +29,6 @@ class UserDefaults {
     }
     
     var userObjectID = String()
+    
+    var userActivities = [String: AnyObject]()
 }
