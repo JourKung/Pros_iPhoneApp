@@ -20,6 +20,7 @@ class User: NSObject {
     var gender: String!
     var birthday: String!
     var email: String!
+    var picture: UIImage!
     var createAt: NSDate!
     var updateAt: NSDate!
 }
