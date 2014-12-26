@@ -26,14 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         customNavigationBarOfAppearance()
         
         // -----
-        
+        /*
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        mainAuthenticationVC(storyboard)
-
-//        let initialUserAuthenticationVC = storyboard.instantiateViewControllerWithIdentifier("UserAuthenticationViewController") as UserAuthenticationViewController
-//        window?.rootViewController = initialUserAuthenticationVC
-//        window?.makeKeyAndVisible()
+        */
         
         /*
         // Whenever a person opens the app, check for a cached session
@@ -45,26 +41,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // This method will be called EACH time the session state changes,
                 // also for intermediate states and NOT just when the session open
                 
-                initialUserAuthenticationVC.sessionStateChanged(session, state: state, error: error)
             })
             
             // If there's no cached session, we will show a login button
         } else {
-            initialUserAuthenticationVC.loginButton.setTitle("Log in with Facebook", forState: UIControlState.Normal)
-//            self.userAuthen.performHomeViewControllerAnimated(true)
+            
         }
         */
         return true
-    }
-    
-    func mainHomeVC(storyboard: UIStoryboard!) -> Void {
-        
-    }
-    
-    func mainAuthenticationVC(storyboard: UIStoryboard!) -> Void {
-        let initialUserAuthenticationVC = storyboard.instantiateViewControllerWithIdentifier("UserAuthenticationViewController") as UserAuthenticationViewController
-        window?.rootViewController = initialUserAuthenticationVC
-        window?.makeKeyAndVisible()
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -78,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Store the deviceToken in the current Installation and save it to Parse.
         var currentInstallation:PFInstallation! = PFInstallation.currentInstallation()
         currentInstallation.setDeviceTokenFromData(deviceToken)
-//        currentInstallation.saveInBackground()
+        currentInstallation.saveInBackground()
     }
     
     func application(application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError!)  {
@@ -119,7 +103,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // After authentication, your app will be called back with the session information.
     // Override application:openURL:sourceApplication:annotation to call the FBsession object that handles the incoming URL
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
-        return FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession: PFFacebookUtils.session())
+        let wasHandled: Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession:PFFacebookUtils.session())
+        return wasHandled
     }
 
     // ------------------------------
@@ -151,8 +136,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func customNavigationBarOfAppearance() {
+    func customNavigationBarOfAppearance() -> Void {
         
     }
+    
+    
+    /*
+    func mainAuthenticationVC(storyboard: UIStoryboard!) -> Void {
+        let initialUserAuthenticationVC = storyboard.instantiateViewControllerWithIdentifier("UserAuthenticationViewController") as UserAuthenticationViewController
+        window?.rootViewController = initialUserAuthenticationVC
+        window?.makeKeyAndVisible()
+    }
+    
+    func homeVC(storyboard: UIStoryboard!) -> Void {
+        let initialHomeVC = storyboard.instantiateViewControllerWithIdentifier("HomeViewController") as UINavigationController
+        window?.rootViewController = initialHomeVC
+        window?.makeKeyAndVisible()
+    }
+    
+    func byPassingLogin(storyboard: UIStoryboard!) -> Void {
+        let isCached = PFUser.currentUser() // Check if user is cached
+        let isLinked = PFFacebookUtils.isLinkedWithUser(PFUser.currentUser()) // Check if user is linked to Facebook
+        
+        if (isLinked && isLinked) {
+            homeVC(storyboard)
+        } else {
+            mainAuthenticationVC(storyboard)
+        }
+    }
+    */
 }
 
