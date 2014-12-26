@@ -71,13 +71,4 @@ class Utilities: NSObject {
         
         return numberAsString;
     }
-    
-    class func showMessage(text: String!, title: String!) -> Void {
-        /*
-        NOTE: The Old way: UIAlertView
-        */
-        let alertView = UIAlertView(title: title, message: text, delegate: self, cancelButtonTitle: "OK")
-        alertView.alertViewStyle = UIAlertViewStyle.Default
-        alertView.show()
-    }
 }
