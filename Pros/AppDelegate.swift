@@ -25,29 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerForRemoteNotificationTypes(application)
         customNavigationBarOfAppearance()
         
-        // -----
-        /*
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        */
-        
-        /*
-        // Whenever a person opens the app, check for a cached session
-        if (FBSession.activeSession().state == FBSessionState.OpenTokenExtended) {
-            // If there's one, just open the session silently, without showing the user the login UI
-            FBSession.openActiveSessionWithReadPermissions(kFacebookReadPermissions, allowLoginUI: false, completionHandler: {
-                (session, state, error) -> Void in
-                // Handler for session state changes
-                // This method will be called EACH time the session state changes,
-                // also for intermediate states and NOT just when the session open
-                
-            })
-            
-            // If there's no cached session, we will show a login button
-        } else {
-            
-        }
-        */
         return true
     }
 
@@ -58,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .stringByReplacingOccurrencesOfString(" ", withString: "") as String
         
         println("[Log] Device token: \(deviceTokenString)")
+        UserDefaults.sharedInstance.setUserDeviceToken(deviceTokenString)
         
         // Store the deviceToken in the current Installation and save it to Parse.
         var currentInstallation:PFInstallation! = PFInstallation.currentInstallation()
@@ -137,7 +115,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func customNavigationBarOfAppearance() -> Void {
-        
     }
     
     

@@ -9,6 +9,12 @@
 import UIKit
 
 extension UIColor {
+    
+    // ------------------------------
+    // MARK: -
+    // MARK: Configuration
+    // ------------------------------
+    
     class func applicationGreenColor() -> UIColor {
         return UIColor(red: 0.255, green: 0.804, blue: 0.470, alpha: 1)
     }

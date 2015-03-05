@@ -12,3 +12,7 @@
 
 // External Libraries
 #import "RKCardView.h"
+#import "ParallaxHeaderView.h"
+
+// Extensions
+#import "UIImage+ImageEffects.h"

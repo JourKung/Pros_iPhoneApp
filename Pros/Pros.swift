@@ -31,12 +31,17 @@ let kFacebookReadPermissions    = ["email", "user_friends", "user_birthday"]
 
 // ------------------------------
 // MARK: -
+// MARK: View life cycle
+// ------------------------------
+
+// ------------------------------
+// MARK: -
 // MARK: Action
 // ------------------------------
 
 // ------------------------------
 // MARK: -
-// MARK: User Interface
+// MARK: User interface
 // ------------------------------
 
 // ------------------------------
@@ -48,3 +53,25 @@ let kFacebookReadPermissions    = ["email", "user_friends", "user_birthday"]
 // MARK: -
 // MARK: Configuration
 // ------------------------------
+
+
+
+// ------------------------------
+// MARK: -
+// MARK: Table view data source
+// ------------------------------
+
+// ------------------------------
+// MARK: -
+// MARK: Table view deleagete
+// ------------------------------
+
+// ----------------------------------
+// MARK: -
+// MARK: Collection view deleagete
+// ----------------------------------
+
+// ----------------------------------
+// MARK: -
+// MARK: Collection view data source
+// ----------------------------------

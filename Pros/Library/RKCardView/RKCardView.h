@@ -33,10 +33,10 @@
 
 @interface RKCardView : UIView
 
-@property (nonatomic)UIImageView *profileImageView;
+@property (nonatomic)UIImageView *logoImageView;
 @property (nonatomic)UIImageView *coverImageView;
 @property (nonatomic)UILabel *titleLabel;
-@property (nonatomic)UILabel *descriptionLabel;
+@property (nonatomic)UILabel *typeLabel;
 @property (nonatomic)UILabel *pointLabel;
 @property (nonatomic)UILabel *expirationDateLabel;
 

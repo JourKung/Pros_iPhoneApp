@@ -44,10 +44,10 @@
 @implementation RKCardView {
     UIVisualEffectView *visualEffectView;
 }
-@synthesize profileImageView;
+@synthesize logoImageView;
 @synthesize coverImageView;
 @synthesize titleLabel;
-@synthesize descriptionLabel;
+@synthesize typeLabel;
 @synthesize pointLabel;
 @synthesize expirationDateLabel;
 
@@ -106,14 +106,14 @@
     visualEffectView.frame = cp_mask.frame;
     visualEffectView.alpha = 0;
     
-    profileImageView = [[UIImageView alloc]init];
-    profileImageView.frame = CGRectMake(0, 0, pp_mask.frame.size.width, pp_mask.frame.size.height);
+    logoImageView = [[UIImageView alloc]init];
+    logoImageView.frame = CGRectMake(0, 0, pp_mask.frame.size.width, pp_mask.frame.size.height);
     coverImageView = [[UIImageView alloc]init];
     coverImageView.frame = cp_mask.frame;
     [coverImageView setContentMode:UIViewContentModeScaleAspectFill];
     
     [cp_mask addSubview:coverImageView];
-    [pp_mask addSubview:profileImageView];
+    [pp_mask addSubview:logoImageView];
     cp_mask.clipsToBounds = YES;
     pp_mask.clipsToBounds = YES;
     
@@ -137,15 +137,15 @@
     // ------------------------------
     
     CGFloat descriptionLabelX = pp_circle.frame.origin.x+pp_circle.frame.size.width;
-    descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(descriptionLabelX, cp_mask.frame.size.height + 18,
+    typeLabel = [[UILabel alloc]initWithFrame:CGRectMake(descriptionLabelX, cp_mask.frame.size.height + 18,
                                                                 self.frame.size.width - descriptionLabelX-5, 40)];
-    descriptionLabel.adjustsFontSizeToFitWidth = NO;
-    descriptionLabel.lineBreakMode = NSLineBreakByClipping;
-    descriptionLabel.numberOfLines = 3;
+    typeLabel.adjustsFontSizeToFitWidth = NO;
+    typeLabel.lineBreakMode = NSLineBreakByClipping;
+    typeLabel.numberOfLines = 3;
     
-    [descriptionLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11]];
-    [descriptionLabel setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
-    descriptionLabel.text = @"Description Label";
+    [typeLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11]];
+    [typeLabel setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+    typeLabel.text = @"Description Label";
     
     // ------------------------------
     // Point label
@@ -174,8 +174,8 @@
     // Expiration date label
     // ------------------------------
     
-    CGFloat expirationDateLabelX = pp_circle.frame.origin.x+pp_circle.frame.size.width;
-    expirationDateLabel = [[UILabel alloc]initWithFrame:CGRectMake(expirationDateLabelX + 138, cp_mask.frame.size.height + 24.5,
+    CGFloat expirationDateLabelX = pp_circle.frame.origin.x+pp_circle.frame.size.width;//expirationDateLabelX + 138
+    expirationDateLabel = [[UILabel alloc]initWithFrame:CGRectMake(expirationDateLabelX+138, cp_mask.frame.size.height + 24.5,
                                                                    self.frame.size.width - expirationDateLabelX-5, 100)];
     expirationDateLabel.adjustsFontSizeToFitWidth = NO;
     expirationDateLabel.lineBreakMode = NSLineBreakByClipping;
@@ -195,7 +195,7 @@
     
    
     [self addSubview:titleLabel];
-    [self addSubview:descriptionLabel];
+    [self addSubview:typeLabel];
     [self addSubview:pointLabel];
     [self addSubview:pointText];
     [self addSubview:expirationDateLabel];

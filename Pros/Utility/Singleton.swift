@@ -8,28 +8,50 @@
 
 import UIKit
 
+private let MySharedInstance_Singleton = Dispatch_once()
+private let MySharedInstance_NestedStruct = Nested_struct()
+
 // ------------------------------
 // MARK: -
 // MARK: dispatch_once
 // ------------------------------
 
-private let MySharedInstance = Singleton()
-
-class Singleton {
-    
-    class var sharedInstance: Singleton {
+class Dispatch_once {
+    class var sharedInstance: Dispatch_once {
     struct Static {
-        static var instance: Singleton? = nil
+        static var instance: Dispatch_once? = nil
         static var onceToken: dispatch_once_t = 0
         }
         dispatch_once(&Static.onceToken) {
-            Static.instance = Singleton()
+            Static.instance = Dispatch_once()
         }
         return Static.instance!
     }
     
     init() {
-        println("[Log] Singleton: dispatch_once init")
+        println("[Singleton] dispatch_once init")
     }
     
 }
+
+// ------------------------------
+// MARK: -
+// MARK: Nested struct
+// ------------------------------
+
+class Nested_struct {
+    class var sharedInstance: Nested_struct {
+        struct Static {
+            static let instance = Nested_struct()
+        }
+        return Static.instance
+    }
+    
+    init() {
+        println("[Singleton] Nested struct init")
+    }
+    
+    var userObjectID = String()
+    var userActivities = [String: AnyObject]()
+}
+

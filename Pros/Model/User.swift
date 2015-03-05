@@ -15,12 +15,35 @@ class User: NSObject {
     // MARK: Properties
     // ------------------------------
     
-    var id: String!
+    var objectId: String!
+    var createdAt: NSDate!
+    var updatedAt: NSDate!
+    
+    var fbId: String!
     var name: String!
     var gender: String!
     var birthday: String!
     var email: String!
-    var picture: UIImage!
-    var createAt: NSDate!
-    var updateAt: NSDate!
+//    var profileImageUrl: String!
+    
+    // ------------------------------
+    // MARK: -
+    // MARK: Configuration
+    // ------------------------------
+    
+    init(objectId: String, createdAt: NSDate, updatedAt: NSDate,
+        fbId: String, name: String, gender: String, birthday: String?, email: String?) {
+            super.init()
+            
+            self.objectId = objectId
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+            
+            self.fbId = fbId
+            self.name = name
+            self.gender = gender
+            self.birthday = birthday
+            self.email = email
+//            self.profileImageUrl = profileImageUrl
+    }
 }
