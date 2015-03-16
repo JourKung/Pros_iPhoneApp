@@ -24,7 +24,7 @@ class User: NSObject {
     var gender: String!
     var birthday: String!
     var email: String!
-//    var profileImageUrl: String!
+    var profileImageUrl: String!
     
     // ------------------------------
     // MARK: -
@@ -32,7 +32,7 @@ class User: NSObject {
     // ------------------------------
     
     init(objectId: String, createdAt: NSDate, updatedAt: NSDate,
-        fbId: String, name: String, gender: String, birthday: String?, email: String?) {
+        fbId: String, name: String, gender: String, birthday: String, email: String, profileImageUrl: String) {
             super.init()
             
             self.objectId = objectId
@@ -44,6 +44,6 @@ class User: NSObject {
             self.gender = gender
             self.birthday = birthday
             self.email = email
-//            self.profileImageUrl = profileImageUrl
+            self.profileImageUrl = profileImageUrl
     }
 }

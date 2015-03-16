@@ -10,9 +10,14 @@
 // Facebook SDK
 #import <FacebookSDK/FacebookSDK.h>
 
+// Estimote Beacons SDK
+#import "ESTBeacon.h"
+#import "ESTConfig.h"
+#import "ESTBeaconManager.h"
+
 // External Libraries
 #import "RKCardView.h"
-#import "ParallaxHeaderView.h"
+//#import "ParallaxHeaderView.h"
 
 // Extensions
 #import "UIImage+ImageEffects.h"

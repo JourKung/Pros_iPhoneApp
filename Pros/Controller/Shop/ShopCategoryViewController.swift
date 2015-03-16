@@ -8,16 +8,12 @@
 
 import UIKit
 
-class ShopCategoryViewController: BaseViewController,
-    UITableViewDataSource,
-    UITableViewDelegate {
-
+class ShopCategoryViewController: BaseTableViewController {
+    
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
-    
-    @IBOutlet weak var tableViewOutlet: UITableView!
     
     var dummyActivities: [String] = [String]()
     
@@ -33,7 +29,13 @@ class ShopCategoryViewController: BaseViewController,
         customUI()
         loadData()
     }
-
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -44,10 +46,6 @@ class ShopCategoryViewController: BaseViewController,
     // MARK: Action
     // ------------------------------
     
-    @IBAction func dismissWithCateogories(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     
     // ------------------------------
     // MARK: -
@@ -56,15 +54,21 @@ class ShopCategoryViewController: BaseViewController,
     
     private func customUI() -> Void {
         customNavigationBar()
+        customTableView()
     }
     
     private func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Categories")
-//        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
+    }
+    
+    private func customTableView() -> Void {
+        tableView.estimatedRowHeight = 60.0
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         // This will remove extra separators from tableview
-        self.tableViewOutlet.tableFooterView = UIView(frame:CGRectZero)
-        self.tableViewOutlet.backgroundColor = UIColor.groupTableViewBackgroundColor()
+        tableView.separatorColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
     private func updateUI() -> Void {
@@ -92,35 +96,42 @@ class ShopCategoryViewController: BaseViewController,
     
     private let cellIdentifier = "Cell"
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.dummyActivities.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as ShopCategoryTableViewCell
-        cell.type.text = self.dummyActivities[indexPath.row]
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as ShopCategoryTableViewCell
+        cell.typeLabel.text = self.dummyActivities[indexPath.row]
         cell.typeImageView.image = UIImage(named: self.dummyActivities[indexPath.row])
+        
         return cell
     }
     
     // ------------------------------
-    // MARK: -
+    // MARK: -  
     // MARK: Table view deleagete
     // ------------------------------
     
-    
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "SegueToSubShopCategory" {
+            println("[Segue] Category -> Sub shop category")
+            
+            if let indexPath = tableView.indexPathForSelectedRow() {
+                let destinationController = segue.destinationViewController as SubShopCategoryViewController
+                destinationController.temp = "test"
+            }
+        }
     }
-    */
 
 }

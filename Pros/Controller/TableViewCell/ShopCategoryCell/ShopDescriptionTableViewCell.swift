@@ -15,19 +15,7 @@ class ShopDescriptionTableViewCell: UITableViewCell {
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var type: UILabel!
-    @IBOutlet weak var detail: UILabel!
-    @IBOutlet weak var logoImageView: UIImageView! {
-        didSet {
-            Utilities.roundCornersWithImageView(self.logoImageView, cornerRadius: self.logoImageView.frame.size.width/2, borderWidth: 0.0, color: .clearColor())
-        }
-    }
-    @IBOutlet weak var coverImageView: UIImageView! {
-        didSet {
-            self.coverImageView.contentMode = UIViewContentMode.ScaleAspectFill
-        }
-    }
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     // ------------------------------
     // MARK: -

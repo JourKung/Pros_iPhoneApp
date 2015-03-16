@@ -15,6 +15,9 @@ let kFacebookReadPermissions    = ["email", "user_friends", "user_birthday"]
 // user_likes
 
 // MARK: Notification Key
+let LOGOUT_NOTIFICATION_KEY       = "logoutNotificationKey"
+
+
 
 
 
@@ -55,6 +58,11 @@ let kFacebookReadPermissions    = ["email", "user_friends", "user_birthday"]
 // ------------------------------
 
 
+
+// ------------------------------
+// MARK: -
+// MARK: Scroll view delegate
+// ------------------------------
 
 // ------------------------------
 // MARK: -

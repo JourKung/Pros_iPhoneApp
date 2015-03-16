@@ -15,8 +15,8 @@ class SubShopCategoryTableViewCell: UITableViewCell {
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var type: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var logoImageView: UIImageView! {
         didSet {
             Utilities.roundCornersWithImageView(self.logoImageView, cornerRadius: self.logoImageView.frame.size.width/2, borderWidth: 0.0, color: .clearColor())

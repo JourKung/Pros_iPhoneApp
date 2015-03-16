@@ -9,30 +9,30 @@
 import UIKit
 
 class PromotionDetailTableViewCell: UITableViewCell {
-
+    
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
-    private var likeState: Bool! = false
-    
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var type: UILabel!
-    @IBOutlet weak var detail: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var releasedDate: UILabel!
     @IBOutlet weak var expiredDate: UILabel!
     @IBOutlet weak var logoImageView: UIImageView! {
         didSet {
-            Utilities.roundCornersWithImageView(self.logoImageView, cornerRadius: 4.0, borderWidth: 0.0, color: .clearColor())
+            Utilities.roundCornersWithImageView(self.logoImageView, cornerRadius: self.logoImageView.frame.size.width/2, borderWidth: 0.0, color: .clearColor())
         }
     }
     @IBOutlet weak var promotionImageView: UIImageView! {
         didSet {
-            Utilities.roundCornersWithImageView(self.promotionImageView, cornerRadius: 4.0, borderWidth: 0.0, color: .clearColor())
+            Utilities.roundCornersWithImageView(self.promotionImageView, cornerRadius: 5.0, borderWidth: 0.0, color: .clearColor())
         }
     }
+    
+    private var likeState: Bool! = false
     
     // ------------------------------
     // MARK: -
@@ -55,10 +55,10 @@ class PromotionDetailTableViewCell: UITableViewCell {
     // MARK: Action
     // ------------------------------
     
-    @IBAction func like(sender: AnyObject) {
-        likeState = !likeState
+    @IBAction func likeToggle(sender: AnyObject) {
+        self.likeState = !self.likeState
         
-        if (likeState == true) {
+        if (self.likeState == true) {
             like()
         } else {
             unlike()

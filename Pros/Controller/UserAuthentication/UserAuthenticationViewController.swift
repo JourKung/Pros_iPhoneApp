@@ -16,7 +16,7 @@ class UserAuthenticationViewController: BaseViewController,
     // MARK: -
     // MARK: Properties
     // ------------------------------
-        
+    
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var pageControl: UIPageControl!
     @IBOutlet weak var loginButton: UIButton!
@@ -33,6 +33,11 @@ class UserAuthenticationViewController: BaseViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: "logoutWithNotificationObserver:",
+            name: LOGOUT_NOTIFICATION_KEY,
+            object: nil)
         
         customUI()
     }
@@ -57,8 +62,9 @@ class UserAuthenticationViewController: BaseViewController,
         performWithLoggedIn()
     }
     
-    @IBAction func unwindLogoutWithFacebook(segue: UIStoryboardSegue){
-        performWithLoggedOut()
+    @IBAction func unwindLogoutWithFacebook(segue: UIStoryboardSegue) {
+        println("[Unwind] From Setting to UserAuthentication")
+//        performWithLoggedOut()
     }
     
     // ------------------------------
@@ -118,8 +124,9 @@ class UserAuthenticationViewController: BaseViewController,
                     fbId: profile["id"] as String,
                     name: profile["name"] as String,
                     gender: profile["gender"] as String,
-                    birthday: profile["birthday"] as? String,
-                    email: profile["email"] as? String)
+                    birthday: profile["birthday"] as String,
+                    email: profile["email"] as String,
+                    profileImageUrl: "https://graph.facebook.com/"+(profile["id"] as String)+"picture?type=large&return_ssl_resources=1")
                 
                 UserDefaults.sharedInstance.setUserFbId(UserDefaults.sharedInstance.userActivities?.fbId)
                 UserDefaults.sharedInstance.setUsername(UserDefaults.sharedInstance.userActivities?.name)
@@ -127,8 +134,7 @@ class UserAuthenticationViewController: BaseViewController,
                 UserDefaults.sharedInstance.setUserBirthday(UserDefaults.sharedInstance.userActivities?.birthday)
                 UserDefaults.sharedInstance.setUserEmail(UserDefaults.sharedInstance.userActivities?.email)
                 
-//                let fbId = profile["id"] as String
-                println("[-] \(UserDefaults.sharedInstance.getUserFbId())")
+                //let fbId = profile["id"] as String
                 let fbPictureUrl: NSURL! = NSURL(string: "https://graph.facebook.com/\(UserDefaults.sharedInstance.getUserFbId())/picture?type=large&return_ssl_resources=1")
                 let fbUrlRequest: NSURLRequest! = NSURLRequest(URL: fbPictureUrl)
                 // Run network request asynchronously
@@ -140,7 +146,7 @@ class UserAuthenticationViewController: BaseViewController,
                     }
                 })
                 
-                self.performHomeViewControllerAnimated(true)
+                self.performWithHomeViewControllerAnimated(true)
                 
             } else {
                 // Log details of the failure
@@ -191,7 +197,7 @@ class UserAuthenticationViewController: BaseViewController,
             self.loginButton.hidden = true
             self.activityIndicator.startAnimating()
             // Present the next view controller without animation
-            performHomeViewControllerAnimated(false)
+            performWithHomeViewControllerAnimated(false)
         }
     }
     
@@ -224,7 +230,7 @@ class UserAuthenticationViewController: BaseViewController,
         // Show loading indicator until login is finished
         self.activityIndicator.startAnimating()
     }
-
+    
     // Show the user the logged-out UI
     private func performWithLoggedOut() -> Void {
         PFUser.logOut()
@@ -247,7 +253,7 @@ class UserAuthenticationViewController: BaseViewController,
         presentViewController(alertController, animated: true, completion: nil)
     }
     
-    private func performHomeViewControllerAnimated(animated: Bool) -> Void {
+    private func performWithHomeViewControllerAnimated(animated: Bool) -> Void {
         let containerHomeVC = storyboard?.instantiateViewControllerWithIdentifier("HomeViewController") as UITabBarController//UINavigationController
         presentViewController(containerHomeVC, animated: animated, completion: nil)
     }
@@ -323,5 +329,23 @@ class UserAuthenticationViewController: BaseViewController,
     func scrollViewDidScroll(scrollView: UIScrollView!) -> Void {
         // Load the pages that are now on screen
         loadVisiblePages()
+    }
+    
+    // ------------------------------
+    // MARK: -
+    // MARK Notification observer
+    // ------------------------------
+    
+    func logoutWithNotificationObserver(notification: NSNotification) -> Void {
+        performWithLoggedOut()
+    }
+    
+    // ------------------------------
+    // MARK: -
+    // MARK: Memory management
+    // ------------------------------
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }

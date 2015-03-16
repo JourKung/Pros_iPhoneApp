@@ -8,12 +8,18 @@
 
 import UIKit
 
+protocol FeedbackViewControllerDelegate {
+    func feedbackWithAlertController(message: String!)
+}
+
 class FeedbackViewController: BaseViewController {
 
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
+    
+    var delegate: FeedbackViewControllerDelegate?
     
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var dialogView: UIView!
@@ -108,6 +114,8 @@ class FeedbackViewController: BaseViewController {
         default:
             println("[-] Cannot detect tag of button")
         }
+        
+        self.delegate!.feedbackWithAlertController("Thank you for submitted")
     }
     
     private func blurringEffect() -> Void {

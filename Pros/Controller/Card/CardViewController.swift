@@ -7,19 +7,21 @@
 //
 
 import UIKit
+import AVFoundation
 
-class CardViewController: BaseViewController,
-    UITableViewDataSource,
-    UITableViewDelegate {
+class CardViewController: BaseTableViewController,
+    QRCodeReaderViewControllerDelegate {
 
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var tableViewOutlet: UITableView!
+    @IBOutlet weak var insertCardBarButtonItem: UIBarButtonItem!
     
     var cardView: RKCardView!
+    
+    lazy var reader = QRCodeReaderViewController(metadataObjectTypes: [AVMetadataObjectTypeQRCode, AVMetadataObjectTypeCode128Code, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeUPCECode, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeAztecCode])
     
     // ------------------------------
     // MARK: -
@@ -42,12 +44,9 @@ class CardViewController: BaseViewController,
     // MARK: -
     // MARK: Action
     // ------------------------------
-    @IBAction func unwindCloseWithCardViewController(segue: UIStoryboardSegue) {
-//        dismissViewControllerAnimated(true, completion: {
-//            println("[+] Set/Reload card")
-//        })
-        println("[+] Set/Reload card")
-        navigationController?.popViewControllerAnimated(true)
+    
+    @IBAction func scanAction(sender: AnyObject) {
+        performQRCodeReaderViewControllerWithAnimated(true)
     }
     
     // ------------------------------
@@ -57,10 +56,21 @@ class CardViewController: BaseViewController,
     
     private func customUI() -> Void {
         customNavigationBar()
+        customTableView()
     }
     
     private func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Cards")
+    }
+    
+    private func customTableView() -> Void {
+        tableView.estimatedRowHeight = 80.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        // This will remove extra separators from tableview
+        tableView.tableFooterView = UIView(frame: CGRectZero)
+        tableView.separatorColor = UIColor.clearColor()
+        tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
     private func updateUI() {
@@ -128,24 +138,50 @@ class CardViewController: BaseViewController,
     // MARK: Configuration
     // ------------------------------
     
-    
+    func performQRCodeReaderViewControllerWithAnimated(animted: Bool!) {
+        if QRCodeReader.supportsMetadataObjectTypes() {
+            self.reader.modalPresentationStyle = .FormSheet
+            self.reader.delegate = self
+            self.reader.completionBlock = { (result: String?) in
+                if let result = result {
+                    println("[Log] Completion with result: \(result)")
+                } else {
+                    println("[Log] Completion with result is nil")
+                }
+            }
+            
+            presentViewController(self.reader, animated: true, completion: nil)
+        }
+        else {
+            let alert = UIAlertController(title: "Error", message: "Reader not supported by the current device", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+            
+            presentViewController(alert, animated: true, completion: nil)
+        }
+    }
     
     // ------------------------------
     // MARK: -
     // MARK: Table view data source
     // ------------------------------
     
-    let BUFFERX: CGFloat = 15 //distance from side to the card (higher makes thinner card)
+    let BUFFERX: CGFloat = 12 //distance from side to the card (higher makes thinner card)
     let BUFFERY: CGFloat = 35 //distance from top to the card (higher makes shorter card)
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        let titleCount = activities["title"]!
 //        return titleCount.count
         return 4
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        
+        cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
         
         cardView = RKCardView(frame: CGRectMake(BUFFERX, BUFFERY-15,
             view.frame.size.width-2*BUFFERX,
@@ -158,24 +194,43 @@ class CardViewController: BaseViewController,
         cardView.pointLabel.text = "99"//initDictionaryWithArray("point")[indexPath.row];
         
         cardView.expirationDateLabel.text = Utilities.dateWithString(NSDate(), dateStype: .ShortStyle, timeStyle: .NoStyle)//initDictionaryWithArray("expirationDate")[indexPath.row];
-        
         cell.contentView.addSubview(cardView)
+        
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return view.frame.size.height-10*BUFFERY
     }
     
+    // ------------------------------
+    // MARK: -
+    // MARK: - QRCodeReader Delegate Methods
+    // ------------------------------
+    
+    func reader(reader: QRCodeReaderViewController, didScanResult result: String) {
+        self.dismissViewControllerAnimated(true, completion: { [unowned self] () -> Void in
+            let alert = UIAlertController(title: "Code reader", message: result, preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+        })
+    }
+    
+    func readerDidCancel(reader: QRCodeReaderViewController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "segueToQRCodeReader" {
+            println("[Segue] Card -> QRCode reader")
+        }
     }
-    */
 
 }

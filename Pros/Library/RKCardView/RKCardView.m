@@ -44,10 +44,22 @@
 @implementation RKCardView {
     UIVisualEffectView *visualEffectView;
 }
+/*
+ @property (nonatomic)UIImageView *logoImageView;
+ @property (nonatomic)UIImageView *coverImageView;
+ 
+ @property (nonatomic)UILabel *titleLabel;
+ @property (nonatomic)UILabel *typeLabel;
+ 
+ @property (nonatomic)UILabel *pointLabel;
+ @property (nonatomic)UILabel *expirationDateLabel;
+ */
 @synthesize logoImageView;
 @synthesize coverImageView;
+
 @synthesize titleLabel;
 @synthesize typeLabel;
+
 @synthesize pointLabel;
 @synthesize expirationDateLabel;
 
@@ -133,7 +145,7 @@
     titleLabel.text = @"Title Label";
     
     // ------------------------------
-    // Description label
+    // Type label
     // ------------------------------
     
     CGFloat descriptionLabelX = pp_circle.frame.origin.x+pp_circle.frame.size.width;
@@ -145,7 +157,7 @@
     
     [typeLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11]];
     [typeLabel setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
-    typeLabel.text = @"Description Label";
+    typeLabel.text = @"Type Label";
     
     // ------------------------------
     // Point label
@@ -174,8 +186,8 @@
     // Expiration date label
     // ------------------------------
     
-    CGFloat expirationDateLabelX = pp_circle.frame.origin.x+pp_circle.frame.size.width;//expirationDateLabelX + 138
-    expirationDateLabel = [[UILabel alloc]initWithFrame:CGRectMake(expirationDateLabelX+138, cp_mask.frame.size.height + 24.5,
+    CGFloat expirationDateLabelX = pp_circle.frame.origin.x+pp_circle.frame.size.width;
+    expirationDateLabel = [[UILabel alloc]initWithFrame:CGRectMake(expirationDateLabelX + 138, cp_mask.frame.size.height + 24.5,
                                                                    self.frame.size.width - expirationDateLabelX-5, 100)];
     expirationDateLabel.adjustsFontSizeToFitWidth = NO;
     expirationDateLabel.lineBreakMode = NSLineBreakByClipping;
@@ -196,8 +208,10 @@
    
     [self addSubview:titleLabel];
     [self addSubview:typeLabel];
+    
     [self addSubview:pointLabel];
     [self addSubview:pointText];
+    
     [self addSubview:expirationDateLabel];
     [self addSubview:expirationDateText];
     

@@ -20,7 +20,6 @@ class SubShopCategory: NSObject {
     var updatedAt: NSDate!
     
     
-    
     // ------------------------------
     // MARK: -
     // MARK: Configuration

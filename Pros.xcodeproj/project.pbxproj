@@ -35,27 +35,30 @@
 		0C4D9ECA19FC9C8C0072BC44 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4D9EC919FC9C8C0072BC44 /* Accounts.framework */; };
 		0C4D9ECC19FC9CA90072BC44 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4D9ECB19FC9CA90072BC44 /* libz.dylib */; };
 		0C5723781A24B16700C86676 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5723771A24B16700C86676 /* UserDefaults.swift */; };
+		0C71B25D1AB53C5500A9B8D8 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B2541AB53C5500A9B8D8 /* FacebookSDK.framework */; };
+		0C71B25E1AB53C5500A9B8D8 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B2551AB53C5500A9B8D8 /* FBAudienceNetwork.framework */; };
+		0C71B2651AB53D8400A9B8D8 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B2641AB53D8400A9B8D8 /* Bolts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		0C71B26E1AB54DE100A9B8D8 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B2691AB54DE100A9B8D8 /* Bolts.framework */; };
+		0C71B26F1AB54DE100A9B8D8 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B26A1AB54DE100A9B8D8 /* Parse.framework */; };
+		0C71B2701AB54DE100A9B8D8 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B26B1AB54DE100A9B8D8 /* ParseCrashReporting.framework */; };
+		0C71B2711AB54DE100A9B8D8 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B26C1AB54DE100A9B8D8 /* ParseFacebookUtils.framework */; };
+		0C71B2721AB54DE100A9B8D8 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B26D1AB54DE100A9B8D8 /* ParseUI.framework */; };
+		0C71B2F01AB597BA00A9B8D8 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B2E91AB5976300A9B8D8 /* Alamofire.framework */; };
+		0C71B2F11AB597BA00A9B8D8 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B2E91AB5976300A9B8D8 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0C71B2FA1AB5F32D00A9B8D8 /* ProsHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C71B2F91AB5F32D00A9B8D8 /* ProsHTTPClient.swift */; };
+		0C71B2FC1AB5F3B200A9B8D8 /* ProsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C71B2FB1AB5F3B200A9B8D8 /* ProsAPIClient.swift */; };
 		0C87687E1A2E18CC00163204 /* RKCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C87687D1A2E18CC00163204 /* RKCardView.m */; };
 		0CD708FB1A029B0B00D9D016 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD708FA1A029B0B00D9D016 /* User.swift */; };
 		0CEDE2EA1A03BAAC0067A3C5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEDE2E91A03BAAC0067A3C5 /* BaseViewController.swift */; };
 		0CEDE2EC1A03BACB0067A3C5 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEDE2EB1A03BACB0067A3C5 /* BaseTableViewController.swift */; };
+		102156D21AB1A7FA004EC6C9 /* libEstimoteSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 102156D11AB1A7FA004EC6C9 /* libEstimoteSDK.a */; };
+		102156D51AB1BDD4004EC6C9 /* EstimoteBeaconsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102156D41AB1BDD4004EC6C9 /* EstimoteBeaconsViewController.swift */; };
 		1052999D1A9AFB440044F6FA /* PromotionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1052999C1A9AFB440044F6FA /* PromotionDetailViewController.swift */; };
 		1052999F1A9B00340044F6FA /* PromotionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1052999E1A9B00340044F6FA /* PromotionDetailTableViewCell.swift */; };
 		105448491A9F3587000CC601 /* ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 105448481A9F3587000CC601 /* ParallaxHeaderView.m */; };
 		1054484D1A9F4BCF000CC601 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 1054484C1A9F4BCF000CC601 /* UIImage+ImageEffects.m */; };
 		1068B4F91AA703FF00EABCFC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10D475971AA434EA007795AB /* MapKit.framework */; };
 		1068B4FA1AA7041B00EABCFC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4D9EC119FC9C700072BC44 /* CoreLocation.framework */; };
-		106A99601A9E4F3C0017DBAD /* SettingHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106A995F1A9E4F3C0017DBAD /* SettingHeaderTableViewCell.swift */; };
-		106A99621A9E4F480017DBAD /* SettingBodyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106A99611A9E4F480017DBAD /* SettingBodyTableViewCell.swift */; };
-		106A99641A9E4F530017DBAD /* SettingFooterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106A99631A9E4F530017DBAD /* SettingFooterTableViewCell.swift */; };
-		10758A561A988F0F00160204 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10758A531A988F0F00160204 /* Bolts.framework */; };
-		10758A571A988F0F00160204 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10758A541A988F0F00160204 /* FacebookSDK.framework */; };
-		10758A581A988F0F00160204 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10758A551A988F0F00160204 /* FBAudienceNetwork.framework */; };
-		10758A5F1A988F2300160204 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10758A5A1A988F2300160204 /* Bolts.framework */; };
-		10758A601A988F2300160204 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10758A5B1A988F2300160204 /* Parse.framework */; };
-		10758A611A988F2300160204 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10758A5C1A988F2300160204 /* ParseCrashReporting.framework */; };
-		10758A621A988F2300160204 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10758A5D1A988F2300160204 /* ParseFacebookUtils.framework */; };
-		10758A631A988F2300160204 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10758A5E1A988F2300160204 /* ParseUI.framework */; };
 		10758A6E1A98966A00160204 /* PromotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10758A6D1A98966A00160204 /* PromotionViewController.swift */; };
 		10758A711A989D8B00160204 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10758A701A989D8B00160204 /* CardViewController.swift */; };
 		10758A731A989E4200160204 /* Promotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10758A721A989E4200160204 /* Promotion.swift */; };
@@ -70,14 +73,26 @@
 		10758A8A1A98C3C800160204 /* ShopCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10758A891A98C3C800160204 /* ShopCategoryViewController.swift */; };
 		10758A8C1A98C3D700160204 /* SubShopCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10758A8B1A98C3D700160204 /* SubShopCategoryViewController.swift */; };
 		10758A8E1A98C3E000160204 /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10758A8D1A98C3E000160204 /* ShopViewController.swift */; };
-		10758A971A98D16900160204 /* QRCodeReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10758A961A98D16900160204 /* QRCodeReaderViewController.swift */; };
 		108C0F7D1AA20488002E2387 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108C0F7C1AA20488002E2387 /* FeedbackViewController.swift */; };
+		1093DF651AAC201F0070E2A1 /* NotificationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1093DF641AAC201F0070E2A1 /* NotificationDetailViewController.swift */; };
+		1093DF681AAC445A0070E2A1 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1093DF671AAC445A0070E2A1 /* NotificationTableViewCell.swift */; };
+		1093DF6A1AAC44630070E2A1 /* NotificationDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1093DF691AAC44630070E2A1 /* NotificationDetailTableViewCell.swift */; };
 		10974EB71A9A5640002DD4D5 /* PromotionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10974EB61A9A5640002DD4D5 /* PromotionTableViewCell.swift */; };
+		10ACAD191AB2ECB7009D188E /* SettingUserInformationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACAD181AB2ECB7009D188E /* SettingUserInformationTableViewCell.swift */; };
+		10ACAD1F1AB2ED2F009D188E /* SettingPushNotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACAD1E1AB2ED2F009D188E /* SettingPushNotificationTableViewCell.swift */; };
+		10ACAD211AB2ED3D009D188E /* SettingGeneralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACAD201AB2ED3D009D188E /* SettingGeneralTableViewCell.swift */; };
+		10ACAD231AB2EE8A009D188E /* SettingEstimoteNotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACAD221AB2EE8A009D188E /* SettingEstimoteNotificationTableViewCell.swift */; };
 		10B0E4F11AA2F34E0065AE53 /* ShopDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B0E4F01AA2F34D0065AE53 /* ShopDescriptionTableViewCell.swift */; };
 		10B0E4F31AA2F3580065AE53 /* ShopLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B0E4F21AA2F3580065AE53 /* ShopLocationTableViewCell.swift */; };
 		10B0E4F51AA340260065AE53 /* ShopActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B0E4F41AA340260065AE53 /* ShopActivityTableViewCell.swift */; };
 		10B0E4F91AA341C00065AE53 /* ShopSupportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B0E4F81AA341C00065AE53 /* ShopSupportTableViewCell.swift */; };
 		10B0E4FC1AA34BD20065AE53 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B0E4FB1AA34BD20065AE53 /* LocationViewController.swift */; };
+		10D1FE991AB1A10C007D73B3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10D1FE981AB1A10C007D73B3 /* CoreBluetooth.framework */; };
+		10D50FED1AAEAD3D00D7E760 /* QRCodeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D50FE91AAEAD3D00D7E760 /* QRCodeReader.swift */; };
+		10D50FEE1AAEAD3D00D7E760 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D50FEA1AAEAD3D00D7E760 /* QRCodeViewController.swift */; };
+		10D50FEF1AAEAD3D00D7E760 /* ReaderOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D50FEB1AAEAD3D00D7E760 /* ReaderOverlayView.swift */; };
+		10D50FF01AAEAD3D00D7E760 /* SwitchCameraButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D50FEC1AAEAD3D00D7E760 /* SwitchCameraButton.swift */; };
+		10E095491AB378D800A721AE /* SettingAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E095481AB378D800A721AE /* SettingAboutViewController.swift */; };
 		10FF34891A9CF87400501CAE /* ShopCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FF34881A9CF87400501CAE /* ShopCategoryTableViewCell.swift */; };
 		10FF348B1A9CFB3C00501CAE /* SubShopCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FF348A1A9CFB3C00501CAE /* SubShopCategoryTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -90,7 +105,56 @@
 			remoteGlobalIDString = 0C4D9E6D19FC96760072BC44;
 			remoteInfo = Pros;
 		};
+		0C71B2E81AB5976300A9B8D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C71B2E11AB5976200A9B8D8 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3319A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
+		};
+		0C71B2EA1AB5976300A9B8D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C71B2E11AB5976200A9B8D8 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4DD67C0B1A5C55C900ED2280;
+			remoteInfo = "Alamofire OSX";
+		};
+		0C71B2EC1AB5976300A9B8D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C71B2E11AB5976200A9B8D8 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3E19A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS Tests";
+		};
+		0C71B2EE1AB5976300A9B8D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C71B2E11AB5976200A9B8D8 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F829C6B21A7A94F100A2CD59;
+			remoteInfo = "Alamofire OSX Tests";
+		};
+		0C71B2F21AB597BA00A9B8D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C71B2E11AB5976200A9B8D8 /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0C71B2F41AB597BB00A9B8D8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0C71B2F11AB597BA00A9B8D8 /* Alamofire.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0C19866E1A41CF72006FE9A9 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -128,28 +192,54 @@
 		0C4D9EC919FC9C8C0072BC44 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		0C4D9ECB19FC9CA90072BC44 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		0C5723771A24B16700C86676 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		0C71B2541AB53C5500A9B8D8 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		0C71B2551AB53C5500A9B8D8 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
+		0C71B2641AB53D8400A9B8D8 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		0C71B2691AB54DE100A9B8D8 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		0C71B26A1AB54DE100A9B8D8 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		0C71B26B1AB54DE100A9B8D8 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
+		0C71B26C1AB54DE100A9B8D8 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
+		0C71B26D1AB54DE100A9B8D8 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		0C71B2E11AB5976200A9B8D8 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = ../../../GitHub/Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		0C71B2F91AB5F32D00A9B8D8 /* ProsHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProsHTTPClient.swift; sourceTree = "<group>"; };
+		0C71B2FB1AB5F3B200A9B8D8 /* ProsAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProsAPIClient.swift; sourceTree = "<group>"; };
 		0C87687C1A2E18CC00163204 /* RKCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKCardView.h; sourceTree = "<group>"; };
 		0C87687D1A2E18CC00163204 /* RKCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKCardView.m; sourceTree = "<group>"; };
 		0CD708FA1A029B0B00D9D016 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0CEDE2E91A03BAAC0067A3C5 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		0CEDE2EB1A03BACB0067A3C5 /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
+		102156B91AB1A7FA004EC6C9 /* ESTBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeacon.h; sourceTree = "<group>"; };
+		102156BA1AB1A7FA004EC6C9 /* ESTBeaconDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconDefinitions.h; sourceTree = "<group>"; };
+		102156BB1AB1A7FA004EC6C9 /* ESTBeaconFirmwareVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconFirmwareVO.h; sourceTree = "<group>"; };
+		102156BC1AB1A7FA004EC6C9 /* ESTBeaconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconManager.h; sourceTree = "<group>"; };
+		102156BD1AB1A7FA004EC6C9 /* ESTBeaconRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconRegion.h; sourceTree = "<group>"; };
+		102156BE1AB1A7FA004EC6C9 /* ESTBeaconUpdateConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconUpdateConfig.h; sourceTree = "<group>"; };
+		102156BF1AB1A7FA004EC6C9 /* ESTBeaconUpdateInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconUpdateInfo.h; sourceTree = "<group>"; };
+		102156C01AB1A7FA004EC6C9 /* ESTBeaconVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconVO.h; sourceTree = "<group>"; };
+		102156C11AB1A7FA004EC6C9 /* ESTBulkUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBulkUpdater.h; sourceTree = "<group>"; };
+		102156C21AB1A7FA004EC6C9 /* ESTConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTConfig.h; sourceTree = "<group>"; };
+		102156C31AB1A7FA004EC6C9 /* ESTDateRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTDateRule.h; sourceTree = "<group>"; };
+		102156C41AB1A7FA004EC6C9 /* ESTDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTDefinitions.h; sourceTree = "<group>"; };
+		102156C51AB1A7FA004EC6C9 /* ESTFirmwareInfoVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTFirmwareInfoVO.h; sourceTree = "<group>"; };
+		102156C61AB1A7FA004EC6C9 /* ESTMotionRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTMotionRule.h; sourceTree = "<group>"; };
+		102156C71AB1A7FA004EC6C9 /* ESTNearable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTNearable.h; sourceTree = "<group>"; };
+		102156C81AB1A7FA004EC6C9 /* ESTNearableDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTNearableDefinitions.h; sourceTree = "<group>"; };
+		102156C91AB1A7FA004EC6C9 /* ESTNearableManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTNearableManager.h; sourceTree = "<group>"; };
+		102156CA1AB1A7FA004EC6C9 /* ESTNearableRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTNearableRule.h; sourceTree = "<group>"; };
+		102156CB1AB1A7FA004EC6C9 /* ESTOrientationRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTOrientationRule.h; sourceTree = "<group>"; };
+		102156CC1AB1A7FA004EC6C9 /* ESTProximityRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTProximityRule.h; sourceTree = "<group>"; };
+		102156CD1AB1A7FA004EC6C9 /* ESTRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTRule.h; sourceTree = "<group>"; };
+		102156CE1AB1A7FA004EC6C9 /* ESTTemperatureRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTTemperatureRule.h; sourceTree = "<group>"; };
+		102156CF1AB1A7FA004EC6C9 /* ESTTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTTrigger.h; sourceTree = "<group>"; };
+		102156D01AB1A7FA004EC6C9 /* ESTTriggerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTTriggerManager.h; sourceTree = "<group>"; };
+		102156D11AB1A7FA004EC6C9 /* libEstimoteSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEstimoteSDK.a; sourceTree = "<group>"; };
+		102156D41AB1BDD4004EC6C9 /* EstimoteBeaconsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EstimoteBeaconsViewController.swift; sourceTree = "<group>"; };
 		1052999C1A9AFB440044F6FA /* PromotionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionDetailViewController.swift; sourceTree = "<group>"; };
 		1052999E1A9B00340044F6FA /* PromotionDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionDetailTableViewCell.swift; sourceTree = "<group>"; };
 		105448471A9F3587000CC601 /* ParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxHeaderView.h; sourceTree = "<group>"; };
 		105448481A9F3587000CC601 /* ParallaxHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallaxHeaderView.m; sourceTree = "<group>"; };
 		1054484B1A9F4BCF000CC601 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		1054484C1A9F4BCF000CC601 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
-		106A995F1A9E4F3C0017DBAD /* SettingHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingHeaderTableViewCell.swift; sourceTree = "<group>"; };
-		106A99611A9E4F480017DBAD /* SettingBodyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingBodyTableViewCell.swift; sourceTree = "<group>"; };
-		106A99631A9E4F530017DBAD /* SettingFooterTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingFooterTableViewCell.swift; sourceTree = "<group>"; };
-		10758A531A988F0F00160204 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		10758A541A988F0F00160204 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
-		10758A551A988F0F00160204 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
-		10758A5A1A988F2300160204 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		10758A5B1A988F2300160204 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		10758A5C1A988F2300160204 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
-		10758A5D1A988F2300160204 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
-		10758A5E1A988F2300160204 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		10758A6D1A98966A00160204 /* PromotionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionViewController.swift; sourceTree = "<group>"; };
 		10758A701A989D8B00160204 /* CardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		10758A721A989E4200160204 /* Promotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promotion.swift; sourceTree = "<group>"; };
@@ -164,15 +254,27 @@
 		10758A891A98C3C800160204 /* ShopCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopCategoryViewController.swift; sourceTree = "<group>"; };
 		10758A8B1A98C3D700160204 /* SubShopCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubShopCategoryViewController.swift; sourceTree = "<group>"; };
 		10758A8D1A98C3E000160204 /* ShopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
-		10758A961A98D16900160204 /* QRCodeReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeReaderViewController.swift; sourceTree = "<group>"; };
 		108C0F7C1AA20488002E2387 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
+		1093DF641AAC201F0070E2A1 /* NotificationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationDetailViewController.swift; sourceTree = "<group>"; };
+		1093DF671AAC445A0070E2A1 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
+		1093DF691AAC44630070E2A1 /* NotificationDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationDetailTableViewCell.swift; sourceTree = "<group>"; };
 		10974EB61A9A5640002DD4D5 /* PromotionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionTableViewCell.swift; sourceTree = "<group>"; };
+		10ACAD181AB2ECB7009D188E /* SettingUserInformationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingUserInformationTableViewCell.swift; sourceTree = "<group>"; };
+		10ACAD1E1AB2ED2F009D188E /* SettingPushNotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingPushNotificationTableViewCell.swift; sourceTree = "<group>"; };
+		10ACAD201AB2ED3D009D188E /* SettingGeneralTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingGeneralTableViewCell.swift; sourceTree = "<group>"; };
+		10ACAD221AB2EE8A009D188E /* SettingEstimoteNotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingEstimoteNotificationTableViewCell.swift; sourceTree = "<group>"; };
 		10B0E4F01AA2F34D0065AE53 /* ShopDescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopDescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		10B0E4F21AA2F3580065AE53 /* ShopLocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLocationTableViewCell.swift; sourceTree = "<group>"; };
 		10B0E4F41AA340260065AE53 /* ShopActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopActivityTableViewCell.swift; sourceTree = "<group>"; };
 		10B0E4F81AA341C00065AE53 /* ShopSupportTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopSupportTableViewCell.swift; sourceTree = "<group>"; };
 		10B0E4FB1AA34BD20065AE53 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
+		10D1FE981AB1A10C007D73B3 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		10D475971AA434EA007795AB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		10D50FE91AAEAD3D00D7E760 /* QRCodeReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeReader.swift; sourceTree = "<group>"; };
+		10D50FEA1AAEAD3D00D7E760 /* QRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
+		10D50FEB1AAEAD3D00D7E760 /* ReaderOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderOverlayView.swift; sourceTree = "<group>"; };
+		10D50FEC1AAEAD3D00D7E760 /* SwitchCameraButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCameraButton.swift; sourceTree = "<group>"; };
+		10E095481AB378D800A721AE /* SettingAboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingAboutViewController.swift; sourceTree = "<group>"; };
 		10FF34881A9CF87400501CAE /* ShopCategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopCategoryTableViewCell.swift; sourceTree = "<group>"; };
 		10FF348A1A9CFB3C00501CAE /* SubShopCategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubShopCategoryTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -182,31 +284,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10D1FE991AB1A10C007D73B3 /* CoreBluetooth.framework in Frameworks */,
 				1068B4FA1AA7041B00EABCFC /* CoreLocation.framework in Frameworks */,
 				1068B4F91AA703FF00EABCFC /* MapKit.framework in Frameworks */,
-				10758A621A988F2300160204 /* ParseFacebookUtils.framework in Frameworks */,
 				0C1986771A41CFBE006FE9A9 /* libz.1.1.3.dylib in Frameworks */,
 				0C1986751A41CFB4006FE9A9 /* libstdc++.6.0.9.dylib in Frameworks */,
 				0C1986741A41CFA5006FE9A9 /* libsqlite3.0.dylib in Frameworks */,
 				0C4D9ECC19FC9CA90072BC44 /* libz.dylib in Frameworks */,
-				10758A631A988F2300160204 /* ParseUI.framework in Frameworks */,
+				0C71B2651AB53D8400A9B8D8 /* Bolts.framework in Frameworks */,
+				0C71B25E1AB53C5500A9B8D8 /* FBAudienceNetwork.framework in Frameworks */,
+				0C71B2721AB54DE100A9B8D8 /* ParseUI.framework in Frameworks */,
 				0C4D9ECA19FC9C8C0072BC44 /* Accounts.framework in Frameworks */,
+				0C71B2F01AB597BA00A9B8D8 /* Alamofire.framework in Frameworks */,
 				0C4D9EC819FC9C860072BC44 /* AudioToolbox.framework in Frameworks */,
+				0C71B2701AB54DE100A9B8D8 /* ParseCrashReporting.framework in Frameworks */,
+				0C71B2711AB54DE100A9B8D8 /* ParseFacebookUtils.framework in Frameworks */,
 				0C4D9EC419FC9C760072BC44 /* CoreGraphics.framework in Frameworks */,
 				0C4D9EBE19FC9C0A0072BC44 /* QuartzCore.framework in Frameworks */,
-				10758A611A988F2300160204 /* ParseCrashReporting.framework in Frameworks */,
 				0C4D9EBC19FC9C020072BC44 /* Security.framework in Frameworks */,
-				10758A601A988F2300160204 /* Parse.framework in Frameworks */,
+				102156D21AB1A7FA004EC6C9 /* libEstimoteSDK.a in Frameworks */,
+				0C71B26E1AB54DE100A9B8D8 /* Bolts.framework in Frameworks */,
 				0C4D9EBA19FC9BFA0072BC44 /* Social.framework in Frameworks */,
 				0C4D9EC019FC9C630072BC44 /* MobileCoreServices.framework in Frameworks */,
-				10758A571A988F0F00160204 /* FacebookSDK.framework in Frameworks */,
-				10758A581A988F0F00160204 /* FBAudienceNetwork.framework in Frameworks */,
 				0C4D9EB819FC9BF30072BC44 /* SystemConfiguration.framework in Frameworks */,
-				10758A5F1A988F2300160204 /* Bolts.framework in Frameworks */,
 				0C4D9EC619FC9C7E0072BC44 /* CFNetwork.framework in Frameworks */,
 				0C19867A1A41CFD5006FE9A9 /* UIKit.framework in Frameworks */,
-				10758A561A988F0F00160204 /* Bolts.framework in Frameworks */,
 				0C1986781A41CFCA006FE9A9 /* Foundation.framework in Frameworks */,
+				0C71B26F1AB54DE100A9B8D8 /* Parse.framework in Frameworks */,
+				0C71B25D1AB53C5500A9B8D8 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +328,8 @@
 		0C4D9E6519FC96760072BC44 = {
 			isa = PBXGroup;
 			children = (
+				0C71B2E11AB5976200A9B8D8 /* Alamofire.xcodeproj */,
+				10D1FE981AB1A10C007D73B3 /* CoreBluetooth.framework */,
 				10D475971AA434EA007795AB /* MapKit.framework */,
 				0C1986791A41CFD5006FE9A9 /* UIKit.framework */,
 				0C1986761A41CFBE006FE9A9 /* libz.1.1.3.dylib */,
@@ -268,6 +375,8 @@
 				0C4D9E7319FC96760072BC44 /* AppDelegate.swift */,
 				0C4D9E7719FC96760072BC44 /* Main.storyboard */,
 				0C4D9E7C19FC96760072BC44 /* LaunchScreen.xib */,
+				0C71B2F71AB5F16900A9B8D8 /* HTTPClient */,
+				0C71B2F81AB5F18700A9B8D8 /* APIClient */,
 				1054484A1A9F4BB4000CC601 /* Extensions */,
 				0C4D9E9F19FC98420072BC44 /* Utility */,
 				0C4D9EA219FC98C20072BC44 /* Controller */,
@@ -317,6 +426,7 @@
 		0C4D9EA219FC98C20072BC44 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				102156D31AB1BD9A004EC6C9 /* iBeacon */,
 				10974EAE1A9A0B41002DD4D5 /* TableViewCell */,
 				0CEDE2E81A03BAA10067A3C5 /* BaseController */,
 				0C4D9EA719FC98C20072BC44 /* UserAuthentication */,
@@ -324,10 +434,10 @@
 				10758A881A98C3AD00160204 /* Shop */,
 				10758A661A9895E200160204 /* Notification */,
 				10758A6F1A989D6800160204 /* Card */,
+				10758A651A9895BA00160204 /* Setting */,
 				10B0E4FA1AA34BB50065AE53 /* Location */,
 				108C0F7B1AA2047F002E2387 /* Feedback */,
-				10758A951A98D16900160204 /* InsertCard */,
-				10758A651A9895BA00160204 /* Setting */,
+				10D50FE51AAEAC8D00D7E760 /* InsertCard */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -343,9 +453,10 @@
 		0C4D9EA919FC98C20072BC44 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				0C71B2681AB54DE100A9B8D8 /* parse-library-1.6.3 */,
+				0C71B2521AB53C5500A9B8D8 /* facebook-ios-sdk-3.23.1 */,
+				102156B71AB1A7FA004EC6C9 /* EstimoteSDK */,
 				105448461A9F3574000CC601 /* ParallaxHeaderView */,
-				10758A591A988F2300160204 /* parse-library-1.6.2 */,
-				10758A521A988F0F00160204 /* facebook-ios-sdk-3.23 */,
 				0C87687B1A2E18A600163204 /* RKCardView */,
 			);
 			path = Library;
@@ -373,6 +484,55 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		0C71B2521AB53C5500A9B8D8 /* facebook-ios-sdk-3.23.1 */ = {
+			isa = PBXGroup;
+			children = (
+				0C71B2641AB53D8400A9B8D8 /* Bolts.framework */,
+				0C71B2541AB53C5500A9B8D8 /* FacebookSDK.framework */,
+				0C71B2551AB53C5500A9B8D8 /* FBAudienceNetwork.framework */,
+			);
+			path = "facebook-ios-sdk-3.23.1";
+			sourceTree = "<group>";
+		};
+		0C71B2681AB54DE100A9B8D8 /* parse-library-1.6.3 */ = {
+			isa = PBXGroup;
+			children = (
+				0C71B2691AB54DE100A9B8D8 /* Bolts.framework */,
+				0C71B26A1AB54DE100A9B8D8 /* Parse.framework */,
+				0C71B26B1AB54DE100A9B8D8 /* ParseCrashReporting.framework */,
+				0C71B26C1AB54DE100A9B8D8 /* ParseFacebookUtils.framework */,
+				0C71B26D1AB54DE100A9B8D8 /* ParseUI.framework */,
+			);
+			path = "parse-library-1.6.3";
+			sourceTree = "<group>";
+		};
+		0C71B2E21AB5976200A9B8D8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0C71B2E91AB5976300A9B8D8 /* Alamofire.framework */,
+				0C71B2EB1AB5976300A9B8D8 /* Alamofire.framework */,
+				0C71B2ED1AB5976300A9B8D8 /* Alamofire iOS Tests.xctest */,
+				0C71B2EF1AB5976300A9B8D8 /* Alamofire OSX Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0C71B2F71AB5F16900A9B8D8 /* HTTPClient */ = {
+			isa = PBXGroup;
+			children = (
+				0C71B2F91AB5F32D00A9B8D8 /* ProsHTTPClient.swift */,
+			);
+			path = HTTPClient;
+			sourceTree = "<group>";
+		};
+		0C71B2F81AB5F18700A9B8D8 /* APIClient */ = {
+			isa = PBXGroup;
+			children = (
+				0C71B2FB1AB5F3B200A9B8D8 /* ProsAPIClient.swift */,
+			);
+			path = APIClient;
+			sourceTree = "<group>";
+		};
 		0C87687B1A2E18A600163204 /* RKCardView */ = {
 			isa = PBXGroup;
 			children = (
@@ -389,6 +549,54 @@
 				0CEDE2EB1A03BACB0067A3C5 /* BaseTableViewController.swift */,
 			);
 			path = BaseController;
+			sourceTree = "<group>";
+		};
+		102156B71AB1A7FA004EC6C9 /* EstimoteSDK */ = {
+			isa = PBXGroup;
+			children = (
+				102156B81AB1A7FA004EC6C9 /* Headers */,
+				102156D11AB1A7FA004EC6C9 /* libEstimoteSDK.a */,
+			);
+			path = EstimoteSDK;
+			sourceTree = "<group>";
+		};
+		102156B81AB1A7FA004EC6C9 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				102156B91AB1A7FA004EC6C9 /* ESTBeacon.h */,
+				102156BA1AB1A7FA004EC6C9 /* ESTBeaconDefinitions.h */,
+				102156BB1AB1A7FA004EC6C9 /* ESTBeaconFirmwareVO.h */,
+				102156BC1AB1A7FA004EC6C9 /* ESTBeaconManager.h */,
+				102156BD1AB1A7FA004EC6C9 /* ESTBeaconRegion.h */,
+				102156BE1AB1A7FA004EC6C9 /* ESTBeaconUpdateConfig.h */,
+				102156BF1AB1A7FA004EC6C9 /* ESTBeaconUpdateInfo.h */,
+				102156C01AB1A7FA004EC6C9 /* ESTBeaconVO.h */,
+				102156C11AB1A7FA004EC6C9 /* ESTBulkUpdater.h */,
+				102156C21AB1A7FA004EC6C9 /* ESTConfig.h */,
+				102156C31AB1A7FA004EC6C9 /* ESTDateRule.h */,
+				102156C41AB1A7FA004EC6C9 /* ESTDefinitions.h */,
+				102156C51AB1A7FA004EC6C9 /* ESTFirmwareInfoVO.h */,
+				102156C61AB1A7FA004EC6C9 /* ESTMotionRule.h */,
+				102156C71AB1A7FA004EC6C9 /* ESTNearable.h */,
+				102156C81AB1A7FA004EC6C9 /* ESTNearableDefinitions.h */,
+				102156C91AB1A7FA004EC6C9 /* ESTNearableManager.h */,
+				102156CA1AB1A7FA004EC6C9 /* ESTNearableRule.h */,
+				102156CB1AB1A7FA004EC6C9 /* ESTOrientationRule.h */,
+				102156CC1AB1A7FA004EC6C9 /* ESTProximityRule.h */,
+				102156CD1AB1A7FA004EC6C9 /* ESTRule.h */,
+				102156CE1AB1A7FA004EC6C9 /* ESTTemperatureRule.h */,
+				102156CF1AB1A7FA004EC6C9 /* ESTTrigger.h */,
+				102156D01AB1A7FA004EC6C9 /* ESTTriggerManager.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		102156D31AB1BD9A004EC6C9 /* iBeacon */ = {
+			isa = PBXGroup;
+			children = (
+				102156D41AB1BDD4004EC6C9 /* EstimoteBeaconsViewController.swift */,
+			);
+			path = iBeacon;
 			sourceTree = "<group>";
 		};
 		105448461A9F3574000CC601 /* ParallaxHeaderView */ = {
@@ -412,33 +620,12 @@
 		106A995E1A9E4F300017DBAD /* SettingCell */ = {
 			isa = PBXGroup;
 			children = (
-				106A995F1A9E4F3C0017DBAD /* SettingHeaderTableViewCell.swift */,
-				106A99611A9E4F480017DBAD /* SettingBodyTableViewCell.swift */,
-				106A99631A9E4F530017DBAD /* SettingFooterTableViewCell.swift */,
+				10ACAD181AB2ECB7009D188E /* SettingUserInformationTableViewCell.swift */,
+				10ACAD1E1AB2ED2F009D188E /* SettingPushNotificationTableViewCell.swift */,
+				10ACAD221AB2EE8A009D188E /* SettingEstimoteNotificationTableViewCell.swift */,
+				10ACAD201AB2ED3D009D188E /* SettingGeneralTableViewCell.swift */,
 			);
 			path = SettingCell;
-			sourceTree = "<group>";
-		};
-		10758A521A988F0F00160204 /* facebook-ios-sdk-3.23 */ = {
-			isa = PBXGroup;
-			children = (
-				10758A531A988F0F00160204 /* Bolts.framework */,
-				10758A541A988F0F00160204 /* FacebookSDK.framework */,
-				10758A551A988F0F00160204 /* FBAudienceNetwork.framework */,
-			);
-			path = "facebook-ios-sdk-3.23";
-			sourceTree = "<group>";
-		};
-		10758A591A988F2300160204 /* parse-library-1.6.2 */ = {
-			isa = PBXGroup;
-			children = (
-				10758A5A1A988F2300160204 /* Bolts.framework */,
-				10758A5B1A988F2300160204 /* Parse.framework */,
-				10758A5C1A988F2300160204 /* ParseCrashReporting.framework */,
-				10758A5D1A988F2300160204 /* ParseFacebookUtils.framework */,
-				10758A5E1A988F2300160204 /* ParseUI.framework */,
-			);
-			path = "parse-library-1.6.2";
 			sourceTree = "<group>";
 		};
 		10758A641A98959F00160204 /* Promotion */ = {
@@ -454,6 +641,7 @@
 			isa = PBXGroup;
 			children = (
 				10758A7C1A98AC9D00160204 /* SettingViewController.swift */,
+				10E095481AB378D800A721AE /* SettingAboutViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -462,6 +650,7 @@
 			isa = PBXGroup;
 			children = (
 				10758A7A1A98AC9100160204 /* NotificationViewController.swift */,
+				1093DF641AAC201F0070E2A1 /* NotificationDetailViewController.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -484,14 +673,6 @@
 			path = Shop;
 			sourceTree = "<group>";
 		};
-		10758A951A98D16900160204 /* InsertCard */ = {
-			isa = PBXGroup;
-			children = (
-				10758A961A98D16900160204 /* QRCodeReaderViewController.swift */,
-			);
-			path = InsertCard;
-			sourceTree = "<group>";
-		};
 		108C0F7B1AA2047F002E2387 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -500,12 +681,22 @@
 			path = Feedback;
 			sourceTree = "<group>";
 		};
+		1093DF661AAC44220070E2A1 /* NotificationCell */ = {
+			isa = PBXGroup;
+			children = (
+				1093DF671AAC445A0070E2A1 /* NotificationTableViewCell.swift */,
+				1093DF691AAC44630070E2A1 /* NotificationDetailTableViewCell.swift */,
+			);
+			path = NotificationCell;
+			sourceTree = "<group>";
+		};
 		10974EAE1A9A0B41002DD4D5 /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
 				106A995E1A9E4F300017DBAD /* SettingCell */,
-				10FF34871A9CF86800501CAE /* ShopCategoryCell */,
 				10974EAF1A9A0B51002DD4D5 /* PromotionCell */,
+				10FF34871A9CF86800501CAE /* ShopCategoryCell */,
+				1093DF661AAC44220070E2A1 /* NotificationCell */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -525,6 +716,25 @@
 				10B0E4FB1AA34BD20065AE53 /* LocationViewController.swift */,
 			);
 			path = Location;
+			sourceTree = "<group>";
+		};
+		10D50FE51AAEAC8D00D7E760 /* InsertCard */ = {
+			isa = PBXGroup;
+			children = (
+				10D50FE81AAEAD3D00D7E760 /* QRCodeReader */,
+			);
+			path = InsertCard;
+			sourceTree = "<group>";
+		};
+		10D50FE81AAEAD3D00D7E760 /* QRCodeReader */ = {
+			isa = PBXGroup;
+			children = (
+				10D50FE91AAEAD3D00D7E760 /* QRCodeReader.swift */,
+				10D50FEA1AAEAD3D00D7E760 /* QRCodeViewController.swift */,
+				10D50FEB1AAEAD3D00D7E760 /* ReaderOverlayView.swift */,
+				10D50FEC1AAEAD3D00D7E760 /* SwitchCameraButton.swift */,
+			);
+			path = QRCodeReader;
 			sourceTree = "<group>";
 		};
 		10FF34871A9CF86800501CAE /* ShopCategoryCell */ = {
@@ -550,10 +760,12 @@
 				0C4D9E6A19FC96760072BC44 /* Sources */,
 				0C4D9E6B19FC96760072BC44 /* Frameworks */,
 				0C4D9E6C19FC96760072BC44 /* Resources */,
+				0C71B2F41AB597BB00A9B8D8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0C71B2F31AB597BA00A9B8D8 /* PBXTargetDependency */,
 			);
 			name = Pros;
 			productName = Pros;
@@ -613,6 +825,12 @@
 			mainGroup = 0C4D9E6519FC96760072BC44;
 			productRefGroup = 0C4D9E6F19FC96760072BC44 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0C71B2E21AB5976200A9B8D8 /* Products */;
+					ProjectRef = 0C71B2E11AB5976200A9B8D8 /* Alamofire.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				0C4D9E6D19FC96760072BC44 /* Pros */,
@@ -620,6 +838,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0C71B2E91AB5976300A9B8D8 /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 0C71B2E81AB5976300A9B8D8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0C71B2EB1AB5976300A9B8D8 /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 0C71B2EA1AB5976300A9B8D8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0C71B2ED1AB5976300A9B8D8 /* Alamofire iOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Alamofire iOS Tests.xctest";
+			remoteRef = 0C71B2EC1AB5976300A9B8D8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0C71B2EF1AB5976300A9B8D8 /* Alamofire OSX Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Alamofire OSX Tests.xctest";
+			remoteRef = 0C71B2EE1AB5976300A9B8D8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0C4D9E6C19FC96760072BC44 /* Resources */ = {
@@ -649,41 +898,52 @@
 			files = (
 				105448491A9F3587000CC601 /* ParallaxHeaderView.m in Sources */,
 				10B0E4F51AA340260065AE53 /* ShopActivityTableViewCell.swift in Sources */,
+				102156D51AB1BDD4004EC6C9 /* EstimoteBeaconsViewController.swift in Sources */,
 				0C4D9EA119FC98420072BC44 /* Singleton.swift in Sources */,
+				10ACAD191AB2ECB7009D188E /* SettingUserInformationTableViewCell.swift in Sources */,
+				0C71B2FC1AB5F3B200A9B8D8 /* ProsAPIClient.swift in Sources */,
 				10758A731A989E4200160204 /* Promotion.swift in Sources */,
+				10ACAD231AB2EE8A009D188E /* SettingEstimoteNotificationTableViewCell.swift in Sources */,
 				10758A791A989E6100160204 /* Card.swift in Sources */,
 				10B0E4F91AA341C00065AE53 /* ShopSupportTableViewCell.swift in Sources */,
+				10D50FF01AAEAD3D00D7E760 /* SwitchCameraButton.swift in Sources */,
 				10758A871A98BED400160204 /* Notification.swift in Sources */,
 				10758A8E1A98C3E000160204 /* ShopViewController.swift in Sources */,
 				10758A831A98BD2200160204 /* Shop.swift in Sources */,
 				10758A6E1A98966A00160204 /* PromotionViewController.swift in Sources */,
 				0C4D9E9D19FC98190072BC44 /* ProsColor.swift in Sources */,
+				1093DF6A1AAC44630070E2A1 /* NotificationDetailTableViewCell.swift in Sources */,
 				10B0E4FC1AA34BD20065AE53 /* LocationViewController.swift in Sources */,
 				108C0F7D1AA20488002E2387 /* FeedbackViewController.swift in Sources */,
 				10B0E4F31AA2F3580065AE53 /* ShopLocationTableViewCell.swift in Sources */,
+				1093DF651AAC201F0070E2A1 /* NotificationDetailViewController.swift in Sources */,
 				0C4815671A0CC93F00A9CF9B /* Utilities.swift in Sources */,
 				0CEDE2EC1A03BACB0067A3C5 /* BaseTableViewController.swift in Sources */,
+				10D50FEE1AAEAD3D00D7E760 /* QRCodeViewController.swift in Sources */,
+				10D50FED1AAEAD3D00D7E760 /* QRCodeReader.swift in Sources */,
 				10FF348B1A9CFB3C00501CAE /* SubShopCategoryTableViewCell.swift in Sources */,
+				0C71B2FA1AB5F32D00A9B8D8 /* ProsHTTPClient.swift in Sources */,
 				10758A811A98BCF200160204 /* ShopCategory.swift in Sources */,
 				0C4D9E7419FC96760072BC44 /* AppDelegate.swift in Sources */,
 				0C4D9E9C19FC98190072BC44 /* Pros.swift in Sources */,
-				106A99621A9E4F480017DBAD /* SettingBodyTableViewCell.swift in Sources */,
+				10D50FEF1AAEAD3D00D7E760 /* ReaderOverlayView.swift in Sources */,
 				10758A8A1A98C3C800160204 /* ShopCategoryViewController.swift in Sources */,
-				106A99641A9E4F530017DBAD /* SettingFooterTableViewCell.swift in Sources */,
 				10758A771A989E5800160204 /* Setting.swift in Sources */,
 				10758A851A98BDFD00160204 /* SubShopCategory.swift in Sources */,
 				10B0E4F11AA2F34E0065AE53 /* ShopDescriptionTableViewCell.swift in Sources */,
 				0C87687E1A2E18CC00163204 /* RKCardView.m in Sources */,
 				10758A711A989D8B00160204 /* CardViewController.swift in Sources */,
 				1054484D1A9F4BCF000CC601 /* UIImage+ImageEffects.m in Sources */,
-				10758A971A98D16900160204 /* QRCodeReaderViewController.swift in Sources */,
 				10FF34891A9CF87400501CAE /* ShopCategoryTableViewCell.swift in Sources */,
 				10974EB71A9A5640002DD4D5 /* PromotionTableViewCell.swift in Sources */,
+				10E095491AB378D800A721AE /* SettingAboutViewController.swift in Sources */,
 				10758A7B1A98AC9100160204 /* NotificationViewController.swift in Sources */,
 				0CEDE2EA1A03BAAC0067A3C5 /* BaseViewController.swift in Sources */,
 				1052999F1A9B00340044F6FA /* PromotionDetailTableViewCell.swift in Sources */,
+				1093DF681AAC445A0070E2A1 /* NotificationTableViewCell.swift in Sources */,
 				1052999D1A9AFB440044F6FA /* PromotionDetailViewController.swift in Sources */,
-				106A99601A9E4F3C0017DBAD /* SettingHeaderTableViewCell.swift in Sources */,
+				10ACAD211AB2ED3D009D188E /* SettingGeneralTableViewCell.swift in Sources */,
+				10ACAD1F1AB2ED2F009D188E /* SettingPushNotificationTableViewCell.swift in Sources */,
 				10758A7D1A98AC9D00160204 /* SettingViewController.swift in Sources */,
 				0C5723781A24B16700C86676 /* UserDefaults.swift in Sources */,
 				10758A8C1A98C3D700160204 /* SubShopCategoryViewController.swift in Sources */,
@@ -708,6 +968,11 @@
 			isa = PBXTargetDependency;
 			target = 0C4D9E6D19FC96760072BC44 /* Pros */;
 			targetProxy = 0C4D9E8419FC96760072BC44 /* PBXContainerItemProxy */;
+		};
+		0C71B2F31AB597BA00A9B8D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Alamofire iOS";
+			targetProxy = 0C71B2F21AB597BA00A9B8D8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -814,24 +1079,32 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Suwat Saegauy (5R952VP2H5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Suwat Saegauy (5R952VP2H5)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(SRCROOT)",
-					"$(PROJECT_DIR)/Pros/Library/facebook-ios-sdk-3.23",
-					"$(PROJECT_DIR)/Pros/Library/parse-library-1.6.2",
+					"$(PROJECT_DIR)/Pros/Library/facebook-ios-sdk-3.23.1",
+					"$(PROJECT_DIR)/Pros/Library/parse-library-1.6.3",
 				);
 				INFOPLIST_FILE = Pros/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pros/Library/EstimoteSDK",
+				);
 				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7b262ee2-2769-4091-a910-498cc0ec12ce";
+				PROVISIONING_PROFILE = "7cb474a8-4636-48e4-b0b5-3295b66cdcc4";
 				SWIFT_OBJC_BRIDGING_HEADER = "Pros/Pros-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -839,23 +1112,31 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Suwat Saegauy (5R952VP2H5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Suwat Saegauy (5R952VP2H5)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(SRCROOT)",
-					"$(PROJECT_DIR)/Pros/Library/facebook-ios-sdk-3.23",
-					"$(PROJECT_DIR)/Pros/Library/parse-library-1.6.2",
+					"$(PROJECT_DIR)/Pros/Library/facebook-ios-sdk-3.23.1",
+					"$(PROJECT_DIR)/Pros/Library/parse-library-1.6.3",
 				);
 				INFOPLIST_FILE = Pros/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pros/Library/EstimoteSDK",
+				);
 				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7b262ee2-2769-4091-a910-498cc0ec12ce";
+				PROVISIONING_PROFILE = "7cb474a8-4636-48e4-b0b5-3295b66cdcc4";
 				SWIFT_OBJC_BRIDGING_HEADER = "Pros/Pros-Bridging-Header.h";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};

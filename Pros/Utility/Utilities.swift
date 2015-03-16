@@ -18,7 +18,7 @@ class Utilities: NSObject {
     class func titleLabelOnNavigationBar(title: String!) -> UIView {
         let label: UILabel = UILabel(frame: CGRectZero)
         label.backgroundColor = UIColor.clearColor()
-        label.font = UIFont(name: "AvenirNext-Regular", size: 17.0)
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 17.0)
         label.textAlignment = NSTextAlignment.Center
         label.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
         label.textColor = UIColor.darkGrayColor()
@@ -28,6 +28,12 @@ class Utilities: NSObject {
         label.sizeToFit()
         
         return label
+    }
+    
+    class func previousBackBarButtonItemOnNavigationBar() -> UIBarButtonItem! {
+        let previousBarButtonItem: UIBarButtonItem! = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        
+        return previousBarButtonItem
     }
     
     class func roundCornersWithView(view: UIView!, cornerRadius: CGFloat!, borderWidth: CGFloat!, color: UIColor!) -> UIView {
@@ -46,6 +52,7 @@ class Utilities: NSObject {
         imageView.layer.borderColor = color.CGColor
         imageView.layer.borderWidth = borderWidth
         imageView.clipsToBounds = true
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit
         
         return imageView
     }

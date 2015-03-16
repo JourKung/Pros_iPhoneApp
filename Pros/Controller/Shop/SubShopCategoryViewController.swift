@@ -8,18 +8,15 @@
 
 import UIKit
 
-class SubShopCategoryViewController: BaseViewController,
-    UITableViewDataSource,
-    UITableViewDelegate {
+class SubShopCategoryViewController: BaseTableViewController {
 
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var tableViewOutlet: UITableView!
-    
     var dummyActivities: [String]! = [String]()
+    var temp: String!
     
     // ------------------------------
     // MARK: -
@@ -32,6 +29,12 @@ class SubShopCategoryViewController: BaseViewController,
         
         customUI()
         loadData()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,19 +54,27 @@ class SubShopCategoryViewController: BaseViewController,
     
     private func customUI() -> Void {
         customNavigationBar()
-        
-        // This will remove extra separators from tableview
-        self.tableViewOutlet.tableFooterView = UIView(frame:CGRectZero)
-        self.tableViewOutlet.backgroundColor = UIColor.groupTableViewBackgroundColor()
+        customTableView()
     }
     
     private func customNavigationBar() -> Void {
+        tableView.estimatedRowHeight = 60.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Shop title")
-//        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
+    }
+    
+    private func customTableView() -> Void {
+        tableView.estimatedRowHeight = 60.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        // This will remove extra separators from tableview
+        tableView.separatorColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
     private func updateUI() -> Void {
-        
     }
     
     // ------------------------------
@@ -72,7 +83,11 @@ class SubShopCategoryViewController: BaseViewController,
     // ------------------------------
     
     private func loadData() -> Void {
-        self.dummyActivities = ["Alice", "Bob", "Eve", "Carlos", "Fern", "Gun"]
+        self.dummyActivities = ["Starbucks", "Amazon", "Coffee World", "True Coffee", "Black Canyon", "บ้านไร่กาแฟ"]
+        
+        if let temp = self.temp {
+            println("[TEST] \(temp)")
+        }
     }
     
     // ------------------------------
@@ -85,19 +100,19 @@ class SubShopCategoryViewController: BaseViewController,
     // MARK: Table view data source
     // ------------------------------
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.dummyActivities.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableViewOutlet.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as SubShopCategoryTableViewCell
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as SubShopCategoryTableViewCell
         
-        cell.title.text = self.dummyActivities[indexPath.row]
-        cell.type.text = "Something content ...."
+        cell.titleLabel.text = self.dummyActivities[indexPath.row]
+        cell.typeLabel.text = "@Cafe"
         cell.logoImageView.image = UIImage(named: "00_logoDummy")
         
         return cell
@@ -116,9 +131,12 @@ class SubShopCategoryViewController: BaseViewController,
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        if (segue.identifier == "Segue") {
-            let shopVC = segue.destinationViewController as? ShopViewController
-            let indexPath = self.tableViewOutlet.indexPathForSelectedRow()
+        if segue.identifier == "SegueToShop" {
+            println("[Segue] Sub shop category -> Shop")
+            if let indexPath = tableView.indexPathForSelectedRow() {
+            let destinationController = segue.destinationViewController as ShopViewController
+            //destinationController.restaurantImage = self.restaurantImages[indexPath.row]
+            }
         }
     }
     

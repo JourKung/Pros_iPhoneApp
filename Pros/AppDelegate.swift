@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFFacebookUtils.initializeFacebook()
         
         registerForRemoteNotificationTypes(application)
+        registerForEstimoteBeacons(kEstimoteBeaconsAppId, AppToken: kEstimoteBeaconsToken)
         customNavigationBarOfAppearance()
         
         return true
@@ -84,7 +85,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let wasHandled: Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession:PFFacebookUtils.session())
         return wasHandled
     }
+    
+    // ------------------------------
+    // MARK: -
+    // MARK: User interface
+    // ------------------------------
 
+    func customNavigationBarOfAppearance() -> Void {
+        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
+        UINavigationBar.appearance().barTintColor = UIColor.whiteColor() //UIColor(red: 0.490, green: 0.631, blue: 0.549, alpha: 1.000)
+        UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
+//        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)]
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: Configuration
@@ -114,7 +127,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func customNavigationBarOfAppearance() -> Void {
+    func registerForEstimoteBeacons(appID: String!, AppToken: String!) -> Void {
+        // App ID and App Token should be provided using method below
+        // to allow beacons connection and Estimote Cloud requests possible.
+        // Both values can be found in Estimote Cloud ( http://cloud.estimote.com )
+        // in Account Settings tab.
+        println("ESTAppDelegate: APP ID and APP TOKEN are required to connect to your beacons and make Estimote API calls.")
+        ESTConfig.setupAppID(appID, andAppToken: AppToken)
+        
+        // Estimote Analytics allows you to log activity related to monitoring mechanism.
+        // At the current stage it is possible to log all enter/exit events when monitoring
+        // Particular beacons (Proximity UUID, Major, Minor values needs to be provided).
+        println("ESTAppDelegate: Analytics are turned OFF by defaults. You can enable them changing flag")
+//        ESTConfig.enableAnalytics(false)
     }
     
     

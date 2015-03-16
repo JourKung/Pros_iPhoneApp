@@ -15,8 +15,8 @@ class ShopSupportTableViewCell: UITableViewCell {
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var supportImageView: UIImageView!
     @IBOutlet weak var supportTitleLabel: UILabel!
+    @IBOutlet weak var supportImageView: UIImageView!
     
     // ------------------------------
     // MARK: -

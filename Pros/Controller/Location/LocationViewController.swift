@@ -20,9 +20,6 @@ class LocationViewController: BaseViewController,
     // ------------------------------
     
     @IBOutlet var mapView: MKMapView!
-    @IBOutlet weak var dialogView: UIView!
-    @IBOutlet weak var currentButton: UIButton!
-    @IBOutlet weak var directionButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
     
     let locationManager = CLLocationManager()
@@ -49,10 +46,6 @@ class LocationViewController: BaseViewController,
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        let scale = CGAffineTransformMakeScale(1, 1)
-        let translate = CGAffineTransformMakeTranslation(0, 0)
-        self.dialogView.transform = CGAffineTransformConcat(scale, translate)
     }
     
     override func didReceiveMemoryWarning() {
@@ -65,37 +58,6 @@ class LocationViewController: BaseViewController,
     // MARK: Action
     // ------------------------------
     
-    @IBAction func currentButton(sender: AnyObject) {
-        println("[User location] \(self.mapView.userLocation.coordinate.latitude) | \(self.mapView.userLocation.coordinate.longitude)")
-        getUserCurrentLocation()
-    }
-    
-    @IBAction func directionButton(sender: AnyObject) {
-        let alertController = UIAlertController(title: "Choose the app that you'd like to open", message: nil, preferredStyle: .ActionSheet)
-        
-        let latitude: CLLocationDegrees! = 13.6517
-        let longitude: CLLocationDegrees! = 100.4956
-        
-        let coordinate: CLLocationCoordinate2D! = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
-            println("[Log] Cancel ActionSheet")
-        }
-        alertController.addAction(cancelAction)
-        
-        let feedbackAction = UIAlertAction(title: "Apple Maps", style: .Default) { (action) in
-            self.performWithAppleMaps(coordinate, title: "Starbucks")
-        }
-        alertController.addAction(feedbackAction)
-        
-        let shareAction = UIAlertAction(title: "Google Maps", style: .Default) { (action) in
-            self.performWithGoogleMaps(coordinate, title: "Coffee World")
-        }
-        alertController.addAction(shareAction)
-        
-        presentViewController(alertController, animated: true, completion: nil)
-    }
-    
     // ------------------------------
     // MARK: -
     // MARK: User interface
@@ -106,7 +68,12 @@ class LocationViewController: BaseViewController,
     }
     
     private func customNavigationBar() -> Void {
-//        navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Location")
+        navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Location")
+        
+        let currentBarButtonItem: UIBarButtonItem! = UIBarButtonItem(image: UIImage(named: "00_current"), style: UIBarButtonItemStyle.Plain, target: self, action: "performWithCurrentLocation")
+        let directionBarButtonItem: UIBarButtonItem! = UIBarButtonItem(image: UIImage(named: "00_direction"), style: UIBarButtonItemStyle.Plain, target: self, action: "performWithDirectionLocation")
+        
+        navigationItem.rightBarButtonItems = [currentBarButtonItem, directionBarButtonItem]
     }
     
     private func updateUI() -> Void {
@@ -183,6 +150,41 @@ class LocationViewController: BaseViewController,
             println("[Administrative area] \(administrativeArea)")
             println("[Country] \(country)")
         }
+    }
+    
+    func performWithCurrentLocation() -> Void {
+        println("[User location] \(self.mapView.userLocation.coordinate.latitude) | \(self.mapView.userLocation.coordinate.longitude)")
+        getUserCurrentLocation()
+    }
+    
+    func performWithDirectionLocation() -> Void {
+        let alertController = UIAlertController(title: "Choose the app that you'd like to open", message: nil, preferredStyle: .ActionSheet)
+        
+        let latitude: CLLocationDegrees! = 13.6517
+        let longitude: CLLocationDegrees! = 100.4956
+        
+        let coordinate: CLLocationCoordinate2D! = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            println("[Log] Cancel ActionSheet")
+        }
+        alertController.addAction(cancelAction)
+        
+        let feedbackAction = UIAlertAction(title: "Apple Maps", style: .Default) { (action) in
+            self.performWithAppleMaps(coordinate, title: "Starbucks")
+        }
+        alertController.addAction(feedbackAction)
+        
+        let shareAction = UIAlertAction(title: "Google Maps", style: .Default) { (action) in
+            self.performWithGoogleMaps(coordinate, title: "Coffee World")
+        }
+        alertController.addAction(shareAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func closeLocation() -> Void {
+        dismissViewControllerAnimated(true, completion: nil)//"unwindCloseWithFeedbackViewController:"
     }
     
     private func performWithAppleMaps(coordinate: CLLocationCoordinate2D!, title: String!) -> Void {

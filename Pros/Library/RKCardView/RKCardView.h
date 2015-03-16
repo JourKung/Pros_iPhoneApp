@@ -35,12 +35,12 @@
 
 @property (nonatomic)UIImageView *logoImageView;
 @property (nonatomic)UIImageView *coverImageView;
+
 @property (nonatomic)UILabel *titleLabel;
 @property (nonatomic)UILabel *typeLabel;
+
 @property (nonatomic)UILabel *pointLabel;
 @property (nonatomic)UILabel *expirationDateLabel;
-
-//@property (nonatomic)UILabel *dummyPointLabel;
 
 - (void)addBlur;
 - (void)removeBlur;
