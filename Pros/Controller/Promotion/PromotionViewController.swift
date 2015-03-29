@@ -20,18 +20,20 @@ class PromotionViewController: BaseTableViewController,
     // MARK: -
     // MARK: Properties
     // ------------------------------
-    
+
+    @IBOutlet weak var categoryBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var enterRegionSwitch: UISwitch!
     @IBOutlet weak var exitRegionSwitch: UISwitch!
     
+    let prosAPIClient: ProsAPIClient! = ProsAPIClient()
+    var activities: [Promotion]! = [Promotion]()
+    var imageCache = [String: UIImage]()
+    
     var beacon: ESTBeacon!
     var beaconManager: ESTBeaconManager!
     var beaconRegion: ESTBeaconRegion!
-    
     var scanType: ESTScanType!
-    
-    var dummyActivities: [Promotion]?
     
     // ------------------------------
     // MARK: -
@@ -42,22 +44,27 @@ class PromotionViewController: BaseTableViewController,
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        customUI()
-        
-        println("[+] \(UserDefaults.sharedInstance.getUserFbId())")
-        println("[+] \(UserDefaults.sharedInstance.getUsername())")
-        println("[+] \(UserDefaults.sharedInstance.getUserGender())")
-        println("[+] \(UserDefaults.sharedInstance.getUserBirthday())")
-        println("[+] \(UserDefaults.sharedInstance.getUserEmail())")
-        
         println("[EstimoteBeacons] init")
         registerForLocationNotification()
         setupEstimoteBeacons()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        loadData()
+        customUI()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
     }
 
     // ------------------------------
@@ -78,19 +85,19 @@ class PromotionViewController: BaseTableViewController,
     // MARK: User interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func customUI() -> Void {
         customNavigationBar()
         customTableView()
     }
     
-    private func customNavigationBar() -> Void {
+    func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Pros")
         navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
         
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "00_menu-toolbar"), style: .Plain, target: self, action: "performWithShopCategoryViewControllerAnimated:")
     }
     
-    private func customTableView() -> Void {
+    func customTableView() -> Void {
         tableView.estimatedRowHeight = 180.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -100,7 +107,7 @@ class PromotionViewController: BaseTableViewController,
         tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
-    private func updateUI() -> Void {
+    func updateUI() -> Void {
     }
     
     // ------------------------------
@@ -108,8 +115,39 @@ class PromotionViewController: BaseTableViewController,
     // MARK: Data
     // ------------------------------
     
-    private func loadData() -> Void {
+    func loadData() -> Void {
+        if self.prosAPIClient?.getPromotionsWithCompletion() == nil {
+            return
+        }
         
+        refreshControl?.beginRefreshing()
+        
+        self.prosAPIClient?.getPromotionsWithCompletion().responseJSON { (request, reponse, results, error) -> Void in
+            
+            if let promotions: AnyObject = results {
+                self.activities = [Promotion]()
+                
+                for promotion in promotions as [AnyObject] {
+                    self.activities.append(Promotion(promotionID: promotion.objectForKey("promotionID") as String
+                        , UserID: promotion.objectForKey("UserID") as String
+                        , promotionPublishPoint: promotion.objectForKey("promotionPublishPoint") as String
+                        , promotionPublishName: promotion.objectForKey("promotionPublishName") as String
+                        , promotionPublishType: promotion.objectForKey("promotionPublishType") as String
+                        , promotionPublishDescription: promotion.objectForKey("promotionPublishDescription") as String
+                        , promotionPublishPoster: promotion.objectForKey("promotionPublishPoster") as String
+                        , promotionPublishCreatedAt: promotion.objectForKey("promotionPublishCreatedAt") as String
+                        , promotionPublishUpdatedAt: promotion.objectForKey("promotionPublishUpdatedAt") as String
+                        , promotionPublishPublishedAt: promotion.objectForKey("promotionPublishPublishedAt") as String
+                        , promotionPublishExpiredAt: promotion.objectForKey("promotionPublishExpiredAt") as String
+                        , shopName: promotion.objectForKey("shopName") as String
+                        , shopLogoURL: promotion.objectForKey("shopLogoURL") as String
+                        , shopType: promotion.objectForKey("shopType") as String))
+                   }
+                
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
     
     // ------------------------------
@@ -128,7 +166,7 @@ class PromotionViewController: BaseTableViewController,
     // MARK: Table view data source
     // ------------------------------
     
-    private let cellIdentifier = "Cell"
+    let cellIdentifier = "Cell"
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 180
@@ -139,17 +177,45 @@ class PromotionViewController: BaseTableViewController,
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return self.activities.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as PromotionTableViewCell
         
-        cell.titleLabel.text = "Stabucks Coffee"
-        cell.typeLabel.text = "@Cafe"
-        cell.descriptionLabel.text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
-        cell.logoImageView.image = UIImage(named: "00_logoDummy")
-//        cell.promotionImageView.image = UIImage(named: "00_coverDummy")
+        cell.titleLabel.text = self.activities[indexPath.row].shopName
+        cell.typeLabel.text = self.activities[indexPath.row].shopType
+        cell.descriptionLabel.text = self.activities[indexPath.row].promotionPublishName
+        
+        let tmpURL = Utilities.cleanUrl(self.activities[indexPath.row].shopLogoURL)
+        let image = self.imageCache[tmpURL]
+        
+        if (image == nil) {
+            // Download an NSData representation of the image at the URL
+            let urlRequest: NSURLRequest! = NSURLRequest(URL: NSURL(string: tmpURL)!)
+            NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+                (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
+                
+                if (connectionError == nil && data != nil) {
+                    self.imageCache[tmpURL] = UIImage(data: data)
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) as? PromotionTableViewCell {
+                            cellToUpdate.logoImageView.image = self.imageCache[tmpURL]
+                        }
+                    })
+                }
+                else {
+                    println("Error: \(connectionError.localizedDescription)")
+                }
+            })
+        } else {
+            dispatch_async(dispatch_get_main_queue(), {
+                if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) as? PromotionTableViewCell {
+                    cellToUpdate.logoImageView.image = image
+                }
+            })
+        }
         
         return cell
     }
@@ -159,7 +225,6 @@ class PromotionViewController: BaseTableViewController,
     // MARK: Table view deleagete
     // ------------------------------
     
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -167,8 +232,17 @@ class PromotionViewController: BaseTableViewController,
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        if (segue.identifier == "SegueToPromotionDetail") {
+        if segue.identifier == "SegueToPromotionDetail" {
             println("[Segue] Promotion -> Promotion Detail")
+            
+            if let indexPath = tableView.indexPathForSelectedRow() {
+                let destinationController = segue.destinationViewController as PromotionDetailViewController
+                destinationController.promotionSegue = self.activities[indexPath.row]
+                
+                if let promotionId = self.activities[indexPath.row].promotionID {
+                    println("[+] \(promotionId)")
+                }
+            }
         } else if (segue.identifier == "SegueToShopCategory") {
             println("[Segue] Promotion -> Shop category")
         }
@@ -200,9 +274,10 @@ class PromotionViewController: BaseTableViewController,
 //            identifier: "RegionIdentifier",
 //            secured: true)//self.beacon.isSecured)
         
-        self.beaconRegion = ESTBeaconRegion(proximityUUID: NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D"), identifier: "EstimoteRegion")
+        self.beaconRegion = ESTBeaconRegion(proximityUUID: NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D"),
+            identifier: "EstimoteRegion")
         
-        println("[ESTBeaconRegion] \(self.beacon?.proximityUUID) major: \(self.beacon?.major.unsignedShortValue) minor \(self.beacon?.minor.unsignedShortValue) secured: \(self.beacon?.isSecured)")
+//        println("[ESTBeaconRegion] \(self.beacon?.proximityUUID) major: \(self.beacon?.major.unsignedShortValue) minor \(self.beacon?.minor.unsignedShortValue) secured: \(self.beacon?.isSecured)")
         
         self.beaconRegion.notifyOnEntry = true//self.enterRegionSwitch.on
         self.beaconRegion.notifyOnExit = true//self.exitRegionSwitch.on

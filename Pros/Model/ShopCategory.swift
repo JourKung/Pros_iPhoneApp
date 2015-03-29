@@ -26,7 +26,7 @@ class ShopCategory: NSObject {
     // MARK: Configuration
     // ------------------------------
     
-    init(objectId: String, createdAt: NSDate, updatedAt: NSDate,
+    init(objectId: String?, createdAt: NSDate?, updatedAt: NSDate?,
         type: String) {
             super.init()
             

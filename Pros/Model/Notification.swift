@@ -15,21 +15,20 @@ class Notification: NSObject {
     // MARK: Properties
     // ------------------------------
     
-    var objectId: String!
-    var createdAt: NSDate!
-    var updatedAt: NSDate!
+//    var objectId: String!
+//    var createdAt: NSDate!
+//    var updatedAt: NSDate!
+    
+    var title: String!
     
     // ------------------------------
     // MARK: -
     // MARK: Configuration
     // ------------------------------
     
-    init(objectId: String, createdAt: NSDate, updatedAt: NSDate
-        ) {
+    init(title: String!) {
             super.init()
-            
-            self.objectId = objectId
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
+        
+        self.title = title
     }
 }

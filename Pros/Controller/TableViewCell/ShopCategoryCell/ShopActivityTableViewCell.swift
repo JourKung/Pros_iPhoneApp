@@ -8,12 +8,18 @@
 
 import UIKit
 
+protocol ShopActivityTableViewCellDelegate {
+    func getToggleDelegate()
+}
+
 class ShopActivityTableViewCell: UITableViewCell {
 
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
+    
+    var delegate: ShopActivityTableViewCellDelegate?
     
     @IBOutlet weak var logoImageView: UIImageView! {
         didSet {
@@ -32,7 +38,7 @@ class ShopActivityTableViewCell: UITableViewCell {
         }
     }
     
-    private var subscribeState: Bool! = false // Unsubscribe default
+    var subscribeState: Bool! = false // Unsubscribe default
     
     // ------------------------------
     // MARK: -
@@ -56,13 +62,13 @@ class ShopActivityTableViewCell: UITableViewCell {
     // ------------------------------
     
     @IBAction func subscribeToggle(sender: AnyObject) {
-        self.subscribeState = !self.subscribeState
+//        if (self.subscribeState == true) {
+//            unsubscribe()
+//        } else {
+//            subscribe()
+//        }
         
-        if (self.subscribeState == true) {
-            subscribe()
-        } else {
-            unsubscribe()
-        }
+        self.delegate!.getToggleDelegate()
     }
     
     // ------------------------------
@@ -86,13 +92,15 @@ class ShopActivityTableViewCell: UITableViewCell {
     // MARK: Configuration
     // ------------------------------
     
-    private func unsubscribe() -> Void {
+    func unsubscribe() -> Void {
         // Set to unsubscribe
+        self.subscribeState = false
         customSubscribeButton(self.subscribeButton, title: "Subscribe", titleColor: tintColor, borderColor: tintColor)
     }
     
-    private func subscribe() -> Void {
+    func subscribe() -> Void {
         // Set to subscribed
+        self.subscribeState = true
         customSubscribeButton(self.subscribeButton, title: "Subscribed", titleColor: UIColor.redColor(), borderColor: UIColor.redColor())
     }
 }

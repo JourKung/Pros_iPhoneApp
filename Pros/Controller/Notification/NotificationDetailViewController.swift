@@ -34,6 +34,12 @@ class NotificationDetailViewController: BaseTableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: Action

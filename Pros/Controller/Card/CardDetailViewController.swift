@@ -1,33 +1,30 @@
 //
-//  NotificationViewController.swift
+//  CardDetailViewController.swift
 //  Pros
 //
-//  Created by Suwat Saegauy on 2/21/15.
-//  Copyright (c) 2015 com.cpekmutt.project. All rights reserved.
+//  Created by Suwat Saegauy on 3/17/2558 BE.
+//  Copyright (c) 2558 com.cpekmutt.project. All rights reserved.
 //
 
 import UIKit
 
-class NotificationViewController: BaseTableViewController {
-    
+class CardDetailViewController: BaseTableViewController {
+
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
-    
     // ------------------------------
     // MARK: -
-    // MARK: View life cycle
+    // MARK: View Life Cycle
     // ------------------------------
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        customUI()
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -46,7 +43,7 @@ class NotificationViewController: BaseTableViewController {
     
     // ------------------------------
     // MARK: -
-    // MARK: User interface
+    // MARK: User Interface
     // ------------------------------
     
     private func customUI() -> Void {
@@ -55,12 +52,11 @@ class NotificationViewController: BaseTableViewController {
     }
     
     private func customNavigationBar() -> Void {
-        navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Pros")
-        navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
+        navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Cards")
     }
     
     private func customTableView() -> Void {
-        tableView.estimatedRowHeight = 180.0
+        tableView.estimatedRowHeight = 80.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
         // This will remove extra separators from tableview
@@ -69,7 +65,7 @@ class NotificationViewController: BaseTableViewController {
         tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
-    private func updateUI() -> Void {
+    private func updateUI() {
     }
     
     // ------------------------------
@@ -77,42 +73,30 @@ class NotificationViewController: BaseTableViewController {
     // MARK: Data
     // ------------------------------
     
-    private func loadData() -> Void {
-        
-    }
-    
     // ------------------------------
     // MARK: -
     // MARK: Configuration
     // ------------------------------
-    
     
     // ------------------------------
     // MARK: -
     // MARK: Table view data source
     // ------------------------------
     
-    private let cellIdentifier = "Cell"
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 180
-    }
+    private let cellIdentifier       = "Cell"
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 4
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as NotificationTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as UITableViewCell
         
-        cell.titleLabel.text = "Stabucks Coffee"
-        cell.typeLabel.text = "@Cafe"
-        cell.descriptionLabel.text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
-        cell.logoImageView.image = UIImage(named: "00_logoDummy")
+        cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
         
         return cell
     }
@@ -121,18 +105,5 @@ class NotificationViewController: BaseTableViewController {
     // MARK: -
     // MARK: Table view deleagete
     // ------------------------------
-    
-    
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        
-        if (segue.identifier == "SegueToNotificationDetail") {
-            println("[Segue] Notification -> Notification detail")
-        }
-    }
 
 }

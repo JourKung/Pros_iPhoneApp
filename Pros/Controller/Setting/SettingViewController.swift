@@ -27,11 +27,6 @@ class SettingViewController: BaseTableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        Alamofire.request(.GET, "http://httpbin.org/get").responseJSON() {
-            (_, _, data, _) in
-            println(data!)
-        }
-        
         customUI()
     }
     
@@ -48,8 +43,8 @@ class SettingViewController: BaseTableViewController {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
         
+        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
     }
     
     // ------------------------------
@@ -104,11 +99,6 @@ class SettingViewController: BaseTableViewController {
     // ------------------------------
     
     func loadData() -> Void {
-        self.refreshControl?.beginRefreshing()
-        let start = CACurrentMediaTime()
-        tableView.reloadData()
-        refreshControl?.endRefreshing()
-        println("[+] Refresh")
     }
     
     // ------------------------------

@@ -40,13 +40,36 @@ class CardViewController: BaseTableViewController,
         // Dispose of any resources that can be recreated.
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: Action
     // ------------------------------
     
-    @IBAction func scanAction(sender: AnyObject) {
-        performQRCodeReaderViewControllerWithAnimated(true)
+    @IBAction func scanAction(sender: AnyObject) {        
+        let alertController = UIAlertController(title: "Select input form...", message: "", preferredStyle: .ActionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            println("[CancelAction] ActionSheet")
+        }
+        alertController.addAction(cancelAction)
+        
+        let scanQRCodeAction = UIAlertAction(title: "Scan QRCode", style: .Default) { (action) in
+            self.performQRCodeReaderViewControllerWithAnimated(true)
+        }
+        alertController.addAction(scanQRCodeAction)
+        
+        
+        let serialNumberAction = UIAlertAction(title: "Serial number", style: .Default) { (action) in
+            self.performSerialNumberAlertACtionWithAnimated(true)
+        }
+        alertController.addAction(serialNumberAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     // ------------------------------
@@ -160,10 +183,40 @@ class CardViewController: BaseTableViewController,
         }
     }
     
+    func performSerialNumberAlertACtionWithAnimated(animated: Bool!) {
+        let alertController = UIAlertController(title: "Serial number", message: "Please enter your serial number", preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            println("[CancelAction] Alert")
+        }
+        alertController.addAction(cancelAction)
+        
+        let enterAction = UIAlertAction(title: "Enter", style: .Default) { (action) in
+            let serialNumberTextField = alertController.textFields![0] as UITextField
+            println("[EnterAction] \(serialNumberTextField.text)")
+            // Fn: Send to service API and Check
+        }
+        enterAction.enabled = false
+        alertController.addAction(enterAction)
+        
+        alertController.addTextFieldWithConfigurationHandler { (textField) in
+            textField.placeholder = "Serial number"
+            textField.secureTextEntry = true
+            
+            NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue()) { (notification) in
+                enterAction.enabled = textField.text != ""
+            }
+        }
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: Table view data source
     // ------------------------------
+    
+    private let cellIdentifier       = "Cell"
     
     let BUFFERX: CGFloat = 12 //distance from side to the card (higher makes thinner card)
     let BUFFERY: CGFloat = 35 //distance from top to the card (higher makes shorter card)
@@ -179,25 +232,29 @@ class CardViewController: BaseTableViewController,
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as UITableViewCell
         
         cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
         
         cardView = RKCardView(frame: CGRectMake(BUFFERX, BUFFERY-15,
             view.frame.size.width-2*BUFFERX,
             view.frame.size.height-11*BUFFERY))
+        cardView.coverImageView.image = UIImage(named: "00_coverDummy")
+        cardView.logoImageView.image = UIImage(named: "00_logoDummy")
+        cardView.titleLabel.text = "StackBucks Coffee"
+        cardView.typeLabel.text = "@Cafe"
+        cardView.pointLabel.text = "99"
+        cardView.expirationDateLabel.text = Utilities.dateWithString(NSDate(), dateStype: .ShortStyle, timeStyle: .NoStyle)
         
-        cardView.coverImageView.image = UIImage(named: "00_coverDummy")//UIImage(named: (initDictionaryWithArray("cover")[indexPath.row]))
-        cardView.logoImageView.image = UIImage(named: "00_logoDummy")//UIImage(named: (initDictionaryWithArray("logo")[indexPath.row]))
-        cardView.titleLabel.text = "StackBucks Coffee"//initDictionaryWithArray("title")[indexPath.row]
-        cardView.typeLabel.text = "@Cafe"//initDictionaryWithArray("description")[indexPath.row];
-        cardView.pointLabel.text = "99"//initDictionaryWithArray("point")[indexPath.row];
-        
-        cardView.expirationDateLabel.text = Utilities.dateWithString(NSDate(), dateStype: .ShortStyle, timeStyle: .NoStyle)//initDictionaryWithArray("expirationDate")[indexPath.row];
         cell.contentView.addSubview(cardView)
         
         return cell
     }
+    
+    // ------------------------------
+    // MARK: -
+    // MARK: Table view deleagete
+    // ------------------------------
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return view.frame.size.height-10*BUFFERY

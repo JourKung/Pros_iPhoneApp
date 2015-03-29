@@ -17,6 +17,11 @@ class PromotionDetailViewController: BaseTableViewController {
 
     @IBOutlet weak var shareBarButtonItem: UIBarButtonItem!
     
+    let prosAPIClient: ProsAPIClient! = ProsAPIClient()
+    var promotionSegue: Promotion!
+    var activities: PromotionDetail!
+    var imageCache = [String: UIImage]()
+    
     // ------------------------------
     // MARK: -
     // MARK: View life cycle
@@ -25,13 +30,24 @@ class PromotionDetailViewController: BaseTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
+        loadData()
         customUI()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
     }
     
     // ------------------------------
@@ -48,16 +64,16 @@ class PromotionDetailViewController: BaseTableViewController {
     // MARK: User interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func customUI() -> Void {
         customNavigationBar()
         customTableView()
     }
     
-    private func customNavigationBar() -> Void {
+    func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Detail")
     }
     
-    private func customTableView() -> Void {
+    func customTableView() -> Void {
         tableView.estimatedRowHeight = 360.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -67,7 +83,7 @@ class PromotionDetailViewController: BaseTableViewController {
         tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
-    private func updateUI() -> Void {
+    func updateUI() -> Void {
     }
     
     // ------------------------------
@@ -75,7 +91,36 @@ class PromotionDetailViewController: BaseTableViewController {
     // MARK: Data
     // ------------------------------
     
-    private func loadData() -> Void {
+    func loadData() -> Void {
+        if self.prosAPIClient?.getPromotionsWithCompletion() == nil {
+            return
+        }
+        
+        refreshControl?.beginRefreshing()
+        
+        self.prosAPIClient?.getPromotionDetailWithCompletion(UserDefaults.sharedInstance.getUserFbId(), promotionId: self.promotionSegue.promotionID).responseJSON { (request, reponse, results, error) -> Void in
+            
+            if let promotion: AnyObject = results {
+                self.activities = PromotionDetail(promotionID: promotion.objectForKey("promotionID") as String
+                        , UserID: promotion.objectForKey("UserID") as String
+                        , promotionPublishPoint: promotion.objectForKey("promotionPublishPoint") as String
+                        , promotionPublishName: promotion.objectForKey("promotionPublishName") as String
+                        , promotionPublishType: promotion.objectForKey("promotionPublishType") as String
+                        , promotionPublishDescription: promotion.objectForKey("promotionPublishDescription") as String
+                        , promotionPublishPoster: promotion.objectForKey("promotionPublishPoster") as String
+                        , qrID: promotion.objectForKey("qrID") as String
+                        , promotionPublishCreatedAt: promotion.objectForKey("promotionPublishCreatedAt") as String
+                        , promotionPublishUpdatedAt: promotion.objectForKey("promotionPublishUpdatedAt") as String
+                        , promotionPublishPublishedAt: promotion.objectForKey("promotionPublishPublishedAt") as String
+                        , promotionPublishExpiredAt: promotion.objectForKey("promotionPublishExpiredAt") as String
+                        , shopName: promotion.objectForKey("shopName") as String
+                        , shopLogoURL: promotion.objectForKey("shopLogoURL") as String
+                        , shopType: promotion.objectForKey("shopType") as String)
+                
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
     
     // ------------------------------
@@ -83,14 +128,21 @@ class PromotionDetailViewController: BaseTableViewController {
     // MARK: Configuration
     // ------------------------------
     
-    private func performWithShareViewControllerAnimated(animated: Bool) -> Void {
-        let logoImage: UIImage! = UIImage(named: "00_logoDummy")
-        let promotionImage: UIImage! = UIImage(named: "00_coverDummy")
-        let title: String! = "Starbucks"
-        let type: String! = "@Cafe"
-        let detail: String! = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    func performWithShareViewControllerAnimated(animated: Bool) -> Void {
+        var promotionImage: UIImage!
         
-        let objectsToShare: [AnyObject]! = [logoImage, promotionImage, title, type, detail]
+        if let imageCache = self.imageCache[self.activities.promotionPublishPoster] {
+            promotionImage = imageCache
+        } else {
+//            promotionImage = UIImage(named: "00_logoDummy")
+        }
+        
+        
+        let title: String! = self.activities.shopName
+        let type: String! = self.activities?.shopType
+        let detail: String! = self.activities?.promotionPublishDescription
+        
+        let objectsToShare: [AnyObject]! = [promotionImage, title, type, detail]
         
         var activityViewController: UIActivityViewController! = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         
@@ -133,11 +185,74 @@ class PromotionDetailViewController: BaseTableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as PromotionDetailTableViewCell
         
-        cell.titleLabel.text = "Starbucks Coffee"
-        cell.typeLabel.text = "@Cafe"
-        cell.descriptionLabel.text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim."
-        cell.logoImageView.image = UIImage(named: "00_logoDummy")
-        cell.promotionImageView.image = UIImage(named: "00_coverDummy")
+        cell.titleLabel.text = self.activities?.shopName
+        cell.typeLabel.text = self.activities?.shopType
+        cell.descriptionLabel.text = self.activities?.promotionPublishDescription
+        
+        if let activitiyUserLogoImageUrl = self.activities?.shopLogoURL {
+            let tmpURL = Utilities.cleanUrl(activitiyUserLogoImageUrl)
+            let image = self.imageCache[tmpURL]
+            
+            if (image == nil) {
+                // Download an NSData representation of the image at the URL
+                let urlRequest: NSURLRequest! = NSURLRequest(URL: NSURL(string: tmpURL)!)
+                NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+                    (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
+                    
+                    if (connectionError == nil && data != nil) {
+                        self.imageCache[tmpURL] = UIImage(data: data)
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            if let cellToUpdate = self.tableView.cellForRowAtIndexPath(indexPath) as? ShopActivityTableViewCell {
+                                cellToUpdate.logoImageView.image = self.imageCache[tmpURL]
+                            }
+                        })
+                    }
+                    else {
+                        println("Error: \(connectionError.localizedDescription)")
+                    }
+                })
+            } else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    if let cellToUpdate = self.tableView.cellForRowAtIndexPath(indexPath) as? PromotionDetailTableViewCell {
+                        cellToUpdate.logoImageView.image = image
+                    }
+                })
+            }
+        }
+        
+        if let activitiyPromotionImageUrl = self.activities?.promotionPublishPoster {
+            let tmpURL = Utilities.cleanUrl(activitiyPromotionImageUrl)
+            let image = self.imageCache[tmpURL]
+            
+            if (image == nil) {
+                // Download an NSData representation of the image at the URL
+                let urlRequest: NSURLRequest! = NSURLRequest(URL: NSURL(string: tmpURL)!)
+                NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+                    (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
+                    
+                    if (connectionError == nil && data != nil) {
+                        self.imageCache[tmpURL] = UIImage(data: data)
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            if let cellToUpdate = self.tableView.cellForRowAtIndexPath(indexPath) as? PromotionDetailTableViewCell {
+                                cellToUpdate.promotionImageView.image = self.imageCache[tmpURL]
+                            }
+                        })
+                    }
+                    else {
+                        println("Error: \(connectionError.localizedDescription)")
+                    }
+                })
+            } else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    if let cellToUpdate = self.tableView.cellForRowAtIndexPath(indexPath) as? PromotionDetailTableViewCell {
+                        cellToUpdate.promotionImageView.image = image
+                    }
+                })
+            }
+        }
+        
         cell.releasedDate.text = Utilities.dateWithString(NSDate(), dateStype: .ShortStyle, timeStyle: .NoStyle)
         cell.expiredDate.text = Utilities.dateWithString(NSDate(), dateStype: .ShortStyle, timeStyle: .NoStyle)
         

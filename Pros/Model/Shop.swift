@@ -15,40 +15,69 @@ class Shop: NSObject {
     // MARK: Properties
     // ------------------------------
     
-    var objectId: String!
-    var createdAt: NSDate!
-    var updatedAt: NSDate!
+//    var objectId: String!
+//    var createdAt: NSDate!
+//    var updatedAt: NSDate!
     
+    var shopId: String!
     var name: String!
-    var detail: String!
-    var termCondition: String!
-    var coverImageUrl: String!
-    var logoImageUrl: String!
-    var coordinate: PFGeoPoint!
-    
-    var coverImage: UIImage!
-    var logoImage: UIImage!
+    var UserFirstName: String!
+    var UserLastName: String!
+    var email: String!
+    var Username: String!
+    var shopType: String!
+    var UserTermCondition: String!
+    var UserLogoImageUrl: String!
+    var UserCoverImageUrl: String!
+    var UserShopDescription: String!
+    var UserLocationLat: String!
+    var UserLocationLong: String!
+    var Telephone: String!
+    var ShopConcept: String!
+    var created_at: String!
+    var updated_at: String!
     
     // ------------------------------
     // MARK: -
     // MARK: Configuration
     // ------------------------------
     
-    init(objectId: String, createdAt: NSDate, updatedAt: NSDate,
-        name: String, detail: String, termCondition: String, coverImageUrl: String, logoImageUrl: String, coordinate: PFGeoPoint, coverImage: UIImage, logoImage: UIImage) {
+    init(shopId: String!,
+        name: String!,
+        UserFirstName: String!,
+        UserLastName: String!,
+        email: String!,
+        Username: String!,
+        shopType: String!,
+        UserTermCondition: String!,
+        UserLogoImageUrl: String!,
+        UserCoverImageUrl: String!,
+        UserShopDescription: String!,
+        UserLocationLat: String!,
+        UserLocationLong: String!,
+        Telephone: String!,
+        ShopConcept: String!,
+        created_at: String!,
+        updated_at: String!) {
+            
             super.init()
             
-            self.objectId = objectId
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
-            
+            self.shopId = shopId
             self.name = name
-            self.detail = detail
-            self.termCondition = termCondition
-            self.coverImageUrl = coverImageUrl
-            self.logoImageUrl = logoImageUrl
-            self.coordinate = coordinate
-            self.coverImage = coverImage
-            self.logoImage = logoImage
+            self.UserFirstName = UserLastName
+            self.UserLastName = UserLastName
+            self.email = email
+            self.Username = Username
+            self.shopType = shopType
+            self.UserTermCondition = UserTermCondition
+            self.UserLogoImageUrl = UserLogoImageUrl
+            self.UserCoverImageUrl = UserCoverImageUrl
+            self.UserShopDescription = UserShopDescription
+            self.UserLocationLat = UserLocationLat
+            self.UserLocationLong = UserLocationLong
+            self.Telephone = Telephone
+            self.ShopConcept = ShopConcept
+            self.created_at = created_at
+            self.updated_at = updated_at
     }
 }

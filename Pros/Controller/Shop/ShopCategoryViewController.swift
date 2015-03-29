@@ -15,7 +15,8 @@ class ShopCategoryViewController: BaseTableViewController {
     // MARK: Properties
     // ------------------------------
     
-    var dummyActivities: [String] = [String]()
+    let prosAPIClient: ProsAPIClient! = ProsAPIClient()
+    var activities: [ShopCategory]! = [ShopCategory]()
     
     // ------------------------------
     // MARK: -
@@ -26,19 +27,23 @@ class ShopCategoryViewController: BaseTableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        customUI()
         loadData()
+        customUI()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
     }
     
     // ------------------------------
@@ -80,8 +85,28 @@ class ShopCategoryViewController: BaseTableViewController {
     // MARK: Data
     // ------------------------------
     
-    private func loadData() -> Void {
-        self.dummyActivities = ["All", "Bakery", "Bar & Bistro", "Buffet", "Cafe", "Fast food", "Restaurant"]
+    func loadData() -> Void {
+        if self.prosAPIClient?.getCategoriesWithCompletion() == nil {
+            return
+        }
+        
+        refreshControl?.beginRefreshing()
+//        let start = CACurrentMediaTime()
+        
+        self.prosAPIClient?.getCategoriesWithCompletion().responseJSON { (request, reponse, results, error) -> Void in
+//            let end = CACurrentMediaTime()
+            
+            if let categories = results?.objectForKey("shopType") as? [String] {
+                self.activities = [ShopCategory]()
+                for type in categories {
+                    self.activities.append(ShopCategory(objectId: nil, createdAt: nil, updatedAt: nil, type: type))
+                }
+                self.activities.insert(ShopCategory(objectId: nil, createdAt: nil, updatedAt: nil, type: "All"), atIndex: 0)
+            }
+            
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        }
     }
     
     // ------------------------------
@@ -101,13 +126,15 @@ class ShopCategoryViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dummyActivities.count
+        return self.activities.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as ShopCategoryTableViewCell
-        cell.typeLabel.text = self.dummyActivities[indexPath.row]
-        cell.typeImageView.image = UIImage(named: self.dummyActivities[indexPath.row])
+        
+        let activity = self.activities[indexPath.row]
+        cell.typeLabel.text = activity.type
+        cell.typeImageView.image = UIImage(named: activity.type)
         
         return cell
     }
@@ -120,7 +147,7 @@ class ShopCategoryViewController: BaseTableViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
@@ -129,7 +156,7 @@ class ShopCategoryViewController: BaseTableViewController {
             
             if let indexPath = tableView.indexPathForSelectedRow() {
                 let destinationController = segue.destinationViewController as SubShopCategoryViewController
-                destinationController.temp = "test"
+                destinationController.shopCategorySegue = self.activities[indexPath.row]
             }
         }
     }

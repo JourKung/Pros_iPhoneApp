@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="C1g-0x-s14">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="C1g-0x-s14">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -78,7 +78,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="272" id="GhW-Oi-6dh"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -100,7 +100,7 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="00_logoDummy" translatesAutoresizingMaskIntoConstraints="NO" id="mwv-dM-Xcw">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mwv-dM-Xcw">
                                                     <rect key="frame" x="20" y="89" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="513-dV-sLg"/>
@@ -149,11 +149,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="gwe-le-aNx">
-                        <barButtonItem key="leftBarButtonItem" image="01_menu-toolbar" id="AIi-0W-nFE"/>
+                        <barButtonItem key="leftBarButtonItem" image="01_menu-toolbar" id="AIi-0W-nFE">
+                            <connections>
+                                <action selector="menuBarButtonItem:" destination="HyI-jp-1hk" id="g6E-qz-yPN"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="aaK-ZH-GcK">
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
+                    <connections>
+                        <outlet property="categoryBarButtonItem" destination="AIi-0W-nFE" id="Cx8-7z-rGn"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VD5-P7-kVT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -171,21 +178,48 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A90-nc-m01">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A90-nc-m01">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <connections>
                                     <outlet property="delegate" destination="j2L-nu-zNz" id="D6U-eN-U2W"/>
                                 </connections>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rK-rg-djm" userLabel="Address Label">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mfm-D0-tE4" userLabel="Current Button">
+                                <rect key="frame" x="250" y="480" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="Eyg-LP-zb2"/>
+                                    <constraint firstAttribute="height" constant="60" id="ihd-yM-bN2"/>
+                                </constraints>
+                                <state key="normal" image="icon-direction">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="currentLocation:" destination="j2L-nu-zNz" eventType="touchUpInside" id="urF-HO-5yn"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rK-rg-djm" userLabel="Address Label">
                                 <rect key="frame" x="0.0" y="547" width="320" height="21"/>
                                 <color key="backgroundColor" white="1" alpha="0.84999999999999998" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="4vD-CW-q73"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3rK-rg-djm" firstAttribute="top" secondItem="A90-nc-m01" secondAttribute="bottom" constant="-21" id="07u-2B-BL6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mfm-D0-tE4" secondAttribute="trailing" constant="-6" id="8V9-Pf-MVr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="A90-nc-m01" secondAttribute="trailing" constant="-16" id="MvC-uC-yh6"/>
+                            <constraint firstItem="A90-nc-m01" firstAttribute="top" secondItem="spC-zC-sg4" secondAttribute="topMargin" id="XOX-TB-LVr"/>
+                            <constraint firstItem="cxO-DV-SAo" firstAttribute="top" secondItem="A90-nc-m01" secondAttribute="bottom" id="cOe-ht-Va0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3rK-rg-djm" secondAttribute="trailing" constant="-16" id="m0f-d8-KyC"/>
+                            <constraint firstItem="3rK-rg-djm" firstAttribute="leading" secondItem="spC-zC-sg4" secondAttribute="leadingMargin" constant="-16" id="qUp-Ok-Bkp"/>
+                            <constraint firstItem="3rK-rg-djm" firstAttribute="top" secondItem="mfm-D0-tE4" secondAttribute="bottom" constant="7" id="rEo-jE-GmL"/>
+                            <constraint firstItem="A90-nc-m01" firstAttribute="leading" secondItem="spC-zC-sg4" secondAttribute="leadingMargin" constant="-16" id="wn8-cf-Vzv"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="sOv-uq-Hfg">
                         <barButtonItem key="leftBarButtonItem" image="00_close-toolbar" id="vyo-1N-cqH">
@@ -478,7 +512,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C44-1U-p9M">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">This Privacy Policy governs the manner in which Pros collects, uses, maintains and discloses information collected from users (each, a "User") of the Pros.com website ("Pros.com"). This privacy policy applies to the Site and all products and services offered by Pros.
+                                <string key="text">This Privacy Policy governs the manner in which Pros collects, uses, maintains and discloses information collected from users (each, a "User") of the Pros.com website ("Pros.com"). This privacy policy applies to the Site and all products and services offered by Pros.
 
 Personal identification information
 
@@ -553,7 +587,7 @@ Pros.com
 
 This document was last updated on March 15, 2015
 
-Privacy policy created by Pros</mutableString>
+Privacy policy created by Pros</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -613,7 +647,7 @@ Privacy policy created by Pros</mutableString>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="00_logoDummy" translatesAutoresizingMaskIntoConstraints="NO" id="mSQ-Rb-FKe">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mSQ-Rb-FKe">
                                                     <rect key="frame" x="20" y="89" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="8yW-iU-CgY"/>
@@ -684,7 +718,7 @@ Privacy policy created by Pros</mutableString>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bQm-cX-R76" id="diz-hf-jd5">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="00_logoDummy" translatesAutoresizingMaskIntoConstraints="NO" id="ggq-20-dYe" userLabel="logo Image View">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ggq-20-dYe" userLabel="logo Image View">
                                             <rect key="frame" x="15" y="13" width="50" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="YhH-6J-vdG"/>
@@ -775,7 +809,7 @@ Privacy policy created by Pros</mutableString>
                                                 <action selector="likeToggle:" destination="bQm-cX-R76" eventType="touchUpInside" id="zSV-f1-MzR"/>
                                             </connections>
                                         </button>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="00_coverDummy" translatesAutoresizingMaskIntoConstraints="NO" id="Ck9-JF-Znx">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ck9-JF-Znx">
                                             <rect key="frame" x="15" y="192" width="290" height="160"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="160" id="H82-0P-ENF"/>
@@ -859,7 +893,7 @@ Privacy policy created by Pros</mutableString>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6K2-97-wpq" id="if1-mb-GRn">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="00_logoDummy" translatesAutoresizingMaskIntoConstraints="NO" id="E3L-zt-Phj" userLabel="logo Image View">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E3L-zt-Phj" userLabel="logo Image View">
                                             <rect key="frame" x="15" y="13" width="50" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="GMF-oR-Nli"/>
@@ -950,7 +984,7 @@ Privacy policy created by Pros</mutableString>
                                                 <action selector="likeToggle:" destination="6K2-97-wpq" eventType="touchUpInside" id="xUy-iz-d1O"/>
                                             </connections>
                                         </button>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="00_coverDummy" translatesAutoresizingMaskIntoConstraints="NO" id="EcS-u9-Lrs">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EcS-u9-Lrs">
                                             <rect key="frame" x="15" y="192" width="290" height="160"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="160" id="AZe-yh-ypZ"/>
@@ -1051,14 +1085,16 @@ Privacy policy created by Pros</mutableString>
                                     <constraints>
                                         <constraint firstItem="7Oh-sj-O3Q" firstAttribute="leading" secondItem="t2w-bz-Me7" secondAttribute="trailing" constant="21" id="9n1-nH-8or"/>
                                         <constraint firstItem="t2w-bz-Me7" firstAttribute="leading" secondItem="7dZ-Hp-gfM" secondAttribute="leadingMargin" constant="7" id="CYj-yg-GNu"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="7Oh-sj-O3Q" secondAttribute="bottom" constant="11" id="FDD-MO-EiO"/>
                                         <constraint firstItem="7Oh-sj-O3Q" firstAttribute="top" secondItem="7dZ-Hp-gfM" secondAttribute="topMargin" constant="12" id="gTB-X3-U6d"/>
                                         <constraint firstItem="t2w-bz-Me7" firstAttribute="top" secondItem="7dZ-Hp-gfM" secondAttribute="topMargin" constant="6" id="xur-Cb-DIT"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="t2w-bz-Me7" secondAttribute="bottom" constant="5" id="zJd-Jy-Tlz"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="typeImageView" destination="t2w-bz-Me7" id="er9-yZ-5fR"/>
                                     <outlet property="typeLabel" destination="7Oh-sj-O3Q" id="kpo-tC-ffr"/>
-                                    <segue destination="Ch7-bv-U3a" kind="push" identifier="SegueToSubShopCategory" id="tF5-qi-CUv"/>
+                                    <segue destination="Ch7-bv-U3a" kind="push" identifier="SegueToSubShopCategory" id="pEH-Gx-3u5"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1614,10 +1650,8 @@ Privacy policy created by Pros</mutableString>
         <image name="00_card-tabbar" width="20" height="16"/>
         <image name="00_close" width="32" height="32"/>
         <image name="00_close-toolbar" width="14" height="14"/>
-        <image name="00_coverDummy" width="588" height="330"/>
         <image name="00_feedback" width="64" height="64"/>
         <image name="00_heart" width="48" height="44"/>
-        <image name="00_logoDummy" width="1017" height="1024"/>
         <image name="00_logout-toolbar" width="18" height="18"/>
         <image name="00_mapPath" width="26" height="30"/>
         <image name="00_setting-tabbar" width="20" height="20"/>
@@ -1627,6 +1661,7 @@ Privacy policy created by Pros</mutableString>
         <image name="01_signal" width="25" height="25"/>
         <image name="02_coverDummy" width="960" height="642"/>
         <image name="02_feedback" width="64" height="64"/>
+        <image name="icon-direction" width="60" height="60"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

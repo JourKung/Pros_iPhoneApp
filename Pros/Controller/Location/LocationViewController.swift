@@ -58,6 +58,10 @@ class LocationViewController: BaseViewController,
     // MARK: Action
     // ------------------------------
     
+    @IBAction func currentLocation(sender: AnyObject) {
+        performWithCurrentLocation()
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: User interface
@@ -68,12 +72,11 @@ class LocationViewController: BaseViewController,
     }
     
     private func customNavigationBar() -> Void {
-        navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Location")
+        navigationItem.titleView = Utilities.titleLabelOnNavigationBar("LOCATION")
         
-        let currentBarButtonItem: UIBarButtonItem! = UIBarButtonItem(image: UIImage(named: "00_current"), style: UIBarButtonItemStyle.Plain, target: self, action: "performWithCurrentLocation")
-        let directionBarButtonItem: UIBarButtonItem! = UIBarButtonItem(image: UIImage(named: "00_direction"), style: UIBarButtonItemStyle.Plain, target: self, action: "performWithDirectionLocation")
+        let directionBarButtonItem: UIBarButtonItem! = UIBarButtonItem(title: "Directions", style: .Plain, target: self, action: "performWithDirectionLocation")
         
-        navigationItem.rightBarButtonItems = [currentBarButtonItem, directionBarButtonItem]
+        navigationItem.rightBarButtonItems = [directionBarButtonItem]
     }
     
     private func updateUI() -> Void {

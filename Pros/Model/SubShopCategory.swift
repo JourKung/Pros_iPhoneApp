@@ -15,22 +15,27 @@ class SubShopCategory: NSObject {
     // MARK: Properties
     // ------------------------------
     
-    var objectId: String!
-    var createdAt: NSDate!
-    var updatedAt: NSDate!
+//    var objectId: String!
+//    var createdAt: NSDate!
+//    var updatedAt: NSDate!
     
+    var shopId: String!
+    var title: String!
+    var type: String!
+    var logoImageUrl: String!
     
     // ------------------------------
     // MARK: -
     // MARK: Configuration
     // ------------------------------
     
-    init(objectId: String, createdAt: NSDate, updatedAt: NSDate
-        ) {
+    init(type: String, shopId: String, title: String, logoImageUrl: String!) {
+        
             super.init()
             
-            self.objectId = objectId
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
+            self.shopId = shopId
+            self.title = title
+            self.type = type
+            self.logoImageUrl = logoImageUrl
     }
 }
