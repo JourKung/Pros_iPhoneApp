@@ -11,10 +11,25 @@ import Alamofire
 
 class ProsAPIClient: NSObject {
     
+    // ------------------------------
+    // MARK: -
+    // MARK: Properties
+    // ------------------------------
+    
     private func urlString(path: String!) -> String! {
         return (kDevBaseUrl)+(path)
     }
-   
+    
+    // ------------------------------
+    // MARK: -
+    // MARK: Configuration
+    // ------------------------------
+    
+    func defaultParametersAsDictionary() -> [String: AnyObject]! {
+        let params: [String: AnyObject]! = [String: AnyObject]()
+        return params
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: Activities
@@ -23,7 +38,40 @@ class ProsAPIClient: NSObject {
     // ------------------------------
     // MARK: -
     // MARK: User authentication
-    // ------------------------------
+    // ------------------------------    
+    
+    func postUserFacebookRegister(form: LoginWithFacebookForm!) -> Request {
+        let aManager = Alamofire.Manager.sharedInstance
+        aManager.session.configuration.HTTPAdditionalHeaders = [
+            "X-Parse-Application-Id": kParseApplicationId,
+            "X-Parse-REST-API-Key": kParseRESTAPIKey,
+            "X-Parse-Revocable-Session": 1]
+        
+        let parameters: [String: AnyObject] = ["authData": [
+            "facebook": [
+                "id": form.profile["id"] as String,
+                "access_token": form.accessToken,
+                "expiration_date": form.expirationDate]
+            ]
+        ]
+
+        let path: String! = "\(kParseBaseUrl)/users"
+        return Alamofire.request(.POST, path, parameters: parameters, encoding: .JSON)
+    }
+    
+    func putUserFacebookProfile(form: LoginWithFacebookForm!) -> Request {
+        let aManager = Alamofire.Manager.sharedInstance
+        aManager.session.configuration.HTTPAdditionalHeaders = [
+            "X-Parse-Application-Id": kParseApplicationId,
+            "X-Parse-REST-API-Key": kParseRESTAPIKey,
+            "X-Parse-Session-Token": UserDefaults.sharedInstance.getUserSessionToken()]
+        
+        var parameters = defaultParametersAsDictionary()
+        parameters["profile"] = form.profile
+        
+        let path: String! = "\(kParseBaseUrl)/users/\(form.objectId)"
+        return Alamofire.request(.PUT, path, parameters: parameters, encoding: .JSON)
+    }
     
     // ------------------------------
     // MARK: -
