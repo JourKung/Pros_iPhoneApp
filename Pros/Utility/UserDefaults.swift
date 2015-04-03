@@ -15,13 +15,16 @@ import UIKit
 
 private let MySharedInstance = UserDefaults()
 
-private let USERDEVICETOKEN         = "USERDEVICETOKEN"
-private let USERFBID                = "USERFBID"
-private let USERNAME                = "USERNAME"
-private let USERGENDER              = "USERGENDER"
-private let USERBIRTHDAY            = "USERBIRTHDAY"
-private let USEREMAIL               = "USEREMAIL"
-private let USERPROFILEIMAGEDATA    = "USERPROFILEIMAGEDATA"
+private let USERDEVICETOKEN         = "userDeviceToken"
+private let USERSESSIONTOKEN        = "userSessionToken"
+
+private let USERFBACCESSTOKEN       = "userFbAccessToken"
+private let USERFBID                = "userFbId"
+private let USERNAME                = "username"
+private let USERGENDER              = "userGender"
+private let USERBIRTHDAY            = "userBirthday"
+private let USEREMAIL               = "userEmail"
+private let USERPROFILEIMAGEDATA    = "userProfileImageData"
 
 class UserDefaults {
     
@@ -64,6 +67,14 @@ class UserDefaults {
         return objectForKey(USERDEVICETOKEN) as? String
     }
     
+    func getUserSessionToken() -> String! {
+        return objectForKey(USERSESSIONTOKEN) as? String
+    }
+    
+    func getUserFbAccessToken() -> String! {
+        return objectForKey(USERFBACCESSTOKEN) as? String
+    }
+    
     func getUserFbId() -> String! {
         return objectForKey(USERFBID) as? String
     }
@@ -97,6 +108,14 @@ class UserDefaults {
         setObject(userDeviceToken, dictionary: USERDEVICETOKEN)
     }
     
+    func setUserSessionToken(userSessionToken: String!) {
+        setObject(userSessionToken, dictionary: USERSESSIONTOKEN)
+    }
+    
+    func setUserFbAccessToken(userFbAccessToken: String!) {
+        setObject(userFbAccessToken, dictionary: USERFBACCESSTOKEN)
+    }
+    
     func setUserFbId(userFbId: String!) {
         setObject(userFbId, dictionary: USERFBID)
     }
@@ -109,11 +128,11 @@ class UserDefaults {
         setObject(userGender, dictionary: USERGENDER)
     }
     
-    func setUserBirthday(userBirthday: String?) {
+    func setUserBirthday(userBirthday: String) {
         setObject(userBirthday, dictionary: USERBIRTHDAY)
     }
     
-    func setUserEmail(userEmail: String?) {
+    func setUserEmail(userEmail: String) {
         setObject(userEmail, dictionary: USEREMAIL)
     }
     
