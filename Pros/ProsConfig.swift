@@ -13,12 +13,15 @@ import Foundation
 // ------------------------------
 let kBaseUrl: String!                   = "http://202.44.12.93/mobile"
 let kDevBaseUrl: String!                = "http://pros-app.cu.cc/mobile"
+let kParseBaseUrl: String!              = "https://api.parse.com/1"
 
 // ------------------------------
 // MARK: - Parse
 // ------------------------------
 let kParseApplicationId: String!        = "SqxZcUO5RiZ2nqPUaouod1YFuAPSZxt0w5PeUvOl"
 let kParseClientKey: String!            = "NcjdaXy4kMCNUAGHRfulfOrP9L0PiMw724eDDD3w"
+let kParseRESTAPIKey: String!           = "zhqlPzqM9vbL0deblxd7CjrQVHNGDKq2atDR7GTB"
+let kParseMaskterKey: String!           = "L9RFOGl3sMdnUys7xiSkyzeIxHHZGUMwkfaLqygZ"
 
 // ------------------------------
 // MARK: - Facebook
