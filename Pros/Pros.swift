@@ -9,10 +9,7 @@
 import Foundation
 
 // MARK: Facebook Required Read Permissions
-let kFacebookReadPermissions    = ["email", "user_friends", "user_birthday"]
-
-// user_location
-// user_likes
+let kFacebookReadPermissions    = ["email", "user_friends", "user_birthday"] // public_profile default
 
 // MARK: Notification Key
 let LOGOUT_NOTIFICATION_KEY       = "logoutNotificationKey"
