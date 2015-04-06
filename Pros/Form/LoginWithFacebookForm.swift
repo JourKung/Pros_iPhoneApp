@@ -10,8 +10,10 @@ import UIKit
 
 class LoginWithFacebookForm: NSObject {
     
-    var objectId: String!
     var profile: [String: AnyObject]!
+    
+    // authData
+    var fbId: String!
     var accessToken: String!
     var expirationDate: String!
 }
