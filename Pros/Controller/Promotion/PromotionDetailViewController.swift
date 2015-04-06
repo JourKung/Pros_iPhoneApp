@@ -98,7 +98,7 @@ class PromotionDetailViewController: BaseTableViewController {
         
         refreshControl?.beginRefreshing()
         
-        self.prosAPIClient?.getPromotionDetailWithCompletion(UserDefaults.sharedInstance.getUserFbId(), promotionId: self.promotionSegue.promotionID).responseJSON { (request, reponse, results, error) -> Void in
+        self.prosAPIClient?.getPromotionDetailWithCompletion(UserDefaults.sharedInstance.getUserFbId(), promotionId: self.promotionSegue.promotionID).responseJSON { (request, response, results, error) -> Void in
             
             if let promotion: AnyObject = results {
                 self.activities = PromotionDetail(promotionID: promotion.objectForKey("promotionID") as String

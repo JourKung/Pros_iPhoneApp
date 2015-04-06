@@ -122,7 +122,7 @@ class PromotionViewController: BaseTableViewController,
         
         refreshControl?.beginRefreshing()
         
-        self.prosAPIClient?.getPromotionsWithCompletion().responseJSON { (request, reponse, results, error) -> Void in
+        self.prosAPIClient?.getPromotionsWithCompletion().responseJSON { (request, response, results, error) -> Void in
             
             if let promotions: AnyObject = results {
                 self.activities = [Promotion]()
