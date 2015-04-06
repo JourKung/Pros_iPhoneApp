@@ -8,6 +8,7 @@
 //
 
 import UIKit
+import ObjectMapper
 
 class UserAuthenticationViewController: BaseViewController,
     UIScrollViewDelegate {
@@ -22,8 +23,10 @@ class UserAuthenticationViewController: BaseViewController,
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    let prosAPIClient: ProsAPIClient! = ProsAPIClient()
     var pageImages: [UIImage] = []
     var pageImageView: [UIImageView?] = []
+    let fbLoginManager: FBSDKLoginManager = FBSDKLoginManager()
     
     // ------------------------------
     // MARK: -
@@ -39,13 +42,13 @@ class UserAuthenticationViewController: BaseViewController,
             name: LOGOUT_NOTIFICATION_KEY,
             object: nil)
         
-        customUI()
+        setupView()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        byPassingAuthenticationViewController()
+//        byPassingAuthenticationViewController()
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,7 +62,20 @@ class UserAuthenticationViewController: BaseViewController,
     // ------------------------------
     
     @IBAction func loginWithFacebook(sender: AnyObject) {
-        performWithLoggedIn()
+        self.fbLoginManager.logInWithReadPermissions(kFacebookReadPermissions, handler: { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            if (error != nil) {
+                println("[+] Process error")
+            } else if (result.isCancelled) {
+                println("[+] Handle cancellations")
+            } else {
+                // If you ask for multiple permissions at once, you
+                // should check if specific permissions missing
+                if (result.grantedPermissions.containsObject("email")) {
+                    println("[+] Do work")
+                    self.performWithLoggedIn()
+                }
+            }
+        })
     }
     
     @IBAction func unwindLogoutWithFacebook(segue: UIStoryboardSegue) {
@@ -72,7 +88,7 @@ class UserAuthenticationViewController: BaseViewController,
     // MARK: User interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func setupView() -> Void {
         loginButton.setTitle("Log in with Facebook", forState: UIControlState.Normal)
         
         pageImages = [UIImage(named: "01_tutorial")!,
@@ -91,11 +107,8 @@ class UserAuthenticationViewController: BaseViewController,
         
         let pagesScrollViewSize = scrollView.frame.size
         scrollView.contentSize = CGSizeMake(pagesScrollViewSize.width * CGFloat(pageImages.count), pagesScrollViewSize.height)
-
+        
         loadVisiblePages()
-    }
-    
-    private func updateUI() {
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -107,55 +120,8 @@ class UserAuthenticationViewController: BaseViewController,
     // MARK: Data
     // ------------------------------
     
-    private func userData() -> Void {
-        var query = PFUser.query()
-        query.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
-            (objects: PFObject!, error: NSError!) -> Void in
-            
-            // Hide loading indicator
-            self.activityIndicator.stopAnimating()
-            
-            if (error == nil) {
-                var profile = objects["profile"] as [String: AnyObject]
-                
-                UserDefaults.sharedInstance.userActivities = User(objectId: objects.objectId,
-                    createdAt: objects.createdAt,
-                    updatedAt: objects.updatedAt,
-                    fbId: profile["id"] as String,
-                    name: profile["name"] as String,
-                    gender: profile["gender"] as String,
-                    birthday: profile["birthday"] as String,
-                    email: profile["email"] as String,
-                    profileImageUrl: "https://graph.facebook.com/"+(profile["id"] as String)+"picture?type=large&return_ssl_resources=1")
-                
-                UserDefaults.sharedInstance.setUserFbId(UserDefaults.sharedInstance.userActivities?.fbId)
-                UserDefaults.sharedInstance.setUsername(UserDefaults.sharedInstance.userActivities?.name)
-                UserDefaults.sharedInstance.setUserGender(UserDefaults.sharedInstance.userActivities?.gender)
-                UserDefaults.sharedInstance.setUserBirthday(UserDefaults.sharedInstance.userActivities?.birthday)
-                UserDefaults.sharedInstance.setUserEmail(UserDefaults.sharedInstance.userActivities?.email)
-                
-                //let fbId = profile["id"] as String
-                let fbPictureUrl: NSURL! = NSURL(string: "https://graph.facebook.com/\(UserDefaults.sharedInstance.getUserFbId())/picture?type=large&return_ssl_resources=1")
-                let fbUrlRequest: NSURLRequest! = NSURLRequest(URL: fbPictureUrl)
-                // Run network request asynchronously
-                NSURLConnection.sendAsynchronousRequest(fbUrlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-                    (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
-                    if (connectionError == nil && data != nil) {
-                        // Set the image in the header imageView
-                        UserDefaults.sharedInstance.setUserProfileImageData(data)
-                    }
-                })
-                
-                self.performWithHomeViewControllerAnimated(true)
-                
-            } else {
-                // Log details of the failure
-                println("[Log] Error: \(error) \(error.userInfo)")
-            }
-        })
-    }
-    
-    private func loadData() -> Void {
+    func loadData() -> Void {
+        /*
         let request: FBRequest = FBRequest.requestForMe()
         request.startWithCompletionHandler({
             (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
@@ -182,14 +148,15 @@ class UserAuthenticationViewController: BaseViewController,
                 println("[Log] Some other error: \(error)");
             }
         })
+        */
     }
-    
+
     // ------------------------------
     // MARK: -
     // MARK: Configuration
     // ------------------------------
-    
-    private func byPassingAuthenticationViewController() -> Void {
+    /*
+    func byPassingAuthenticationViewController() -> Void {
         let isCached = PFUser.currentUser() // Check if user is cached
         let isLinked = PFFacebookUtils.isLinkedWithUser(PFUser.currentUser()) // Check if user is linked to Facebook
         
@@ -200,46 +167,93 @@ class UserAuthenticationViewController: BaseViewController,
             performWithHomeViewControllerAnimated(false)
         }
     }
+    */
     
-    // Show the user the logged-in UI
-    private func performWithLoggedIn() -> Void {
-        // Login PFUser using Facebook
-        PFFacebookUtils.logInWithPermissions(kFacebookReadPermissions, block: {
-            (user: PFUser!, error: NSError!) -> Void in
+    func performWithLoggedIn() -> Void {
+        if ((FBSDKAccessToken.currentAccessToken()) != nil) {
+            FBSDKGraphRequest(graphPath: "me", parameters: nil).startWithCompletionHandler({ (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+                if (error == nil) {
+                    /*
+                    UserDefaults.sharedInstance.setUserFbId(profile["id"] as String)
+                    UserDefaults.sharedInstance.setUsername(profile["name"] as String)
+                    UserDefaults.sharedInstance.setUserEmail(profile["email"] as String)
+                    UserDefaults.sharedInstance.setUserBirthday(profile["birthday"] as String)
+                    UserDefaults.sharedInstance.setUserGender(profile["gender"] as String)
+                                        
+                    let fbPictureUrl: NSURL! = NSURL(string: "https://graph.facebook.com/\(UserDefaults.sharedInstance.getUserFbId())/picture?type=large&return_ssl_resources=1")
+                    let fbUrlRequest: NSURLRequest! = NSURLRequest(URL: fbPictureUrl)
+                    // Run network request asynchronously
+                    NSURLConnection.sendAsynchronousRequest(fbUrlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+                        (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
+                        if (connectionError == nil && data != nil) {
+                            // Set the image in the header imageView
+                            UserDefaults.sharedInstance.setUserProfileImageData(data)
+                        }
+                    })
+                    */
+                    let user = Mapper<User>().map(result)
+                    self.handleUserFacebookAccessTokenAndGraphRequest(FBSDKAccessToken.currentAccessToken(), user: user)
+                    
+                } else {
+                    // Log details of the failure
+                    println("[Log] Error: \(error) \(error?.localizedDescription)")
+                }
+                
+                self.activityIndicator.stopAnimating()
+            })
             
-            if !(user != nil) {
-                var errorMessage: String! = nil
-                if !(error != nil) {
-                    println("[Log] Uh oh. The user cancelled the Facebook login.")
-                    errorMessage = "Uh oh. The user cancelled the Facebook login."
-                } else {
-                    println("[Log] Uh oh. An error occurred: \(error)")
-                    errorMessage = error.localizedDescription
-                }
-                self.alertController("Log In Error", message: errorMessage, preferredStyle: .Alert)
-            } else {
-                if (user.isNew) {
-                    println("[Log] User with facebook signed up and logged in!")
-                } else {
-                    println("[Log] User with facebook logged in!")
-                }
-                self.loadData()
-            }
-        })
-        
-        // Show loading indicator until login is finished
+        }
         self.activityIndicator.startAnimating()
     }
     
-    // Show the user the logged-out UI
-    private func performWithLoggedOut() -> Void {
-        PFUser.logOut()
+    func handleUserFacebookAccessTokenAndGraphRequest(currentAccessToken: FBSDKAccessToken!, user: User!) -> Void {
+        
+        let form = LoginWithFacebookForm()
+        form.profile = Mapper().toJSON(user)
+        form.fbId = currentAccessToken.userID
+        form.accessToken = currentAccessToken.tokenString
+        form.expirationDate = Utilities.dateFormatterWithString(currentAccessToken.expirationDate)
+        
+        self.handleUserFacebookRegisterResponse(form)
+    }
+    
+    func handleUserFacebookRegisterResponse(form: LoginWithFacebookForm!) -> Void {
+            
+        self.prosAPIClient.postUserFacebookRegister(form).responseJSON { (request, response, results, error) -> Void in
+            if let result = results as? [String: AnyObject] {
+                
+                let createdAt = result["createdAt"] as String
+                println("[createdAt] \(createdAt)")
+                
+                UserDefaults.sharedInstance.setUserObjectId(result["objectId"] as String)
+                UserDefaults.sharedInstance.setUserSessionToken(result["sessionToken"] as String)
+                
+                self.prosAPIClient.putUserFacebookProfile(form).responseJSON { (request, response, results, error) -> Void in
+                    if let result: AnyObject = results {
+                        
+                        let updatedAt = result["updatedAt"] as String
+                        println("[updatedAt] \(updatedAt) | \(result as [String: AnyObject])")
+                        
+                        self.performWithHomeViewControllerAnimated(true)
+                    } else {
+                        // Log details of the failure
+                        println("[Log] Error: \(error) \(error?.localizedDescription)")
+                    }
+                }
+            } else {
+                // Log details of the failure
+                println("[Log] Error: \(error) \(error?.localizedDescription)")
+            }
+        }
+    }
+
+    func performWithLoggedOut() -> Void {
         self.loginButton.hidden = false
         self.activityIndicator.stopAnimating()
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    private func alertController(title: String!, message: String!, preferredStyle: UIAlertControllerStyle!) {
+
+    func alertController(title: String!, message: String!, preferredStyle: UIAlertControllerStyle!) {
         /*
         NOTE: The new way: UIAlertController (AlertView, ActionSheet)
         Default: Done action button
@@ -253,8 +267,8 @@ class UserAuthenticationViewController: BaseViewController,
         presentViewController(alertController, animated: true, completion: nil)
     }
     
-    private func performWithHomeViewControllerAnimated(animated: Bool) -> Void {
-        let containerHomeVC = storyboard?.instantiateViewControllerWithIdentifier("HomeViewController") as UITabBarController//UINavigationController
+    func performWithHomeViewControllerAnimated(animated: Bool) -> Void {
+        let containerHomeVC = storyboard?.instantiateViewControllerWithIdentifier("HomeViewController") as UITabBarController
         presentViewController(containerHomeVC, animated: animated, completion: nil)
     }
     
@@ -262,7 +276,7 @@ class UserAuthenticationViewController: BaseViewController,
     NOTE: Scroll view with Paging
     */
     
-    private func loadPage(page: Int) -> Void {
+    func loadPage(page: Int) -> Void {
         if page < 0 || page >= pageImages.count {
             // If it's outside the range of what you have to display, then do nothing
             return
@@ -285,7 +299,7 @@ class UserAuthenticationViewController: BaseViewController,
         }
     }
     
-    private func purgePage(page: Int) -> Void {
+    func purgePage(page: Int) -> Void {
         if page < 0 || page >= pageImages.count {
             // If it's outside the range of what you have to display, then do nothing
             return
@@ -298,7 +312,7 @@ class UserAuthenticationViewController: BaseViewController,
         }
     }
     
-    private func loadVisiblePages() -> Void {
+    func loadVisiblePages() -> Void {
         // First, determine which page is currently visible
         let pageWidth = scrollView.frame.size.width
         let page = Int(floor((scrollView.contentOffset.x * 2.0 + pageWidth) / (pageWidth * 2.0)))
