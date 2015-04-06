@@ -19,12 +19,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /*
         NOTE: Initialze the Parse SDK
         */
-        Parse.setApplicationId(kParseApplicationId, clientKey:kParseClientKey)
-        PFFacebookUtils.initializeFacebook()
+//        Parse.setApplicationId(kParseApplicationId, clientKey:kParseClientKey)
+//        PFFacebookUtils.initializeFacebook()
         
         registerForRemoteNotificationTypes(application)
         registerForEstimoteBeacons(kEstimoteBeaconsAppId, AppToken: kEstimoteBeaconsToken)
         customNavigationBarOfAppearance()
+        
+
+        
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         return true
     }
@@ -39,9 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.sharedInstance.setUserDeviceToken(deviceTokenString)
         
         // Store the deviceToken in the current Installation and save it to Parse.
-        var currentInstallation:PFInstallation! = PFInstallation.currentInstallation()
-        currentInstallation.setDeviceTokenFromData(deviceToken)
-        currentInstallation.saveInBackground()
+//        var currentInstallation:PFInstallation! = PFInstallation.currentInstallation()
+//        currentInstallation.setDeviceTokenFromData(deviceToken)
+//        currentInstallation.saveInBackground()
     }
     
     func application(application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError!)  {
@@ -69,20 +73,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Handle the user leaving the app while the Facebook login dialog is being shown
         // For example: when the user presses the iOS "home" button while the login dialog is active
-        FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
+        FBSDKAppEvents.activateApp()
     }
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
-        PFFacebookUtils.session().close()
+//        PFFacebookUtils.session().close()
     }
     
     // During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
     // After authentication, your app will be called back with the session information.
     // Override application:openURL:sourceApplication:annotation to call the FBsession object that handles the incoming URL
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
-        let wasHandled: Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession:PFFacebookUtils.session())
+        //let wasHandled: Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession:PFFacebookUtils.session())
+        
+        let wasHandled = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        
         return wasHandled
     }
     
