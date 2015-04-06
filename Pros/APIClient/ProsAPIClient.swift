@@ -47,14 +47,14 @@ class ProsAPIClient: NSObject {
             "X-Parse-REST-API-Key": kParseRESTAPIKey,
             "X-Parse-Revocable-Session": 1]
         
-        let parameters: [String: AnyObject] = ["authData": [
+        let parameters: [String: AnyObject]! = ["authData": [
             "facebook": [
-                "id": form.profile["id"] as String,
+                "id": form.fbId,
                 "access_token": form.accessToken,
                 "expiration_date": form.expirationDate]
             ]
         ]
-
+        
         let path: String! = "\(kParseBaseUrl)/users"
         return Alamofire.request(.POST, path, parameters: parameters, encoding: .JSON)
     }
@@ -69,7 +69,7 @@ class ProsAPIClient: NSObject {
         var parameters = defaultParametersAsDictionary()
         parameters["profile"] = form.profile
         
-        let path: String! = "\(kParseBaseUrl)/users/\(form.objectId)"
+        let path: String! = "\(kParseBaseUrl)/users/\(UserDefaults.sharedInstance.getUserObjectId())"
         return Alamofire.request(.PUT, path, parameters: parameters, encoding: .JSON)
     }
     
