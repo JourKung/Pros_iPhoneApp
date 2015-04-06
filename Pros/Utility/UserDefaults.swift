@@ -18,8 +18,11 @@ private let MySharedInstance = UserDefaults()
 private let USERDEVICETOKEN         = "userDeviceToken"
 private let USERSESSIONTOKEN        = "userSessionToken"
 
-private let USERFBACCESSTOKEN       = "userFbAccessToken"
 private let USERFBID                = "userFbId"
+private let USERFBACCESSTOKEN       = "userFbAccessToken"
+private let USERFBEXPIRATIONDATE    = "userFbExpirationDate"
+
+private let USEROBJECTID            = "userObjectId"
 private let USERNAME                = "username"
 private let USERGENDER              = "userGender"
 private let USERBIRTHDAY            = "userBirthday"
@@ -71,12 +74,20 @@ class UserDefaults {
         return objectForKey(USERSESSIONTOKEN) as? String
     }
     
+    func getUserFbId() -> String! {
+        return objectForKey(USERFBID) as? String
+    }
+    
     func getUserFbAccessToken() -> String! {
         return objectForKey(USERFBACCESSTOKEN) as? String
     }
     
-    func getUserFbId() -> String! {
-        return objectForKey(USERFBID) as? String
+    func getUserFbExpirationDate() -> NSDate! {
+        return objectForKey(USERFBEXPIRATIONDATE) as? NSDate
+    }
+    
+    func getUserObjectId() -> String! {
+        return objectForKey(USEROBJECTID) as? String
     }
     
     func getUsername() -> String! {
@@ -112,12 +123,20 @@ class UserDefaults {
         setObject(userSessionToken, dictionary: USERSESSIONTOKEN)
     }
     
+    func setUserFbId(userFbId: String!) {
+        setObject(userFbId, dictionary: USERFBID)
+    }
+    
     func setUserFbAccessToken(userFbAccessToken: String!) {
         setObject(userFbAccessToken, dictionary: USERFBACCESSTOKEN)
     }
     
-    func setUserFbId(userFbId: String!) {
-        setObject(userFbId, dictionary: USERFBID)
+    func setUserFbExpirationDate(userFbExpirationDate: NSDate!) {
+        setObject(userFbExpirationDate, dictionary: USERFBEXPIRATIONDATE)
+    }
+    
+    func setUserObjectId(userObjectId: String!) {
+        setObject(userObjectId, dictionary: USEROBJECTID)
     }
     
     func setUsername(username: String!) {
