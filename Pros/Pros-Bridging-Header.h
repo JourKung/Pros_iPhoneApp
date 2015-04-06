@@ -3,12 +3,13 @@
 //
 
 // Parse Service SDK
-#import <Parse/Parse.h>
-#import <ParseFacebookUtils/PFFacebookUtils.h>
-#import <Bolts/Bolts.h>
+//#import <Parse/Parse.h>
+//#import <ParseFacebookUtils/PFFacebookUtils.h>
+//#import <Bolts/Bolts.h>
 
 // Facebook SDK
-#import <FacebookSDK/FacebookSDK.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 // Estimote Beacons SDK
 #import "ESTBeacon.h"
