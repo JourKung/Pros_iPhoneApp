@@ -18,6 +18,8 @@ class SettingViewController: BaseTableViewController {
     
     @IBOutlet weak var logoutBarButtonItem: UIBarButtonItem!
     
+    let prosAPIClient: ProsAPIClient! = ProsAPIClient()
+    
     // ------------------------------
     // MARK: -
     // MARK: View life cycle
@@ -99,8 +101,9 @@ class SettingViewController: BaseTableViewController {
     // ------------------------------
     
     func loadData() -> Void {
+        
     }
-    
+
     // ------------------------------
     // MARK: -
     // MARK: Configuration
@@ -118,7 +121,7 @@ class SettingViewController: BaseTableViewController {
         
         cell.usernameLabel.text = UserDefaults.sharedInstance.getUsername()
         cell.userEmailLabel.text = UserDefaults.sharedInstance.getUserEmail()
-        cell.userProfileImageView.image = UIImage(data: UserDefaults.sharedInstance.getUserProfileImageData())
+//        cell.userProfileImageView.image = UIImage(data: UserDefaults.sharedInstance.getUserProfileImageData())
         
         return cell
     }

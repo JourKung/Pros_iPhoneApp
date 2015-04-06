@@ -23,7 +23,7 @@ class SettingUserInformationTableViewCell: UITableViewCell {
             Utilities.roundCornersWithImageView(self.userProfileImageView, cornerRadius: self.userProfileImageView.frame.size.width/2, borderWidth: 0.0, color: .clearColor())
         }
     }
-    
+        
     // ------------------------------
     // MARK: -
     // MARK: View life cycle
