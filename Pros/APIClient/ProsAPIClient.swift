@@ -45,7 +45,7 @@ class ProsAPIClient: NSObject {
         aManager.session.configuration.HTTPAdditionalHeaders = [
             "X-Parse-Application-Id": kParseApplicationId,
             "X-Parse-REST-API-Key": kParseRESTAPIKey,
-            "X-Parse-Revocable-Session": 1]
+            "X-Parse-Revocable-Session": "1"]
         
         let parameters: [String: AnyObject]! = ["authData": [
             "facebook": [
