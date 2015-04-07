@@ -170,6 +170,7 @@ class UserAuthenticationViewController: BaseViewController,
     */
     
     func performWithLoggedIn() -> Void {
+        
         if ((FBSDKAccessToken.currentAccessToken()) != nil) {
             FBSDKGraphRequest(graphPath: "me", parameters: nil).startWithCompletionHandler({ (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
                 if (error == nil) {
@@ -218,7 +219,7 @@ class UserAuthenticationViewController: BaseViewController,
     }
     
     func handleUserFacebookRegisterResponse(form: LoginWithFacebookForm!) -> Void {
-            
+        
         self.prosAPIClient.postUserFacebookRegister(form).responseJSON { (request, response, results, error) -> Void in
             if let result = results as? [String: AnyObject] {
                 
@@ -248,9 +249,15 @@ class UserAuthenticationViewController: BaseViewController,
     }
 
     func performWithLoggedOut() -> Void {
-        self.loginButton.hidden = false
-        self.activityIndicator.stopAnimating()
-        dismissViewControllerAnimated(true, completion: nil)
+        self.prosAPIClient.postUserFacebookLoggedOutWithRevokeSession().responseJSON { (request, response, results, error) -> Void in
+            if let result = results as? [String: AnyObject] {
+                println("[Log] Logout is successful \(result)")
+                self.fbLoginManager.logOut()
+                self.loginButton.hidden = false
+                self.activityIndicator.stopAnimating()
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+        }
     }
 
     func alertController(title: String!, message: String!, preferredStyle: UIAlertControllerStyle!) {
