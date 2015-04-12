@@ -26,11 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerForEstimoteBeacons(kEstimoteBeaconsAppId, AppToken: kEstimoteBeaconsToken)
         customNavigationBarOfAppearance()
         
-
+//        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        return true
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -48,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        currentInstallation.saveInBackground()
     }
     
-    func application(application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError!)  {
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError)  {
         println("[Log] Fail to register: " + error.localizedDescription)
     }
 
@@ -85,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
     // After authentication, your app will be called back with the session information.
     // Override application:openURL:sourceApplication:annotation to call the FBsession object that handles the incoming URL
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         //let wasHandled: Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession:PFFacebookUtils.session())
         
         let wasHandled = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
@@ -110,28 +108,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Configuration
     // ------------------------------
     
-    func registerForRemoteNotificationTypes(application:UIApplication!) {
+    func registerForRemoteNotificationTypes(application: UIApplication!) {
         println("[Log] Device version: \(UIDevice.currentDevice().systemVersion)")
         
-        if UIDevice.currentDevice().systemVersion >= "8.0" {
-            
-            var userNotificationTypes: UIUserNotificationType = UIUserNotificationType.Alert |
-                UIUserNotificationType.Badge |
-                UIUserNotificationType.Sound
-            
-            var userNotificationSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: userNotificationTypes,
-                categories: nil)
-            
-            application.registerUserNotificationSettings(userNotificationSettings)
-            application.registerForRemoteNotifications()
-        } else {
-            /*
-            NOTE: For support system version less than 8.0
-            */
-            application.registerForRemoteNotificationTypes(UIRemoteNotificationType.Badge |
-                UIRemoteNotificationType.Sound |
-                UIRemoteNotificationType.Alert)
-        }
+        let userNotificationTypes: UIUserNotificationType = .Alert | .Badge | .Sound
+        let userNotificationSettings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+        
+        application.registerUserNotificationSettings(userNotificationSettings)
+        application.registerForRemoteNotifications()
     }
     
     func registerForEstimoteBeacons(appID: String!, AppToken: String!) -> Void {
@@ -148,31 +132,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("ESTAppDelegate: Analytics are turned OFF by defaults. You can enable them changing flag")
 //        ESTConfig.enableAnalytics(false)
     }
-    
-    
-    /*
-    func mainAuthenticationVC(storyboard: UIStoryboard!) -> Void {
-        let initialUserAuthenticationVC = storyboard.instantiateViewControllerWithIdentifier("UserAuthenticationViewController") as UserAuthenticationViewController
-        window?.rootViewController = initialUserAuthenticationVC
-        window?.makeKeyAndVisible()
-    }
-    
-    func homeVC(storyboard: UIStoryboard!) -> Void {
-        let initialHomeVC = storyboard.instantiateViewControllerWithIdentifier("HomeViewController") as UINavigationController
-        window?.rootViewController = initialHomeVC
-        window?.makeKeyAndVisible()
-    }
-    
-    func byPassingLogin(storyboard: UIStoryboard!) -> Void {
-        let isCached = PFUser.currentUser() // Check if user is cached
-        let isLinked = PFFacebookUtils.isLinkedWithUser(PFUser.currentUser()) // Check if user is linked to Facebook
-        
-        if (isLinked && isLinked) {
-            homeVC(storyboard)
-        } else {
-            mainAuthenticationVC(storyboard)
-        }
-    }
-    */
 }
 
