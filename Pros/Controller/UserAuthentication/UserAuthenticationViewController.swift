@@ -10,6 +10,14 @@
 import UIKit
 import ObjectMapper
 
+enum FBImageSize: String {
+    case Small = "small"
+    case Normal = "normal"
+    case Large = "large"
+    case customHeight = "height"
+    case customWidth = "width"
+}
+
 class UserAuthenticationViewController: BaseViewController,
     UIScrollViewDelegate {
     
