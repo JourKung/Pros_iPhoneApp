@@ -15,7 +15,7 @@
 		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
 		<string>https://github.com/Alamofire/Alamofire.git</string>
 		<key>9F5CD05FFA3A88CEB75367A666104BD1F2AC8973</key>
-		<string>https://github.com/JourKung/seniorproject-iphoneapp.git</string>
+		<string>https://github.com/JourKung/Pros_iPhoneApp.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Pros.xcodeproj</string>
@@ -29,7 +29,7 @@
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/JourKung/seniorproject-iphoneapp.git</string>
+	<string>https://github.com/JourKung/Pros_iPhoneApp.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
@@ -58,7 +58,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>9F5CD05FFA3A88CEB75367A666104BD1F2AC8973</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Pros</string>
+			<string>Pros_iPhoneApp</string>
 		</dict>
 	</array>
 </dict>

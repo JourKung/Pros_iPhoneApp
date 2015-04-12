@@ -12,6 +12,11 @@
 		0C1986771A41CFBE006FE9A9 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C1986761A41CFBE006FE9A9 /* libz.1.1.3.dylib */; };
 		0C1986781A41CFCA006FE9A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C344AAE1A27759D003B2659 /* Foundation.framework */; };
 		0C19867A1A41CFD5006FE9A9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C1986791A41CFD5006FE9A9 /* UIKit.framework */; };
+		0C26819F1ADADEAA00EE834B /* UIButton+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C26819E1ADADEAA00EE834B /* UIButton+Border.swift */; };
+		0C2681A51ADAE40F00EE834B /* pulltorefresharrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C2681A11ADAE40F00EE834B /* pulltorefresharrow.png */; };
+		0C2681A61ADAE40F00EE834B /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2681A21ADAE40F00EE834B /* PullToRefreshOption.swift */; };
+		0C2681A71ADAE40F00EE834B /* PullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2681A31ADAE40F00EE834B /* PullToRefreshView.swift */; };
+		0C2681A81ADAE40F00EE834B /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2681A41ADAE40F00EE834B /* UIScrollViewExtension.swift */; };
 		0C4815671A0CC93F00A9CF9B /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4815661A0CC93F00A9CF9B /* Utilities.swift */; };
 		0C4D9E7419FC96760072BC44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4D9E7319FC96760072BC44 /* AppDelegate.swift */; };
 		0C4D9E7919FC96760072BC44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C4D9E7719FC96760072BC44 /* Main.storyboard */; };
@@ -35,6 +40,12 @@
 		0C4D9ECA19FC9C8C0072BC44 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4D9EC919FC9C8C0072BC44 /* Accounts.framework */; };
 		0C4D9ECC19FC9CA90072BC44 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4D9ECB19FC9CA90072BC44 /* libz.dylib */; };
 		0C5723781A24B16700C86676 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5723771A24B16700C86676 /* UserDefaults.swift */; };
+		0C65728E1AD7F6BA00D6DCB7 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C6572881AD7F6BA00D6DCB7 /* FBAudienceNetwork.framework */; };
+		0C65728F1AD7F6BA00D6DCB7 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C6572891AD7F6BA00D6DCB7 /* FBSDKCoreKit.framework */; };
+		0C6572901AD7F6BA00D6DCB7 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C65728A1AD7F6BA00D6DCB7 /* FBSDKLoginKit.framework */; };
+		0C6572911AD7F6BA00D6DCB7 /* FBSDKMessengerShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C65728B1AD7F6BA00D6DCB7 /* FBSDKMessengerShareKit.framework */; };
+		0C6572921AD7F6BA00D6DCB7 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C65728C1AD7F6BA00D6DCB7 /* FBSDKShareKit.framework */; };
+		0C6572941AD7F77800D6DCB7 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C6572931AD7F77800D6DCB7 /* Bolts.framework */; };
 		0C71B2F01AB597BA00A9B8D8 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B2E91AB5976300A9B8D8 /* Alamofire.framework */; };
 		0C71B2F11AB597BA00A9B8D8 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0C71B2E91AB5976300A9B8D8 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0C71B2FA1AB5F32D00A9B8D8 /* ProsHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C71B2F91AB5F32D00A9B8D8 /* ProsHTTPClient.swift */; };
@@ -42,13 +53,14 @@
 		0C7B38D61AD11CD90090A315 /* ObjectMapper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7B38BB1AD114D10090A315 /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0C7CBE5E1ACE72BD00972C61 /* LoginWithFacebookForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7CBE5D1ACE72BD00972C61 /* LoginWithFacebookForm.swift */; };
 		0C87687E1A2E18CC00163204 /* RKCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C87687D1A2E18CC00163204 /* RKCardView.m */; };
-		0C8F376D1AD128B3005F111C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C8F376A1AD128B3005F111C /* FBSDKCoreKit.framework */; };
-		0C8F376E1AD128B3005F111C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C8F376B1AD128B3005F111C /* FBSDKLoginKit.framework */; };
-		0C8F376F1AD128B3005F111C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C8F376C1AD128B3005F111C /* FBSDKShareKit.framework */; };
 		0C8F37721AD133CC005F111C /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F37711AD133CC005F111C /* Picture.swift */; };
 		0C8F37751AD1B780005F111C /* LoginWithFacebookResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F37741AD1B780005F111C /* LoginWithFacebookResponse.swift */; };
+		0C9782F71AD6407D001962BA /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9782F61AD6407D001962BA /* UserSession.swift */; };
 		0C9E500A1AB75B54008BC2DA /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9E50091AB75B54008BC2DA /* CardDetailViewController.swift */; };
 		0CD708FB1A029B0B00D9D016 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD708FA1A029B0B00D9D016 /* User.swift */; };
+		0CE33B9A1AD94F1A005E1803 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE33B991AD94F1A005E1803 /* UIImage+ImageEffects.m */; };
+		0CE33BA11AD9A220005E1803 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE33BA01AD9A220005E1803 /* NSDate+Extension.swift */; };
+		0CE33BA31AD9A537005E1803 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0CE33BA21AD9A537005E1803 /* NSDateTimeAgo.bundle */; };
 		0CEDE2EA1A03BAAC0067A3C5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEDE2E91A03BAAC0067A3C5 /* BaseViewController.swift */; };
 		0CEDE2EC1A03BACB0067A3C5 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEDE2EB1A03BACB0067A3C5 /* BaseTableViewController.swift */; };
 		0CEEEE871AB90DD300C0362D /* PromotionDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEEEE861AB90DD300C0362D /* PromotionDetail.swift */; };
@@ -57,7 +69,6 @@
 		1052999D1A9AFB440044F6FA /* PromotionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1052999C1A9AFB440044F6FA /* PromotionDetailViewController.swift */; };
 		1052999F1A9B00340044F6FA /* PromotionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1052999E1A9B00340044F6FA /* PromotionDetailTableViewCell.swift */; };
 		105448491A9F3587000CC601 /* ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 105448481A9F3587000CC601 /* ParallaxHeaderView.m */; };
-		1054484D1A9F4BCF000CC601 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 1054484C1A9F4BCF000CC601 /* UIImage+ImageEffects.m */; };
 		1068B4F91AA703FF00EABCFC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10D475971AA434EA007795AB /* MapKit.framework */; };
 		1068B4FA1AA7041B00EABCFC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4D9EC119FC9C700072BC44 /* CoreLocation.framework */; };
 		10758A6E1A98966A00160204 /* PromotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10758A6D1A98966A00160204 /* PromotionViewController.swift */; };
@@ -209,6 +220,11 @@
 		0C1986721A41CF8F006FE9A9 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 		0C1986761A41CFBE006FE9A9 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		0C1986791A41CFD5006FE9A9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		0C26819E1ADADEAA00EE834B /* UIButton+Border.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Border.swift"; sourceTree = "<group>"; };
+		0C2681A11ADAE40F00EE834B /* pulltorefresharrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pulltorefresharrow.png; sourceTree = "<group>"; };
+		0C2681A21ADAE40F00EE834B /* PullToRefreshOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshOption.swift; sourceTree = "<group>"; };
+		0C2681A31ADAE40F00EE834B /* PullToRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshView.swift; sourceTree = "<group>"; };
+		0C2681A41ADAE40F00EE834B /* UIScrollViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollViewExtension.swift; sourceTree = "<group>"; };
 		0C344AAE1A27759D003B2659 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0C4815661A0CC93F00A9CF9B /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		0C4D9E6E19FC96760072BC44 /* Pros.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pros.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -239,6 +255,12 @@
 		0C4D9EC919FC9C8C0072BC44 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		0C4D9ECB19FC9CA90072BC44 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		0C5723771A24B16700C86676 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		0C6572881AD7F6BA00D6DCB7 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
+		0C6572891AD7F6BA00D6DCB7 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		0C65728A1AD7F6BA00D6DCB7 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		0C65728B1AD7F6BA00D6DCB7 /* FBSDKMessengerShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKMessengerShareKit.framework; sourceTree = "<group>"; };
+		0C65728C1AD7F6BA00D6DCB7 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		0C6572931AD7F77800D6DCB7 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		0C71B2E11AB5976200A9B8D8 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = ../../../GitHub/Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		0C71B2F91AB5F32D00A9B8D8 /* ProsHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProsHTTPClient.swift; sourceTree = "<group>"; };
 		0C71B2FB1AB5F3B200A9B8D8 /* ProsAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProsAPIClient.swift; sourceTree = "<group>"; };
@@ -246,13 +268,15 @@
 		0C7CBE5D1ACE72BD00972C61 /* LoginWithFacebookForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWithFacebookForm.swift; sourceTree = "<group>"; };
 		0C87687C1A2E18CC00163204 /* RKCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKCardView.h; sourceTree = "<group>"; };
 		0C87687D1A2E18CC00163204 /* RKCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKCardView.m; sourceTree = "<group>"; };
-		0C8F376A1AD128B3005F111C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		0C8F376B1AD128B3005F111C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		0C8F376C1AD128B3005F111C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		0C8F37711AD133CC005F111C /* Picture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
 		0C8F37741AD1B780005F111C /* LoginWithFacebookResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWithFacebookResponse.swift; sourceTree = "<group>"; };
+		0C9782F61AD6407D001962BA /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		0C9E50091AB75B54008BC2DA /* CardDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
 		0CD708FA1A029B0B00D9D016 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		0CE33B981AD94F1A005E1803 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		0CE33B991AD94F1A005E1803 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		0CE33BA01AD9A220005E1803 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
+		0CE33BA21AD9A537005E1803 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		0CEDE2E91A03BAAC0067A3C5 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		0CEDE2EB1A03BACB0067A3C5 /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		0CEEEE861AB90DD300C0362D /* PromotionDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionDetail.swift; sourceTree = "<group>"; };
@@ -286,8 +310,6 @@
 		1052999E1A9B00340044F6FA /* PromotionDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionDetailTableViewCell.swift; sourceTree = "<group>"; };
 		105448471A9F3587000CC601 /* ParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxHeaderView.h; sourceTree = "<group>"; };
 		105448481A9F3587000CC601 /* ParallaxHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallaxHeaderView.m; sourceTree = "<group>"; };
-		1054484B1A9F4BCF000CC601 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
-		1054484C1A9F4BCF000CC601 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		10758A6D1A98966A00160204 /* PromotionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionViewController.swift; sourceTree = "<group>"; };
 		10758A701A989D8B00160204 /* CardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		10758A721A989E4200160204 /* Promotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promotion.swift; sourceTree = "<group>"; };
@@ -336,23 +358,26 @@
 				1068B4FA1AA7041B00EABCFC /* CoreLocation.framework in Frameworks */,
 				1068B4F91AA703FF00EABCFC /* MapKit.framework in Frameworks */,
 				0C1986771A41CFBE006FE9A9 /* libz.1.1.3.dylib in Frameworks */,
-				0C8F376D1AD128B3005F111C /* FBSDKCoreKit.framework in Frameworks */,
+				0C6572921AD7F6BA00D6DCB7 /* FBSDKShareKit.framework in Frameworks */,
 				0C1986751A41CFB4006FE9A9 /* libstdc++.6.0.9.dylib in Frameworks */,
 				0C1986741A41CFA5006FE9A9 /* libsqlite3.0.dylib in Frameworks */,
-				0C8F376F1AD128B3005F111C /* FBSDKShareKit.framework in Frameworks */,
+				0C6572941AD7F77800D6DCB7 /* Bolts.framework in Frameworks */,
+				0C65728E1AD7F6BA00D6DCB7 /* FBAudienceNetwork.framework in Frameworks */,
 				0C4D9ECC19FC9CA90072BC44 /* libz.dylib in Frameworks */,
-				0C8F376E1AD128B3005F111C /* FBSDKLoginKit.framework in Frameworks */,
 				0C4D9ECA19FC9C8C0072BC44 /* Accounts.framework in Frameworks */,
 				0C71B2F01AB597BA00A9B8D8 /* Alamofire.framework in Frameworks */,
 				0C4D9EC819FC9C860072BC44 /* AudioToolbox.framework in Frameworks */,
+				0C6572911AD7F6BA00D6DCB7 /* FBSDKMessengerShareKit.framework in Frameworks */,
 				0C4D9EC419FC9C760072BC44 /* CoreGraphics.framework in Frameworks */,
 				0C4D9EBE19FC9C0A0072BC44 /* QuartzCore.framework in Frameworks */,
+				0C6572901AD7F6BA00D6DCB7 /* FBSDKLoginKit.framework in Frameworks */,
 				0C4D9EBC19FC9C020072BC44 /* Security.framework in Frameworks */,
 				102156D21AB1A7FA004EC6C9 /* libEstimoteSDK.a in Frameworks */,
 				0C4D9EBA19FC9BFA0072BC44 /* Social.framework in Frameworks */,
 				0C4D9EC019FC9C630072BC44 /* MobileCoreServices.framework in Frameworks */,
 				0C4D9EB819FC9BF30072BC44 /* SystemConfiguration.framework in Frameworks */,
 				0C4D9EC619FC9C7E0072BC44 /* CFNetwork.framework in Frameworks */,
+				0C65728F1AD7F6BA00D6DCB7 /* FBSDKCoreKit.framework in Frameworks */,
 				0C19867A1A41CFD5006FE9A9 /* UIKit.framework in Frameworks */,
 				0C1986781A41CFCA006FE9A9 /* Foundation.framework in Frameworks */,
 			);
@@ -374,6 +399,17 @@
 				0C7CBE5D1ACE72BD00972C61 /* LoginWithFacebookForm.swift */,
 			);
 			path = Form;
+			sourceTree = "<group>";
+		};
+		0C2681A01ADAE40F00EE834B /* PullToRefreshSwift */ = {
+			isa = PBXGroup;
+			children = (
+				0C2681A11ADAE40F00EE834B /* pulltorefresharrow.png */,
+				0C2681A21ADAE40F00EE834B /* PullToRefreshOption.swift */,
+				0C2681A31ADAE40F00EE834B /* PullToRefreshView.swift */,
+				0C2681A41ADAE40F00EE834B /* UIScrollViewExtension.swift */,
+			);
+			path = PullToRefreshSwift;
 			sourceTree = "<group>";
 		};
 		0C4D9E6519FC96760072BC44 = {
@@ -471,6 +507,7 @@
 			isa = PBXGroup;
 			children = (
 				0C5723771A24B16700C86676 /* UserDefaults.swift */,
+				0C9782F61AD6407D001962BA /* UserSession.swift */,
 				0C4D9EA019FC98420072BC44 /* Singleton.swift */,
 				0C4815661A0CC93F00A9CF9B /* Utilities.swift */,
 			);
@@ -507,7 +544,8 @@
 		0C4D9EA919FC98C20072BC44 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				0C8F37691AD128B3005F111C /* facebook-ios-sdk-4.0 */,
+				0C2681A01ADAE40F00EE834B /* PullToRefreshSwift */,
+				0C6572861AD7F6BA00D6DCB7 /* facebook-ios-sdk-4.0.1 */,
 				102156B71AB1A7FA004EC6C9 /* EstimoteSDK */,
 				105448461A9F3574000CC601 /* ParallaxHeaderView */,
 				0C87687B1A2E18A600163204 /* RKCardView */,
@@ -537,6 +575,19 @@
 			children = (
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		0C6572861AD7F6BA00D6DCB7 /* facebook-ios-sdk-4.0.1 */ = {
+			isa = PBXGroup;
+			children = (
+				0C6572931AD7F77800D6DCB7 /* Bolts.framework */,
+				0C6572881AD7F6BA00D6DCB7 /* FBAudienceNetwork.framework */,
+				0C6572891AD7F6BA00D6DCB7 /* FBSDKCoreKit.framework */,
+				0C65728A1AD7F6BA00D6DCB7 /* FBSDKLoginKit.framework */,
+				0C65728B1AD7F6BA00D6DCB7 /* FBSDKMessengerShareKit.framework */,
+				0C65728C1AD7F6BA00D6DCB7 /* FBSDKShareKit.framework */,
+			);
+			path = "facebook-ios-sdk-4.0.1";
 			sourceTree = "<group>";
 		};
 		0C71B2E21AB5976200A9B8D8 /* Products */ = {
@@ -577,6 +628,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		0C7EFB021ADA2F0B0025F7AA /* UIButton+Border */ = {
+			isa = PBXGroup;
+			children = (
+				0C26819E1ADADEAA00EE834B /* UIButton+Border.swift */,
+			);
+			path = "UIButton+Border";
+			sourceTree = "<group>";
+		};
 		0C87687B1A2E18A600163204 /* RKCardView */ = {
 			isa = PBXGroup;
 			children = (
@@ -586,22 +645,30 @@
 			path = RKCardView;
 			sourceTree = "<group>";
 		};
-		0C8F37691AD128B3005F111C /* facebook-ios-sdk-4.0 */ = {
-			isa = PBXGroup;
-			children = (
-				0C8F376A1AD128B3005F111C /* FBSDKCoreKit.framework */,
-				0C8F376B1AD128B3005F111C /* FBSDKLoginKit.framework */,
-				0C8F376C1AD128B3005F111C /* FBSDKShareKit.framework */,
-			);
-			path = "facebook-ios-sdk-4.0";
-			sourceTree = "<group>";
-		};
 		0C8F37731AD1B768005F111C /* Response */ = {
 			isa = PBXGroup;
 			children = (
 				0C8F37741AD1B780005F111C /* LoginWithFacebookResponse.swift */,
 			);
 			path = Response;
+			sourceTree = "<group>";
+		};
+		0CE33B971AD94EF9005E1803 /* UIImage+ImageEffects */ = {
+			isa = PBXGroup;
+			children = (
+				0CE33B981AD94F1A005E1803 /* UIImage+ImageEffects.h */,
+				0CE33B991AD94F1A005E1803 /* UIImage+ImageEffects.m */,
+			);
+			path = "UIImage+ImageEffects";
+			sourceTree = "<group>";
+		};
+		0CE33B9F1AD9A218005E1803 /* NSDate+TimeAgo */ = {
+			isa = PBXGroup;
+			children = (
+				0CE33BA01AD9A220005E1803 /* NSDate+Extension.swift */,
+				0CE33BA21AD9A537005E1803 /* NSDateTimeAgo.bundle */,
+			);
+			path = "NSDate+TimeAgo";
 			sourceTree = "<group>";
 		};
 		0CEDE2E81A03BAA10067A3C5 /* BaseController */ = {
@@ -673,8 +740,9 @@
 		1054484A1A9F4BB4000CC601 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				1054484B1A9F4BCF000CC601 /* UIImage+ImageEffects.h */,
-				1054484C1A9F4BCF000CC601 /* UIImage+ImageEffects.m */,
+				0C7EFB021ADA2F0B0025F7AA /* UIButton+Border */,
+				0CE33B9F1AD9A218005E1803 /* NSDate+TimeAgo */,
+				0CE33B971AD94EF9005E1803 /* UIImage+ImageEffects */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -973,7 +1041,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C4D9E9819FC97F20072BC44 /* ImagesCommon.xcassets in Resources */,
+				0CE33BA31AD9A537005E1803 /* NSDateTimeAgo.bundle in Resources */,
 				0C4D9E7919FC96760072BC44 /* Main.storyboard in Resources */,
+				0C2681A51ADAE40F00EE834B /* pulltorefresharrow.png in Resources */,
 				0C4D9E7E19FC96760072BC44 /* LaunchScreen.xib in Resources */,
 				0C4D9E7B19FC96760072BC44 /* Images.xcassets in Resources */,
 			);
@@ -998,10 +1068,12 @@
 				0CEEEE871AB90DD300C0362D /* PromotionDetail.swift in Sources */,
 				102156D51AB1BDD4004EC6C9 /* EstimoteBeaconsViewController.swift in Sources */,
 				0C4D9EA119FC98420072BC44 /* Singleton.swift in Sources */,
+				0C26819F1ADADEAA00EE834B /* UIButton+Border.swift in Sources */,
 				0C7CBE5E1ACE72BD00972C61 /* LoginWithFacebookForm.swift in Sources */,
 				10ACAD191AB2ECB7009D188E /* SettingUserInformationTableViewCell.swift in Sources */,
 				0C71B2FC1AB5F3B200A9B8D8 /* ProsAPIClient.swift in Sources */,
 				10758A731A989E4200160204 /* Promotion.swift in Sources */,
+				0C2681A81ADAE40F00EE834B /* UIScrollViewExtension.swift in Sources */,
 				10ACAD231AB2EE8A009D188E /* SettingEstimoteNotificationTableViewCell.swift in Sources */,
 				10758A791A989E6100160204 /* Card.swift in Sources */,
 				10B0E4F91AA341C00065AE53 /* ShopSupportTableViewCell.swift in Sources */,
@@ -1022,6 +1094,7 @@
 				10D50FED1AAEAD3D00D7E760 /* QRCodeReader.swift in Sources */,
 				10FF348B1A9CFB3C00501CAE /* SubShopCategoryTableViewCell.swift in Sources */,
 				0C71B2FA1AB5F32D00A9B8D8 /* ProsHTTPClient.swift in Sources */,
+				0C2681A61ADAE40F00EE834B /* PullToRefreshOption.swift in Sources */,
 				10758A811A98BCF200160204 /* ShopCategory.swift in Sources */,
 				0C4D9E7419FC96760072BC44 /* AppDelegate.swift in Sources */,
 				0C4D9E9C19FC98190072BC44 /* Pros.swift in Sources */,
@@ -1033,22 +1106,25 @@
 				0C9E500A1AB75B54008BC2DA /* CardDetailViewController.swift in Sources */,
 				0C87687E1A2E18CC00163204 /* RKCardView.m in Sources */,
 				10758A711A989D8B00160204 /* CardViewController.swift in Sources */,
-				1054484D1A9F4BCF000CC601 /* UIImage+ImageEffects.m in Sources */,
 				10FF34891A9CF87400501CAE /* ShopCategoryTableViewCell.swift in Sources */,
 				10974EB71A9A5640002DD4D5 /* PromotionTableViewCell.swift in Sources */,
 				10E095491AB378D800A721AE /* SettingAboutViewController.swift in Sources */,
+				0CE33BA11AD9A220005E1803 /* NSDate+Extension.swift in Sources */,
 				10758A7B1A98AC9100160204 /* NotificationViewController.swift in Sources */,
 				0CEDE2EA1A03BAAC0067A3C5 /* BaseViewController.swift in Sources */,
+				0CE33B9A1AD94F1A005E1803 /* UIImage+ImageEffects.m in Sources */,
 				0C8F37721AD133CC005F111C /* Picture.swift in Sources */,
 				1052999F1A9B00340044F6FA /* PromotionDetailTableViewCell.swift in Sources */,
 				1093DF681AAC445A0070E2A1 /* NotificationTableViewCell.swift in Sources */,
 				1052999D1A9AFB440044F6FA /* PromotionDetailViewController.swift in Sources */,
 				10ACAD211AB2ED3D009D188E /* SettingGeneralTableViewCell.swift in Sources */,
+				0C9782F71AD6407D001962BA /* UserSession.swift in Sources */,
 				10ACAD1F1AB2ED2F009D188E /* SettingPushNotificationTableViewCell.swift in Sources */,
 				10758A7D1A98AC9D00160204 /* SettingViewController.swift in Sources */,
 				0C5723781A24B16700C86676 /* UserDefaults.swift in Sources */,
 				10758A8C1A98C3D700160204 /* SubShopCategoryViewController.swift in Sources */,
 				0CD708FB1A029B0B00D9D016 /* User.swift in Sources */,
+				0C2681A71ADAE40F00EE834B /* PullToRefreshView.swift in Sources */,
 				0C8F37751AD1B780005F111C /* LoginWithFacebookResponse.swift in Sources */,
 				0C4D9EB319FC98C20072BC44 /* UserAuthenticationViewController.swift in Sources */,
 				0C4D9E9E19FC98190072BC44 /* ProsConfig.swift in Sources */,
@@ -1137,7 +1213,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1174,7 +1250,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1187,6 +1263,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Suwat Saegauy (5R952VP2H5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Suwat Saegauy (5R952VP2H5)";
@@ -1195,10 +1272,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(SRCROOT)",
-					"$(PROJECT_DIR)/Pros/Library/facebook-ios-sdk-4.0",
+					"$(PROJECT_DIR)/Pros/Library/facebook-ios-sdk-4.0.1",
 				);
 				INFOPLIST_FILE = Pros/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1207,7 +1284,7 @@
 				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7cb474a8-4636-48e4-b0b5-3295b66cdcc4";
+				PROVISIONING_PROFILE = "72ed3854-58e4-4fd5-91fa-bc50ff0009e0";
 				SWIFT_OBJC_BRIDGING_HEADER = "Pros/Pros-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALID_ARCHS = "arm64 armv7 armv7s";
@@ -1219,6 +1296,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Suwat Saegauy (5R952VP2H5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Suwat Saegauy (5R952VP2H5)";
@@ -1227,10 +1305,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(SRCROOT)",
-					"$(PROJECT_DIR)/Pros/Library/facebook-ios-sdk-4.0",
+					"$(PROJECT_DIR)/Pros/Library/facebook-ios-sdk-4.0.1",
 				);
 				INFOPLIST_FILE = Pros/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1239,7 +1317,7 @@
 				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7cb474a8-4636-48e4-b0b5-3295b66cdcc4";
+				PROVISIONING_PROFILE = "72ed3854-58e4-4fd5-91fa-bc50ff0009e0";
 				SWIFT_OBJC_BRIDGING_HEADER = "Pros/Pros-Bridging-Header.h";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
