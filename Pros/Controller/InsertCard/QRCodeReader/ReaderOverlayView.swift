@@ -40,11 +40,11 @@ final class ReaderOverlayView: UIView {
     return overlay
   }()
   
-  override init() {
-    super.init()
-    
-    layer.addSublayer(overlay)
-  }
+//  override init() {
+//    super.init()
+//    
+//    layer.addSublayer(overlay)
+//  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
