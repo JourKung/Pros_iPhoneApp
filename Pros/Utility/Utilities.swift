@@ -111,7 +111,7 @@ class Utilities: NSObject {
         
         return dateAsString
     }
-    
+        
     class func cleanUrl(url: String!) -> String! {
         return url.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: .LiteralSearch, range: nil)
     }
