@@ -56,7 +56,7 @@ class UserAuthenticationViewController: BaseViewController,
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-//        byPassingAuthenticationViewController()
+        byPassingAuthenticationViewController()
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,7 +87,7 @@ class UserAuthenticationViewController: BaseViewController,
     
     @IBAction func unwindLogoutWithFacebook(segue: UIStoryboardSegue) {
         println("[Unwind] From Setting to UserAuthentication")
-//        performWithLoggedOut()
+        performWithLoggedOut()
     }
     
     // ------------------------------
@@ -162,8 +162,9 @@ class UserAuthenticationViewController: BaseViewController,
     // MARK: -
     // MARK: Configuration
     // ------------------------------
-    /*
+    
     func byPassingAuthenticationViewController() -> Void {
+        /*
         let isCached = PFUser.currentUser() // Check if user is cached
         let isLinked = PFFacebookUtils.isLinkedWithUser(PFUser.currentUser()) // Check if user is linked to Facebook
         
@@ -215,7 +216,6 @@ class UserAuthenticationViewController: BaseViewController,
     }
     
     func handleUserFacebookAccessTokenAndGraphRequest(currentAccessToken: FBSDKAccessToken!, user: User!) -> Void {
-        
         let form = LoginWithFacebookForm()
         form.profile = Mapper().toJSON(user)
         form.fbId = currentAccessToken.userID
@@ -366,7 +366,7 @@ class UserAuthenticationViewController: BaseViewController,
         }
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView!) -> Void {
+    func scrollViewDidScroll(scrollView: UIScrollView) -> Void {
         // Load the pages that are now on screen
         loadVisiblePages()
     }
