@@ -17,6 +17,7 @@ class SettingUserInformationTableViewCell: UITableViewCell {
     
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var userEmailLabel: UILabel!
+    @IBOutlet weak var userBirthdayLabel: UILabel!
     
     @IBOutlet weak var userProfileImageView: UIImageView! {
         didSet {
