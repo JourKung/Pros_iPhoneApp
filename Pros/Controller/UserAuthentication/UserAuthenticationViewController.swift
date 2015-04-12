@@ -174,41 +174,31 @@ class UserAuthenticationViewController: BaseViewController,
             // Present the next view controller without animation
             performWithHomeViewControllerAnimated(false)
         }
+        */
+        
+        /*
+        self.prosAPIClient.postValidatingSessionToken().responseJSON { (request, response, results, error) -> Void in
+            if let result = results as? [String: AnyObject] {
+                println("[Log] Retrieving users: \(result)")
+                self.performWithHomeViewControllerAnimated(true)
+            } else {
+                // Log details of the failure
+                println("[Log] Error: \(error) \(error?.localizedDescription)")
+            }
+        }
+        */
     }
-    */
     
     func performWithLoggedIn() -> Void {
-        
         if ((FBSDKAccessToken.currentAccessToken()) != nil) {
             FBSDKGraphRequest(graphPath: "me", parameters: nil).startWithCompletionHandler({ (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
                 if (error == nil) {
-                    /*
-                    UserDefaults.sharedInstance.setUserFbId(profile["id"] as String)
-                    UserDefaults.sharedInstance.setUsername(profile["name"] as String)
-                    UserDefaults.sharedInstance.setUserEmail(profile["email"] as String)
-                    UserDefaults.sharedInstance.setUserBirthday(profile["birthday"] as String)
-                    UserDefaults.sharedInstance.setUserGender(profile["gender"] as String)
-                                        
-                    let fbPictureUrl: NSURL! = NSURL(string: "https://graph.facebook.com/\(UserDefaults.sharedInstance.getUserFbId())/picture?type=large&return_ssl_resources=1")
-                    let fbUrlRequest: NSURLRequest! = NSURLRequest(URL: fbPictureUrl)
-                    // Run network request asynchronously
-                    NSURLConnection.sendAsynchronousRequest(fbUrlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-                        (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
-                        if (connectionError == nil && data != nil) {
-                            // Set the image in the header imageView
-                            UserDefaults.sharedInstance.setUserProfileImageData(data)
-                        }
-                    })
-                    */
                     let user = Mapper<User>().map(result)
                     self.handleUserFacebookAccessTokenAndGraphRequest(FBSDKAccessToken.currentAccessToken(), user: user)
-                    
                 } else {
                     // Log details of the failure
                     println("[Log] Error: \(error) \(error?.localizedDescription)")
                 }
-                
-                self.activityIndicator.stopAnimating()
             })
             
         }
@@ -226,21 +216,24 @@ class UserAuthenticationViewController: BaseViewController,
     }
     
     func handleUserFacebookRegisterResponse(form: LoginWithFacebookForm!) -> Void {
-        
         self.prosAPIClient.postUserFacebookRegister(form).responseJSON { (request, response, results, error) -> Void in
             if let result = results as? [String: AnyObject] {
-                
-                let createdAt = result["createdAt"] as String
+                let createdAt = result["createdAt"] as! String
                 println("[createdAt] \(createdAt)")
                 
-                UserDefaults.sharedInstance.setUserObjectId(result["objectId"] as String)
-                UserDefaults.sharedInstance.setUserSessionToken(result["sessionToken"] as String)
+                UserDefaults.sharedInstance.setUserObjectId(result["objectId"] as! String)
+                UserDefaults.sharedInstance.setUserSessionToken(result["sessionToken"] as! String)
+                
+                let fbPictureUrl: NSURL! = NSURL(string: "https://graph.facebook.com/\(form.fbId)/picture?type=\(FBImageSize.Large.rawValue)")
+                self.downloadingDataWithUrl(fbPictureUrl)
+                
+                println("[+] ObjectId: \(UserDefaults.sharedInstance.getUserObjectId())")
+                println("[+] SessionToken: \(UserDefaults.sharedInstance.getUserSessionToken())")
                 
                 self.prosAPIClient.putUserFacebookProfile(form).responseJSON { (request, response, results, error) -> Void in
                     if let result: AnyObject = results {
-                        
-                        let updatedAt = result["updatedAt"] as String
-                        println("[updatedAt] \(updatedAt) | \(result as [String: AnyObject])")
+                        let updatedAt = result["updatedAt"] as! String
+                        println("[updatedAt] \(updatedAt)")
                         
                         self.performWithHomeViewControllerAnimated(true)
                     } else {
@@ -252,6 +245,7 @@ class UserAuthenticationViewController: BaseViewController,
                 // Log details of the failure
                 println("[Log] Error: \(error) \(error?.localizedDescription)")
             }
+            self.activityIndicator.stopAnimating()
         }
     }
 
@@ -294,7 +288,7 @@ class UserAuthenticationViewController: BaseViewController,
     }
     
     func performWithHomeViewControllerAnimated(animated: Bool) -> Void {
-        let containerHomeVC = storyboard?.instantiateViewControllerWithIdentifier("HomeViewController") as UITabBarController
+        let containerHomeVC = storyboard?.instantiateViewControllerWithIdentifier("HomeViewController") as! UITabBarController
         presentViewController(containerHomeVC, animated: animated, completion: nil)
     }
     
