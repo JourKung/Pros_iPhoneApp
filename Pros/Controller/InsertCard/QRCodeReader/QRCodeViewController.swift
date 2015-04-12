@@ -61,8 +61,8 @@ public final class QRCodeReaderViewController: UIViewController {
   }
   
   /// Initializes a view controller using a cancel button title and a code reader.
-  required public init(cancelButtonTitle: String, coderReader reader: QRCodeReader) {
-    super.init()
+  required public convenience init(cancelButtonTitle: String, coderReader reader: QRCodeReader) {
+    self.init()
     
     codeReader           = reader
     view.backgroundColor = UIColor.blackColor()
