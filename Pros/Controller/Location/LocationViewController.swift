@@ -109,7 +109,7 @@ class LocationViewController: BaseViewController,
             }
             
             if (placemarks != nil && placemarks.count > 0) {
-                let placemark = placemarks[0] as CLPlacemark
+                let placemark = placemarks[0] as! CLPlacemark
                 
                 // Add Annotation
                 let annotation = MKPointAnnotation()
@@ -271,7 +271,7 @@ class LocationViewController: BaseViewController,
             }
             
             if (placemarks.count > 0) {
-                let pm = placemarks[0] as CLPlacemark
+                let pm = placemarks[0] as! CLPlacemark
                 self.displayLocationInfo(pm)
             } else {
                 println("Problem with the data received from geocoder.")

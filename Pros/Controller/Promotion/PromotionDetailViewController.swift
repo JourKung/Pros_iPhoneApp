@@ -101,21 +101,21 @@ class PromotionDetailViewController: BaseTableViewController {
         self.prosAPIClient?.getPromotionDetailWithCompletion(UserDefaults.sharedInstance.getUserFbId(), promotionId: self.promotionSegue.promotionID).responseJSON { (request, response, results, error) -> Void in
             
             if let promotion: AnyObject = results {
-                self.activities = PromotionDetail(promotionID: promotion.objectForKey("promotionID") as String
-                        , UserID: promotion.objectForKey("UserID") as String
-                        , promotionPublishPoint: promotion.objectForKey("promotionPublishPoint") as String
-                        , promotionPublishName: promotion.objectForKey("promotionPublishName") as String
-                        , promotionPublishType: promotion.objectForKey("promotionPublishType") as String
-                        , promotionPublishDescription: promotion.objectForKey("promotionPublishDescription") as String
-                        , promotionPublishPoster: promotion.objectForKey("promotionPublishPoster") as String
-                        , qrID: promotion.objectForKey("qrID") as String
-                        , promotionPublishCreatedAt: promotion.objectForKey("promotionPublishCreatedAt") as String
-                        , promotionPublishUpdatedAt: promotion.objectForKey("promotionPublishUpdatedAt") as String
-                        , promotionPublishPublishedAt: promotion.objectForKey("promotionPublishPublishedAt") as String
-                        , promotionPublishExpiredAt: promotion.objectForKey("promotionPublishExpiredAt") as String
-                        , shopName: promotion.objectForKey("shopName") as String
-                        , shopLogoURL: promotion.objectForKey("shopLogoURL") as String
-                        , shopType: promotion.objectForKey("shopType") as String)
+                self.activities = PromotionDetail(promotionID: promotion.objectForKey("promotionID") as! String
+                        , UserID: promotion.objectForKey("UserID") as! String
+                        , promotionPublishPoint: promotion.objectForKey("promotionPublishPoint") as! String
+                        , promotionPublishName: promotion.objectForKey("promotionPublishName") as! String
+                        , promotionPublishType: promotion.objectForKey("promotionPublishType") as! String
+                        , promotionPublishDescription: promotion.objectForKey("promotionPublishDescription") as! String
+                        , promotionPublishPoster: promotion.objectForKey("promotionPublishPoster") as! String
+                        , qrID: promotion.objectForKey("qrID") as! String
+                        , promotionPublishCreatedAt: promotion.objectForKey("promotionPublishCreatedAt") as! String
+                        , promotionPublishUpdatedAt: promotion.objectForKey("promotionPublishUpdatedAt") as! String
+                        , promotionPublishPublishedAt: promotion.objectForKey("promotionPublishPublishedAt") as! String
+                        , promotionPublishExpiredAt: promotion.objectForKey("promotionPublishExpiredAt") as! String
+                        , shopName: promotion.objectForKey("shopName") as! String
+                        , shopLogoURL: promotion.objectForKey("shopLogoURL") as! String
+                        , shopType: promotion.objectForKey("shopType") as! String)
                 
                 self.tableView.reloadData()
                 self.refreshControl?.endRefreshing()
@@ -183,7 +183,7 @@ class PromotionDetailViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as PromotionDetailTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! PromotionDetailTableViewCell
         
         cell.titleLabel.text = self.activities?.shopName
         cell.typeLabel.text = self.activities?.shopType

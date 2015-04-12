@@ -99,11 +99,11 @@ class SubShopCategoryViewController: BaseTableViewController {
                 if let subShopCategories: AnyObject = results {
                     self.activities = [SubShopCategory]()
                     
-                    for subShopCategory in subShopCategories as [AnyObject] {
-                        let tmpURL = subShopCategory.objectForKey("UserLogoImageUrl") as String
-                        self.activities.append(SubShopCategory(type: subShopCategory.objectForKey("shopType") as String
-                            , shopId: subShopCategory.objectForKey("id") as String
-                            , title: subShopCategory.objectForKey("name") as String
+                    for subShopCategory in subShopCategories as! [AnyObject] {
+                        let tmpURL = subShopCategory.objectForKey("UserLogoImageUrl") as! String
+                        self.activities.append(SubShopCategory(type: subShopCategory.objectForKey("shopType") as! String
+                            , shopId: subShopCategory.objectForKey("id") as! String
+                            , title: subShopCategory.objectForKey("name") as! String
                             , logoImageUrl: tmpURL))
                     }
                 }
@@ -123,11 +123,11 @@ class SubShopCategoryViewController: BaseTableViewController {
                 if let subShopCategories: AnyObject = results {
                     self.activities = [SubShopCategory]()
                     
-                    for subShopCategory in subShopCategories as [AnyObject] {
-                        let tmpURL = subShopCategory.objectForKey("UserLogoImageUrl") as String
-                        self.activities.append(SubShopCategory(type: subShopCategory.objectForKey("shopType") as String
-                            , shopId: subShopCategory.objectForKey("id") as String
-                            , title: subShopCategory.objectForKey("name") as String
+                    for subShopCategory in subShopCategories as! [AnyObject] {
+                        let tmpURL = subShopCategory.objectForKey("UserLogoImageUrl") as! String
+                        self.activities.append(SubShopCategory(type: subShopCategory.objectForKey("shopType") as! String
+                            , shopId: subShopCategory.objectForKey("id") as! String
+                            , title: subShopCategory.objectForKey("name") as! String
                             , logoImageUrl: tmpURL))
                     }
                 }
@@ -159,7 +159,7 @@ class SubShopCategoryViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as SubShopCategoryTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! SubShopCategoryTableViewCell
         
         cell.titleLabel.text = self.activities[indexPath.row].title
         cell.typeLabel.text = self.activities[indexPath.row].type
@@ -214,7 +214,7 @@ class SubShopCategoryViewController: BaseTableViewController {
             println("[Segue] Sub shop category -> Shop")
             
             if let indexPath = tableView.indexPathForSelectedRow() {
-                let destinationController = segue.destinationViewController as ShopViewController
+                let destinationController = segue.destinationViewController as! ShopViewController
                 destinationController.subShopCategorySegue = self.activities[indexPath.row]
             }
         }

@@ -192,7 +192,7 @@ class CardViewController: BaseTableViewController,
         alertController.addAction(cancelAction)
         
         let enterAction = UIAlertAction(title: "Enter", style: .Default) { (action) in
-            let serialNumberTextField = alertController.textFields![0] as UITextField
+            let serialNumberTextField = alertController.textFields![0] as! UITextField
             println("[EnterAction] \(serialNumberTextField.text)")
             // Fn: Send to service API and Check
         }
@@ -232,7 +232,7 @@ class CardViewController: BaseTableViewController,
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UITableViewCell
         
         cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
         

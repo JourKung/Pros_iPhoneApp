@@ -117,43 +117,44 @@ class SettingViewController: BaseTableViewController {
     private let privacyCellIdentifier               = "PrivacyCell"
     
     private func userInformationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(userInformationCellIdentifier, forIndexPath: indexPath) as SettingUserInformationTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(userInformationCellIdentifier, forIndexPath: indexPath) as! SettingUserInformationTableViewCell
         
         cell.usernameLabel.text = UserDefaults.sharedInstance.getUsername()
         cell.userEmailLabel.text = UserDefaults.sharedInstance.getUserEmail()
-//        cell.userProfileImageView.image = UIImage(data: UserDefaults.sharedInstance.getUserProfileImageData())
+        cell.userBirthdayLabel.text = UserDefaults.sharedInstance.getUserBirthday()
+        cell.userProfileImageView.image = UIImage(data: UserDefaults.sharedInstance.getUserProfileImageData())
         
         return cell
     }
     
     private func generalTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(generalCellIdentifier, forIndexPath: indexPath) as SettingGeneralTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(generalCellIdentifier, forIndexPath: indexPath) as! SettingGeneralTableViewCell
         
         return cell
     }
     
     private func pushNotificationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(pushNotificationCellIdentifier, forIndexPath: indexPath) as SettingPushNotificationTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(pushNotificationCellIdentifier, forIndexPath: indexPath) as! SettingPushNotificationTableViewCell
         cell.pushNotiSwitch.setOn(true, animated: true)
         
         return cell
     }
     
     private func estimoteNotificationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(estimoteNotificationCellIdentifier, forIndexPath: indexPath) as SettingEstimoteNotificationTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(estimoteNotificationCellIdentifier, forIndexPath: indexPath) as! SettingEstimoteNotificationTableViewCell
         cell.estimoteNotiSwitch.setOn(true, animated: true)
         
         return cell
     }
     
     private func supportTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(supportCellIdentifier, forIndexPath: indexPath) as SettingGeneralTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(supportCellIdentifier, forIndexPath: indexPath) as! SettingGeneralTableViewCell
         
         return cell
     }
     
     private func privacyTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(privacyCellIdentifier, forIndexPath: indexPath) as SettingGeneralTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(privacyCellIdentifier, forIndexPath: indexPath) as! SettingGeneralTableViewCell
         
         return cell
     }
@@ -205,7 +206,7 @@ class SettingViewController: BaseTableViewController {
         
         if (segue.identifier == "SegueToAbout") {
             if let indexPath = tableView.indexPathForSelectedRow() {
-                let destinationViewController = segue.destinationViewController as SettingAboutViewController
+                let destinationViewController = segue.destinationViewController as! SettingAboutViewController
             }
         }
     }

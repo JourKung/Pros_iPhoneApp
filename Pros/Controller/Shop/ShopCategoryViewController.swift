@@ -130,7 +130,7 @@ class ShopCategoryViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as ShopCategoryTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ShopCategoryTableViewCell
         
         let activity = self.activities[indexPath.row]
         cell.typeLabel.text = activity.type
@@ -155,7 +155,7 @@ class ShopCategoryViewController: BaseTableViewController {
             println("[Segue] Category -> Sub shop category")
             
             if let indexPath = tableView.indexPathForSelectedRow() {
-                let destinationController = segue.destinationViewController as SubShopCategoryViewController
+                let destinationController = segue.destinationViewController as! SubShopCategoryViewController
                 destinationController.shopCategorySegue = self.activities[indexPath.row]
             }
         }

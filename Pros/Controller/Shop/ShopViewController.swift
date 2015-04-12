@@ -220,23 +220,23 @@ class ShopViewController: BaseTableViewController,
         self.prosAPIClient?.getShopByShopIdWithCompletion(self.subShopCategorySegue.shopId).responseJSON { (request, reponse, results, error) -> Void in
             
             if let shop = results as? [String: AnyObject] {
-                self.activities = Shop(shopId: shop["id"] as String
-                    , name: shop["name"] as String
-                    , UserFirstName: shop["UserFirstName"] as String
-                    , UserLastName: shop["UserLastName"] as String
-                    , email: shop["email"] as String
-                    , Username: shop["Username"] as String
-                    , shopType: shop["shopType"] as String
-                    , UserTermCondition: shop["UserTermCondition"] as String
-                    , UserLogoImageUrl: shop["UserLogoImageUrl"] as String
-                    , UserCoverImageUrl: shop["UserCoverImageUrl"] as String
-                    , UserShopDescription: shop["UserShopDescription"] as String
-                    , UserLocationLat: shop["UserLocationLat"] as String
-                    , UserLocationLong: shop["UserLocationLong"] as String
-                    , Telephone: shop["Telephone"] as String
-                    , ShopConcept: shop["ShopConcept"] as String
-                    , created_at: shop["created_at"] as String
-                    , updated_at: shop["updated_at"] as String)
+                self.activities = Shop(shopId: shop["id"] as! String
+                    , name: shop["name"] as! String
+                    , UserFirstName: shop["UserFirstName"] as! String
+                    , UserLastName: shop["UserLastName"] as! String
+                    , email: shop["email"] as! String
+                    , Username: shop["Username"] as! String
+                    , shopType: shop["shopType"] as! String
+                    , UserTermCondition: shop["UserTermCondition"] as! String
+                    , UserLogoImageUrl: shop["UserLogoImageUrl"] as! String
+                    , UserCoverImageUrl: shop["UserCoverImageUrl"] as! String
+                    , UserShopDescription: shop["UserShopDescription"] as! String
+                    , UserLocationLat: shop["UserLocationLat"] as! String
+                    , UserLocationLong: shop["UserLocationLong"] as! String
+                    , Telephone: shop["Telephone"] as! String
+                    , ShopConcept: shop["ShopConcept"] as! String
+                    , created_at: shop["created_at"] as! String
+                    , updated_at: shop["updated_at"] as! String)
                 
                 self.customParallaxHeaderTableView()
                 
@@ -268,7 +268,7 @@ class ShopViewController: BaseTableViewController,
     private let supportCellIdentifier       = "SupportCell"
     
     func activitiyTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(activityCellIdentifier, forIndexPath: indexPath) as ShopActivityTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(activityCellIdentifier, forIndexPath: indexPath) as! ShopActivityTableViewCell
         cell.titleLabel.text = self.activities?.name
         cell.typeLabel.text = self.activities?.shopType
         cell.delegate = self
@@ -319,27 +319,27 @@ class ShopViewController: BaseTableViewController,
     }
     
     func descriptionTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(descriptionCellIdentifier, forIndexPath: indexPath) as ShopDescriptionTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(descriptionCellIdentifier, forIndexPath: indexPath) as! ShopDescriptionTableViewCell
         cell.descriptionLabel.text = self.activities?.UserShopDescription
         
         return cell
     }
     
     func locationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(locationCellIdentifier, forIndexPath: indexPath) as ShopLocationTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(locationCellIdentifier, forIndexPath: indexPath) as! ShopLocationTableViewCell
         cell.locationLabel.text = "Cupertino, CA 95014 (408) 996-1010"
         
         return cell
     }
     
     func supportTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(supportCellIdentifier, forIndexPath: indexPath) as ShopSupportTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(supportCellIdentifier, forIndexPath: indexPath) as! ShopSupportTableViewCell
         
         return cell
     }
     
     func performWithFeedbackViewControllerAnimated(animated: Bool) -> Void {
-        let containerFeedbackVC = storyboard?.instantiateViewControllerWithIdentifier("FeedbackViewController") as FeedbackViewController
+        let containerFeedbackVC = storyboard?.instantiateViewControllerWithIdentifier("FeedbackViewController") as! FeedbackViewController
         // userId, shopId, coverImage Aspect Fill (Background blurEffect), logoImage
         containerFeedbackVC.logoImage = UIImage(named: "00_logoDummy")
         containerFeedbackVC.delegate = self
@@ -347,7 +347,7 @@ class ShopViewController: BaseTableViewController,
     }
     
     func performWithLocationViewControllerAnimated(animated: Bool) -> Void {
-        let containerLocationVC = storyboard?.instantiateViewControllerWithIdentifier("LocationViewController") as UINavigationController//LocationViewController
+        let containerLocationVC = storyboard?.instantiateViewControllerWithIdentifier("LocationViewController") as! UINavigationController//LocationViewController
 //        presentViewController(containerLocationVC, animated: animated, completion: nil)
         navigationController?.presentViewController(containerLocationVC, animated: animated, completion: nil)
     }

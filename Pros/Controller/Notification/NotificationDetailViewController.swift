@@ -137,7 +137,7 @@ class NotificationDetailViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as NotificationDetailTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! NotificationDetailTableViewCell
         
         cell.titleLabel.text = "Starbucks Coffee"
         cell.typeLabel.text = "@Cafe"
