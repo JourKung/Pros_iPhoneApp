@@ -9,11 +9,6 @@
 import UIKit
 import ObjectMapper
 
-//public protocol Mappable {
-//    init?(_ map: Map)
-//    mutating func mapping(map: Map)
-//}
-
 class User: Mappable {
     
     // ------------------------------
