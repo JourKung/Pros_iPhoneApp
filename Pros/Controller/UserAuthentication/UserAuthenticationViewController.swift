@@ -266,6 +266,18 @@ class UserAuthenticationViewController: BaseViewController,
             }
         }
     }
+    
+    func downloadingDataWithUrl(url: NSURL!) -> Void {
+        let urlRequest: NSURLRequest! = NSURLRequest(URL: url)
+        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+            (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
+            if (connectionError == nil && data != nil) {
+                UserDefaults.sharedInstance.setUserProfileImageData(data)
+            } else {
+                println("[Log] Error: \(connectionError.localizedDescription)")
+            }
+        })
+    }
 
     func alertController(title: String!, message: String!, preferredStyle: UIAlertControllerStyle!) {
         /*
