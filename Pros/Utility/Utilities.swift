@@ -52,13 +52,13 @@ class Utilities: NSObject {
         imageView.layer.borderColor = color.CGColor
         imageView.layer.borderWidth = borderWidth
         imageView.clipsToBounds = true
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        imageView.contentMode = UIViewContentMode.ScaleAspectFill
         
         return imageView
     }
     
     class func barButtonWithImage(image: UIImage!, target: AnyObject!, action: Selector!) -> UIBarButtonItem {
-        let button: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        let button: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         button.setBackgroundImage(image, forState: UIControlState.Normal)
         button.frame = CGRectMake(0, 0, image.size.width, image.size.height)
         
