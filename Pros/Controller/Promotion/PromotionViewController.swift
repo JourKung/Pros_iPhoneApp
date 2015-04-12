@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ObjectMapper
 
 enum ESTScanType: Int {
     case ESTScanTypeBluetooth
@@ -26,8 +27,8 @@ class PromotionViewController: BaseTableViewController,
     @IBOutlet weak var enterRegionSwitch: UISwitch!
     @IBOutlet weak var exitRegionSwitch: UISwitch!
     
-    let prosAPIClient: ProsAPIClient! = ProsAPIClient()
-    var activities: [Promotion]! = [Promotion]()
+    let prosAPIClient = ProsAPIClient()
+    var activities = [Promotion]()
     var imageCache = [String: UIImage]()
     
     var beacon: ESTBeacon!
@@ -44,16 +45,11 @@ class PromotionViewController: BaseTableViewController,
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        println("[EstimoteBeacons] init")
         registerForLocationNotification()
         setupEstimoteBeacons()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         
+        setupView()
         loadData()
-        customUI()
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,7 +81,7 @@ class PromotionViewController: BaseTableViewController,
     // MARK: User interface
     // ------------------------------
     
-    func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
         customTableView()
     }
@@ -98,7 +94,7 @@ class PromotionViewController: BaseTableViewController,
     }
     
     func customTableView() -> Void {
-        tableView.estimatedRowHeight = 180.0
+        tableView.estimatedRowHeight = 140.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
         // This will remove extra separators from tableview
@@ -106,7 +102,7 @@ class PromotionViewController: BaseTableViewController,
         tableView.separatorColor = UIColor.clearColor()
         tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
-    
+
     func updateUI() -> Void {
     }
     
@@ -116,37 +112,14 @@ class PromotionViewController: BaseTableViewController,
     // ------------------------------
     
     func loadData() -> Void {
-        if self.prosAPIClient?.getPromotionsWithCompletion() == nil {
-            return
-        }
-        
-        refreshControl?.beginRefreshing()
-        
-        self.prosAPIClient?.getPromotionsWithCompletion().responseJSON { (request, response, results, error) -> Void in
-            
-            if let promotions: AnyObject = results {
-                self.activities = [Promotion]()
-                
-                for promotion in promotions as [AnyObject] {
-                    self.activities.append(Promotion(promotionID: promotion.objectForKey("promotionID") as String
-                        , UserID: promotion.objectForKey("UserID") as String
-                        , promotionPublishPoint: promotion.objectForKey("promotionPublishPoint") as String
-                        , promotionPublishName: promotion.objectForKey("promotionPublishName") as String
-                        , promotionPublishType: promotion.objectForKey("promotionPublishType") as String
-                        , promotionPublishDescription: promotion.objectForKey("promotionPublishDescription") as String
-                        , promotionPublishPoster: promotion.objectForKey("promotionPublishPoster") as String
-                        , promotionPublishCreatedAt: promotion.objectForKey("promotionPublishCreatedAt") as String
-                        , promotionPublishUpdatedAt: promotion.objectForKey("promotionPublishUpdatedAt") as String
-                        , promotionPublishPublishedAt: promotion.objectForKey("promotionPublishPublishedAt") as String
-                        , promotionPublishExpiredAt: promotion.objectForKey("promotionPublishExpiredAt") as String
-                        , shopName: promotion.objectForKey("shopName") as String
-                        , shopLogoURL: promotion.objectForKey("shopLogoURL") as String
-                        , shopType: promotion.objectForKey("shopType") as String))
-                   }
-                
-                self.tableView.reloadData()
-                self.refreshControl?.endRefreshing()
+        self.prosAPIClient.getPromotionsWithCompletion().responseJSON { (request, response, results, error) -> Void in
+            if let promotion = Mapper<Promotion>().mapArray(results) {
+                println("[+] \(promotion.count)")
+                self.activities = promotion
             }
+            
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
         }
     }
     
@@ -156,9 +129,22 @@ class PromotionViewController: BaseTableViewController,
     // ------------------------------
     
     func performWithShopCategoryViewControllerAnimated(animated: Bool) -> Void {
-        let containerShopCategoryVC = storyboard?.instantiateViewControllerWithIdentifier("ShopCategoryViewController") as UINavigationController
-        
+        let containerShopCategoryVC = storyboard?.instantiateViewControllerWithIdentifier("ShopCategoryViewController") as! UINavigationController
         presentViewController(containerShopCategoryVC, animated: animated, completion: nil)
+    }
+    
+    func customCellShopTypeButton(cellShopButton: UIButton) -> Void {
+        cellShopButton.addBorder(UIButtonBorderSide.Right, color: UIColor(red:0.24, green:0.51, blue:0.9, alpha:1), width: 2)
+        
+        cellShopButton.layer.masksToBounds = false
+        cellShopButton.layer.cornerRadius = 1
+        cellShopButton.layer.shadowOffset = CGSizeMake(-0.2, 0.2)
+        cellShopButton.layer.shadowRadius = 1
+        cellShopButton.layer.shadowOpacity = 0.2
+        
+        let path: UIBezierPath! = UIBezierPath(rect: cellShopButton.bounds)
+        cellShopButton.layer.shadowPath = path.CGPath
+        cellShopButton.backgroundColor = UIColor.whiteColor()
     }
     
     // ------------------------------
@@ -167,10 +153,6 @@ class PromotionViewController: BaseTableViewController,
     // ------------------------------
     
     let cellIdentifier = "Cell"
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 180
-    }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -181,11 +163,15 @@ class PromotionViewController: BaseTableViewController,
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as PromotionTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! PromotionTableViewCell
         
         cell.titleLabel.text = self.activities[indexPath.row].shopName
-        cell.typeLabel.text = self.activities[indexPath.row].shopType
         cell.descriptionLabel.text = self.activities[indexPath.row].promotionPublishName
+        println("[PublishedAt] \(self.activities[indexPath.row].promotionPublishPublishedAt)")
+        cell.publishedAtLabel.text = NSDate().timeAgo
+        
+        cell.shopTypeButton.setTitle("#\(self.activities[indexPath.row].shopType!)", forState: .Normal)
+        customCellShopTypeButton(cell.shopTypeButton)
         
         let tmpURL = Utilities.cleanUrl(self.activities[indexPath.row].shopLogoURL)
         let image = self.imageCache[tmpURL]
@@ -236,7 +222,7 @@ class PromotionViewController: BaseTableViewController,
             println("[Segue] Promotion -> Promotion Detail")
             
             if let indexPath = tableView.indexPathForSelectedRow() {
-                let destinationController = segue.destinationViewController as PromotionDetailViewController
+                let destinationController = segue.destinationViewController as! PromotionDetailViewController
                 destinationController.promotionSegue = self.activities[indexPath.row]
                 
                 if let promotionId = self.activities[indexPath.row].promotionID {
@@ -256,14 +242,13 @@ class PromotionViewController: BaseTableViewController,
     func registerForLocationNotification() -> Void {
         let application: UIApplication! = UIApplication.sharedApplication()
         if (application.respondsToSelector("registerUserNotificationSettings:")) {
-            application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert |
-                UIUserNotificationType.Badge |
-                UIUserNotificationType.Sound,
-                categories: nil))
+            application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Alert | .Badge | .Sound, categories: nil))
         }
     }
     
     func setupEstimoteBeacons() -> Void {
+        println("[EstimoteBeacons] init")
+        
         self.beaconManager = ESTBeaconManager()
         self.beaconManager.delegate = self
         self.beaconManager.avoidUnknownStateBeacons = true
