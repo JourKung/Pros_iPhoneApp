@@ -78,8 +78,7 @@ class UserAuthenticationViewController: BaseViewController,
             } else {
                 // If you ask for multiple permissions at once, you
                 // should check if specific permissions missing
-                if (result.grantedPermissions.containsObject("email")) {
-                    println("[+] Do work")
+                if (result.grantedPermissions.contains("email")) {
                     self.performWithLoggedIn()
                 }
             }
