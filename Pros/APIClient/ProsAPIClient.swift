@@ -84,6 +84,17 @@ class ProsAPIClient: NSObject {
         return Alamofire.request(.POST, path, encoding: .JSON)
     }
     
+    func postValidatingSessionToken() -> Request {
+        let aManager = Alamofire.Manager.sharedInstance
+        aManager.session.configuration.HTTPAdditionalHeaders = [
+            "X-Parse-Application-Id": kParseApplicationId,
+            "X-Parse-REST-API-Key": kParseRESTAPIKey,
+            "X-Parse-Session-Token": UserDefaults.sharedInstance.getUserSessionToken()]
+        
+        let path: String! = "\(kParseBaseUrl)/users/me"
+        return Alamofire.request(.POST, path, encoding: .JSON)
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: Promotions
