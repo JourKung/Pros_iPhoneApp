@@ -210,7 +210,7 @@ class UserAuthenticationViewController: BaseViewController,
         form.profile = Mapper().toJSON(user)
         form.fbId = currentAccessToken.userID
         form.accessToken = currentAccessToken.tokenString
-        form.expirationDate = Utilities.dateFormatterWithString(currentAccessToken.expirationDate)
+        form.expirationDate = Utilities.dateStringFormatterWithDate(currentAccessToken.expirationDate)
         
         self.handleUserFacebookRegisterResponse(form)
     }
