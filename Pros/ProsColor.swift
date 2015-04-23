@@ -46,4 +46,24 @@ extension UIColor {
     class func applicationMercuryColor() -> UIColor {
         return UIColor(red: 230, green: 230, blue: 230, alpha: 1)
     }
+    
+    
+    // Twitter Colour Palette (Hex and RGB)
+    // http://designpieces.com/2012/12/twitter-colour-palette/
+    
+    class func applicationTwitterDarkBlueColor() -> UIColor {
+        return UIColor(red:0, green:0.52, blue:0.69, alpha:1)
+    }
+    
+    class func applicationTwitterLogoBlueColor() -> UIColor {
+        return UIColor(red:0, green:0.68, blue:0.91, alpha:1)
+    }
+    
+    class func applicationTwitterVerifiedBlueColor() -> UIColor {
+        return UIColor(red:0, green:0.8, blue:0.98, alpha:1)
+    }
+    
+    class func applicationTwitterBackgroundBlueColor() -> UIColor {
+        return UIColor(red:0.75, green:0.87, blue:0.93, alpha:1)
+    }
 }
