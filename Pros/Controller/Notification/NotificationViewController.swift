@@ -25,7 +25,7 @@ class NotificationViewController: BaseTableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        customUI()
+        setupView()
     }
     
     override func didReceiveMemoryWarning() {
@@ -49,17 +49,17 @@ class NotificationViewController: BaseTableViewController {
     // MARK: User interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
         customTableView()
     }
     
-    private func customNavigationBar() -> Void {
+    func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Pros")
         navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
     }
     
-    private func customTableView() -> Void {
+    func customTableView() -> Void {
         tableView.estimatedRowHeight = 180.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -69,15 +69,12 @@ class NotificationViewController: BaseTableViewController {
         tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
-    private func updateUI() -> Void {
-    }
-    
     // ------------------------------
     // MARK: -
     // MARK: Data
     // ------------------------------
     
-    private func loadData() -> Void {
+    func loadData() -> Void {
         
     }
     
@@ -92,7 +89,7 @@ class NotificationViewController: BaseTableViewController {
     // MARK: Table view data source
     // ------------------------------
     
-    private let cellIdentifier = "Cell"
+    let cellIdentifier = "Cell"
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 180
