@@ -11,8 +11,8 @@ import Foundation
 // ------------------------------
 // MARK: - Service APIs
 // ------------------------------
-let kBaseUrl: String!                   = "http://202.44.12.93/mobile"
-let kDevBaseUrl: String!                = "http://pros-app.cu.cc/mobile"
+let kBaseUrl: String!                   = "http://128.199.128.186/mobile"   // DigitalOcean
+let kDevBaseUrl: String!                = "http://pros-app.cu.cc/mobile"    // Free hosting
 let kParseBaseUrl: String!              = "https://api.parse.com/1"
 
 // ------------------------------
