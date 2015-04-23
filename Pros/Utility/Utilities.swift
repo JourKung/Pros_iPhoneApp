@@ -18,10 +18,10 @@ class Utilities: NSObject {
     class func titleLabelOnNavigationBar(title: String!) -> UIView {
         let label: UILabel = UILabel(frame: CGRectZero)
         label.backgroundColor = UIColor.clearColor()
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 17.0)
+        label.font = UIFont(name: "HelveticaNeue-Regular", size: 17.0)
         label.textAlignment = NSTextAlignment.Center
         label.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
-        label.textColor = UIColor.darkGrayColor()
+        label.textColor = UIColor.blackColor()
         label.minimumScaleFactor = 0.5
         label.text = title
         label.adjustsFontSizeToFitWidth = true
@@ -32,6 +32,7 @@ class Utilities: NSObject {
     
     class func previousBackBarButtonItemOnNavigationBar() -> UIBarButtonItem! {
         let previousBarButtonItem: UIBarButtonItem! = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        previousBarButtonItem.tintColor = UIColor.applicationTwitterLogoBlueColor()
         
         return previousBarButtonItem
     }
@@ -104,7 +105,7 @@ class Utilities: NSObject {
         return dateAsString
     }
     
-    class func dateFormatterWithString(date: NSDate!) -> String {
+    class func dateStringFromDate(date: NSDate!) -> String {
         let formatter: NSDateFormatter! = NSDateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         let dateAsString = formatter.stringFromDate(date)
@@ -112,8 +113,9 @@ class Utilities: NSObject {
         return dateAsString
     }
         
-    class func cleanUrl(url: String!) -> String! {
-        return url.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: .LiteralSearch, range: nil)
+    class func percentEncodingWithUrl(url: String!) -> String! {
+        return url.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+        //return url.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: .LiteralSearch, range: nil)
     }
 }
 
