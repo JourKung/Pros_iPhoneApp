@@ -121,7 +121,7 @@ class ProsAPIClient: NSObject {
     }
     
     func getSubCategoriesByTypeWithCompletion(parameter: String!) -> Request {
-        let path: String! = "/list-shops-by-category/\(Utilities.cleanUrl(parameter))"
+        let path: String! = "/list-shops-by-category/\(Utilities.percentEncodingWithUrl(parameter))"
         return Alamofire.request(.GET, urlString(path))
     }
     
