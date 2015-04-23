@@ -7,71 +7,63 @@
 //
 
 import UIKit
+import ObjectMapper
 
-class PromotionDetail: NSObject {
+class PromotionDetail: Mappable {
     
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
-    //    var objectId: String!
-    //    var createdAt: NSDate!
-    //    var updatedAt: NSDate!
+//    var objectId: String!
+//    var createdAt: NSDate!
+//    var updatedAt: NSDate!
     
     var promotionID: String!
-    var UserID: String!
-    var promotionPublishPoint: String!
-    var promotionPublishName: String!
-    var promotionPublishType: String!
-    var promotionPublishDescription: String!
-    var promotionPublishPoster: String!
-    var qrID: String!
-    var promotionPublishCreatedAt: String!
-    var promotionPublishUpdatedAt: String!
-    var promotionPublishPublishedAt: String!
-    var promotionPublishExpiredAt: String!
-    var shopName: String!
-    var shopLogoURL: String!
-    var shopType: String!
+    var point: String?
+    var name: String?
+    var type: String?
+    var description: String?
+    var publishedAt: String?
+    var expiredAt: String?
+    var poster: String?
+    var discount: String?
+    var stampMax: String?
+    var campaignMax: String?
+    var qrID: String?
+    
+    var shopID: String!
+    var shopName: String?
+    var shopImageURL: String?
+    var shopType: String?
     
     // ------------------------------
     // MARK: -
     // MARK: Configuration
     // ------------------------------
     
-    init(promotionID: String!,
-        UserID: String!,
-        promotionPublishPoint: String!,
-        promotionPublishName: String!,
-        promotionPublishType: String!,
-        promotionPublishDescription: String!,
-        promotionPublishPoster: String!,
-        qrID: String!,
-        promotionPublishCreatedAt: String!,
-        promotionPublishUpdatedAt: String!,
-        promotionPublishPublishedAt: String!,
-        promotionPublishExpiredAt: String!,
-        shopName: String!,
-        shopLogoURL: String!,
-        shopType: String!) {
-            
-            super.init()
-            
-            self.UserID = UserID
-            self.promotionPublishPoint = promotionPublishPoint
-            self.promotionPublishName = promotionPublishName
-            self.promotionPublishType = promotionPublishType
-            self.promotionPublishDescription = promotionPublishDescription
-            self.promotionPublishPoster = promotionPublishPoster
-            self.qrID = qrID
-            self.promotionPublishCreatedAt = promotionPublishCreatedAt
-            self.promotionPublishUpdatedAt = promotionPublishUpdatedAt
-            self.promotionPublishPublishedAt = promotionPublishPublishedAt
-            self.promotionPublishExpiredAt = promotionPublishExpiredAt
-            self.shopName = shopName
-            self.shopLogoURL = shopLogoURL
-            self.shopType = shopType
+    required init?(_ map: Map) {
+        mapping(map)
     }
-
+    
+    func mapping(map: Map) {
+        self.promotionID <- map["promotionID"]
+        self.point <- map["point"]
+        self.name <- map["name"]
+        self.type <- map["type"]
+        self.description <- map["description"]
+        self.publishedAt <- map["publishedAt"]
+        self.expiredAt <- map["expiredAt"]
+        self.poster <- map["poster"]
+        self.discount <- map["discount"]
+        self.stampMax <- map["stampMax"]
+        self.campaignMax <- map["campaignMax"]
+        self.qrID <- map["qrID"]
+        
+        self.shopID <- map["shopID"]
+        self.shopName <- map["shopName"]
+        self.shopImageURL <- map["shopImageURL"]
+        self.shopType <- map["shopType"]
+    }
 }

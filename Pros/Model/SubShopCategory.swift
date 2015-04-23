@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import ObjectMapper
 
-class SubShopCategory: NSObject {
+class SubShopCategory: Mappable {
    
     // ------------------------------
     // MARK: -
@@ -19,23 +20,24 @@ class SubShopCategory: NSObject {
 //    var createdAt: NSDate!
 //    var updatedAt: NSDate!
     
-    var shopId: String!
-    var title: String!
-    var type: String!
-    var logoImageUrl: String!
+    var shopID: String!
+    var title: String?
+    var type: String?
+    var logoImageUrl: String?
     
     // ------------------------------
     // MARK: -
     // MARK: Configuration
     // ------------------------------
     
-    init(type: String, shopId: String, title: String, logoImageUrl: String!) {
-        
-            super.init()
-            
-            self.shopId = shopId
-            self.title = title
-            self.type = type
-            self.logoImageUrl = logoImageUrl
+    required init?(_ map: Map) {
+        mapping(map)
+    }
+    
+    func mapping(map: Map) {
+        self.shopID <- map["id"]
+        self.title <- map["name"]
+        self.type <- map["shopType"]
+        self.logoImageUrl <- map["UserLogoImageUrl"]
     }
 }

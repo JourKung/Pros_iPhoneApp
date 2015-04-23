@@ -7,33 +7,38 @@
 //
 
 import UIKit
+import ObjectMapper
 
-class ShopCategory: NSObject {
+class ShopCategory: Mappable {
    
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
-    var objectId: String!
-    var createdAt: NSDate!
-    var updatedAt: NSDate!
+//    var objectId: String!
+//    var createdAt: NSDate!
+//    var updatedAt: NSDate!
     
-    var type: String!
+    var shopType: String!
+    var typeIconURL: String?
     
     // ------------------------------
     // MARK: -
     // MARK: Configuration
     // ------------------------------
     
-    init(objectId: String?, createdAt: NSDate?, updatedAt: NSDate?,
-        type: String) {
-            super.init()
-            
-            self.objectId = objectId
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
-            
-            self.type = type
+    required init?(_ map: Map) {
+        mapping(map)
+    }
+    
+    init(shopType: String!, typeIconURL: String?) {
+        self.shopType = shopType
+        self.typeIconURL = typeIconURL
+    }
+    
+    func mapping(map: Map) {
+        self.shopType <- map["shopType"]
+        self.typeIconURL <- map["typeIconURL"]
     }
 }
