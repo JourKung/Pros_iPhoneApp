@@ -1,8 +1,8 @@
 //
 //  NSDateISO8601.swift
 //
-//  Created by Justin Makaila on 8/11/14.
-//  Copyright (c) 2014 Present, Inc. All rights reserved.
+//  Created by Suwat Saegauy on 13/104/15.
+//  Copyright (c) 2014 com.cpekmutt.project. All rights reserved.
 //
 
 import Foundation
@@ -17,7 +17,7 @@ public extension NSDate {
         return dateFormatter.stringFromDate(date).stringByAppendingString("Z")
     }
     
-    public class func dateFromISOString(string: String) -> NSDate {
+    public class func dateFromISOString(string: String) -> NSDate! {
         var dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.timeZone = NSTimeZone.localTimeZone()
