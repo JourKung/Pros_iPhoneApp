@@ -98,9 +98,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func customNavigationBarOfAppearance() -> Void {
         UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
-        UINavigationBar.appearance().barTintColor = UIColor.whiteColor() //UIColor(red: 0.490, green: 0.631, blue: 0.549, alpha: 1.000)
-        UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
-//        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)]
+        UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().tintColor = UIColor.applicationTwitterLogoBlueColor()
+    }
+    
+    func customTabbarOfAppearance() -> Void {
+        UITabBar.appearance().barTintColor = UIColor.whiteColor()  
+        UITabBar.appearance().tintColor = UIColor.applicationTwitterLogoBlueColor()
     }
     
     // ------------------------------
