@@ -210,7 +210,7 @@ class UserAuthenticationViewController: BaseViewController,
         form.profile = Mapper().toJSON(user)
         form.fbId = currentAccessToken.userID
         form.accessToken = currentAccessToken.tokenString
-        form.expirationDate = Utilities.dateStringFormatterWithDate(currentAccessToken.expirationDate)
+        form.expirationDate = Utilities.dateStringFromDate(currentAccessToken.expirationDate)
         
         self.handleUserFacebookRegisterResponse(form)
     }
@@ -229,6 +229,13 @@ class UserAuthenticationViewController: BaseViewController,
                 
                 println("[+] ObjectId: \(UserDefaults.sharedInstance.getUserObjectId())")
                 println("[+] SessionToken: \(UserDefaults.sharedInstance.getUserSessionToken())")
+                
+                let profile = form.profile
+                UserDefaults.sharedInstance.setUserFbId(profile["id"] as! String)
+                UserDefaults.sharedInstance.setUsername(profile["name"] as! String)
+                UserDefaults.sharedInstance.setUserEmail(profile["email"] as! String)
+                UserDefaults.sharedInstance.setUserBirthday(profile["birthday"] as! String)
+                UserDefaults.sharedInstance.setUserGender(profile["gender"] as! String)
                 
                 self.prosAPIClient.putUserFacebookProfile(form).responseJSON { (request, response, results, error) -> Void in
                     if let result: AnyObject = results {
