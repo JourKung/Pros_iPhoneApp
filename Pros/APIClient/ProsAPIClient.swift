@@ -17,7 +17,7 @@ class ProsAPIClient: NSObject {
     // ------------------------------
     
     private func urlString(path: String!) -> String! {
-        return (kDevBaseUrl)+(path)
+        return (kBaseUrl)+(path)
     }
     
     // ------------------------------
