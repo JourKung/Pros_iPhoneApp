@@ -27,6 +27,7 @@ class FeedbackViewController: BaseViewController {
         }
     }
     
+    var delegate: FeedbackViewControllerDelegate?
     weak var logoImage: UIImage! = UIImage()
     
     // ------------------------------
