@@ -19,8 +19,6 @@ class FeedbackViewController: BaseViewController {
     // MARK: Properties
     // ------------------------------
     
-    var delegate: FeedbackViewControllerDelegate?
-    
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var dialogView: UIView!
     @IBOutlet weak var logoImageView: UIImageView! {

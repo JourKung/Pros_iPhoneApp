@@ -75,7 +75,6 @@ class LocationViewController: BaseViewController,
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("LOCATION")
         
         let directionBarButtonItem: UIBarButtonItem! = UIBarButtonItem(title: "Directions", style: .Plain, target: self, action: "performWithDirectionLocation")
-        
         navigationItem.rightBarButtonItems = [directionBarButtonItem]
     }
     
