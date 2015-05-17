@@ -7,16 +7,21 @@
 //
 
 import UIKit
+import ObjectMapper
 
-class ShopCategoryViewController: BaseTableViewController {
+class ShopCategoryViewController: BaseViewController,
+    UITableViewDelegate,
+    UITableViewDataSource {
     
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
-    let prosAPIClient: ProsAPIClient! = ProsAPIClient()
-    var activities: [ShopCategory]! = [ShopCategory]()
+    @IBOutlet weak var tableViewOutlet: UITableView!
+    
+    let prosAPIClient = ProsAPIClient()
+    var activities = [ShopCategory]()
     
     // ------------------------------
     // MARK: -
@@ -28,22 +33,12 @@ class ShopCategoryViewController: BaseTableViewController {
         // Do any additional setup after loading the view.
         
         loadData()
-        customUI()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+        setupView()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
     }
     
     // ------------------------------
@@ -57,27 +52,30 @@ class ShopCategoryViewController: BaseTableViewController {
     // MARK: User interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
         customTableView()
+        customPullToRefresh()
     }
     
-    private func customNavigationBar() -> Void {
+    func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Categories")
         navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
     }
     
-    private func customTableView() -> Void {
-        tableView.estimatedRowHeight = 60.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+    func customTableView() -> Void {
+        self.tableViewOutlet.estimatedRowHeight = 60.0
+        self.tableViewOutlet.rowHeight = UITableViewAutomaticDimension
         
         // This will remove extra separators from tableview
-        tableView.separatorColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
-        tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        self.tableViewOutlet.separatorColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        self.tableViewOutlet.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
-    private func updateUI() -> Void {
-        
+    func customPullToRefresh() -> Void {
+        self.tableViewOutlet.addPullToRefresh({ [weak self] in
+            self?.loadData()
+        })
     }
     
     // ------------------------------
@@ -86,27 +84,19 @@ class ShopCategoryViewController: BaseTableViewController {
     // ------------------------------
     
     func loadData() -> Void {
-        if self.prosAPIClient?.getCategoriesWithCompletion() == nil {
-            return
-        }
-        
-        refreshControl?.beginRefreshing()
-//        let start = CACurrentMediaTime()
-        
-        self.prosAPIClient?.getCategoriesWithCompletion().responseJSON { (request, reponse, results, error) -> Void in
-//            let end = CACurrentMediaTime()
-            
-            if let categories = results?.objectForKey("shopType") as? [String] {
-                self.activities = [ShopCategory]()
-                for type in categories {
-                    self.activities.append(ShopCategory(objectId: nil, createdAt: nil, updatedAt: nil, type: type))
+        NSOperationQueue().addOperationWithBlock({
+            self.prosAPIClient.getCategoriesWithCompletion().responseJSON { (request, response, results, error) -> Void in
+                if let shopCategory = Mapper<ShopCategory>().mapArray(results) {
+                    self.activities = shopCategory
+                    self.activities.insert(ShopCategory(shopType: "All", typeIconURL: nil), atIndex: 0)
                 }
-                self.activities.insert(ShopCategory(objectId: nil, createdAt: nil, updatedAt: nil, type: "All"), atIndex: 0)
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    self.tableViewOutlet.reloadData()
+                    self.tableViewOutlet.stopPullToRefresh()
+                })
             }
-            
-            self.tableView.reloadData()
-            self.refreshControl?.endRefreshing()
-        }
+        })
     }
     
     // ------------------------------
@@ -119,22 +109,25 @@ class ShopCategoryViewController: BaseTableViewController {
     // MARK: Table view data source
     // ------------------------------
     
-    private let cellIdentifier = "Cell"
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.activities.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ShopCategoryTableViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cellIdentifier = "Cell"
+        let cell = self.tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ShopCategoryTableViewCell
         
-        let activity = self.activities[indexPath.row]
-        cell.typeLabel.text = activity.type
-        cell.typeImageView.image = UIImage(named: activity.type)
+        if let shopType = self.activities[indexPath.row].shopType {
+            cell.shopTypeNameLabel.text = shopType
+            cell.shopTypeImageView.image = UIImage(named: shopType)
+        } else {
+            cell.shopTypeNameLabel.text = "nil"
+            cell.shopTypeImageView.image = UIImage(named: "00_icon_people")
+        }
         
         return cell
     }
@@ -143,6 +136,10 @@ class ShopCategoryViewController: BaseTableViewController {
     // MARK: -  
     // MARK: Table view deleagete
     // ------------------------------
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.tableViewOutlet.deselectRowAtIndexPath(indexPath, animated: true)
+    }
     
     // MARK: - Navigation
 
@@ -154,9 +151,9 @@ class ShopCategoryViewController: BaseTableViewController {
         if segue.identifier == "SegueToSubShopCategory" {
             println("[Segue] Category -> Sub shop category")
             
-            if let indexPath = tableView.indexPathForSelectedRow() {
+            if let indexPath = self.tableViewOutlet.indexPathForSelectedRow() {
                 let destinationController = segue.destinationViewController as! SubShopCategoryViewController
-                destinationController.shopCategorySegue = self.activities[indexPath.row]
+                destinationController.shopTypeSegue = self.activities[indexPath.row].shopType
             }
         }
     }

@@ -16,10 +16,6 @@ class SubShopCategory: Mappable {
     // MARK: Properties
     // ------------------------------
     
-//    var objectId: String!
-//    var createdAt: NSDate!
-//    var updatedAt: NSDate!
-    
     var shopID: String!
     var title: String?
     var type: String?
@@ -38,6 +34,6 @@ class SubShopCategory: Mappable {
         self.shopID <- map["id"]
         self.title <- map["name"]
         self.type <- map["shopType"]
-        self.logoImageUrl <- map["UserLogoImageUrl"]
+        self.logoImageUrl <- map["logoImageURL"]
     }
 }

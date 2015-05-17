@@ -9,13 +9,16 @@
 import UIKit
 import Alamofire
 
-class SettingViewController: BaseTableViewController {
+class SettingViewController: BaseViewController,
+    UITableViewDataSource,
+    UITableViewDelegate {
 
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
+    @IBOutlet weak var tableViewOutlet: UITableView!
     @IBOutlet weak var logoutBarButtonItem: UIBarButtonItem!
     
     let prosAPIClient: ProsAPIClient! = ProsAPIClient()
@@ -29,24 +32,13 @@ class SettingViewController: BaseTableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        customUI()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
         loadData()
+        setupView()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
     }
     
     // ------------------------------
@@ -74,25 +66,29 @@ class SettingViewController: BaseTableViewController {
     // MARK: User interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
         customTableView()
+        customPullToRefresh()
     }
     
-    private func customNavigationBar() -> Void {
+    func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Settings")
         navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
     }
     
-    private func customTableView() -> Void {
-        tableView.estimatedRowHeight = 80.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+    func customTableView() -> Void {
+        self.tableViewOutlet.estimatedRowHeight = 80.0
+        self.tableViewOutlet.rowHeight = UITableViewAutomaticDimension
         
         // This will remove extra separators from tableview
-        tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableViewOutlet.tableFooterView = UIView(frame: CGRectZero)
     }
     
-    private func updateUI() -> Void {
+    func customPullToRefresh() -> Void {
+        self.tableViewOutlet.addPullToRefresh({ [weak self] in
+            self?.loadData()
+        })
     }
     
     // ------------------------------
@@ -101,7 +97,10 @@ class SettingViewController: BaseTableViewController {
     // ------------------------------
     
     func loadData() -> Void {
-        
+        NSOperationQueue.mainQueue().addOperationWithBlock({
+            self.tableViewOutlet.reloadData()
+            self.tableViewOutlet.stopPullToRefresh()
+        })
     }
 
     // ------------------------------
@@ -109,15 +108,9 @@ class SettingViewController: BaseTableViewController {
     // MARK: Configuration
     // ------------------------------
     
-    private let userInformationCellIdentifier       = "UserInformationCell"
-    private let generalCellIdentifier               = "GeneralCell"
-    private let pushNotificationCellIdentifier      = "PushNotificationCell"
-    private let estimoteNotificationCellIdentifier  = "EstimoteNotificationCell"
-    private let supportCellIdentifier               = "SupportCell"
-    private let privacyCellIdentifier               = "PrivacyCell"
-    
-    private func userInformationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(userInformationCellIdentifier, forIndexPath: indexPath) as! SettingUserInformationTableViewCell
+    func userInformationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
+        let cellIdentifier = "UserInformationCell"
+        let cell = self.tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! SettingUserInformationTableViewCell
         
         cell.usernameLabel.text = UserDefaults.sharedInstance.getUsername()
         cell.userEmailLabel.text = UserDefaults.sharedInstance.getUserEmail()
@@ -127,34 +120,39 @@ class SettingViewController: BaseTableViewController {
         return cell
     }
     
-    private func generalTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(generalCellIdentifier, forIndexPath: indexPath) as! SettingGeneralTableViewCell
+    func generalTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
+        let cellIdentifier = "GeneralCell"
+        let cell = self.tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! SettingGeneralTableViewCell
         
         return cell
     }
     
-    private func pushNotificationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(pushNotificationCellIdentifier, forIndexPath: indexPath) as! SettingPushNotificationTableViewCell
+    func pushNotificationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
+        let cellIdentifier = "PushNotificationCell"
+        let cell = self.tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! SettingPushNotificationTableViewCell
         cell.pushNotiSwitch.setOn(true, animated: true)
         
         return cell
     }
     
-    private func estimoteNotificationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(estimoteNotificationCellIdentifier, forIndexPath: indexPath) as! SettingEstimoteNotificationTableViewCell
+    func estimoteNotificationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
+        let cellIdentifier = "EstimoteNotificationCell"
+        let cell = self.tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! SettingEstimoteNotificationTableViewCell
         cell.estimoteNotiSwitch.setOn(true, animated: true)
         
         return cell
     }
     
-    private func supportTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(supportCellIdentifier, forIndexPath: indexPath) as! SettingGeneralTableViewCell
+    func supportTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
+        let cellIdentifier = "SupportCell"
+        let cell = self.tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! SettingGeneralTableViewCell
         
         return cell
     }
     
-    private func privacyTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(privacyCellIdentifier, forIndexPath: indexPath) as! SettingGeneralTableViewCell
+    func privacyTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
+        let cellIdentifier = "PrivacyCell"
+        let cell = self.tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! SettingGeneralTableViewCell
         
         return cell
     }
@@ -164,15 +162,15 @@ class SettingViewController: BaseTableViewController {
     // MARK: Table view data source
     // ------------------------------
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch (indexPath.row) {
         case 0:
             return userInformationTableViewCell(indexPath)
@@ -196,6 +194,9 @@ class SettingViewController: BaseTableViewController {
     // MARK: Table view deleagete
     // ------------------------------
 
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.tableViewOutlet.deselectRowAtIndexPath(indexPath, animated: true)
+    }
     
     // MARK: - Navigation
 
@@ -205,7 +206,7 @@ class SettingViewController: BaseTableViewController {
         // Pass the selected object to the new view controller.
         
         if (segue.identifier == "SegueToAbout") {
-            if let indexPath = tableView.indexPathForSelectedRow() {
+            if let indexPath = self.tableViewOutlet.indexPathForSelectedRow() {
                 let destinationViewController = segue.destinationViewController as! SettingAboutViewController
             }
         }

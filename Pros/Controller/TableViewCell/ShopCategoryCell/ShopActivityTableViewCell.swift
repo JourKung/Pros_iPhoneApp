@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ShopActivityTableViewCellDelegate {
-    func getToggleDelegate(cell: AnyObject)
+    func getSubscribeStateToggleDelegate(cell: AnyObject)
 }
 
 class ShopActivityTableViewCell: UITableViewCell {
@@ -19,14 +19,14 @@ class ShopActivityTableViewCell: UITableViewCell {
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var logoImageView: UIImageView! {
+    @IBOutlet weak var shopLogoImageView: UIImageView! {
         didSet {
-            Utilities.roundCornersWithImageView(self.logoImageView, cornerRadius: self.logoImageView.frame.size.width/2, borderWidth: 0.0, color: UIColor.clearColor())
+            Utilities.roundCornersWithImageView(self.shopLogoImageView, cornerRadius: self.shopLogoImageView.frame.size.width/2, borderWidth: 0.0, color: UIColor.clearColor())
         }
     }
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var typeLabel: UILabel!
-    @IBOutlet weak var subscribeButton: UIButton!
+    @IBOutlet weak var shopNameLabel: UILabel!
+    @IBOutlet weak var shopTypeNameLabel: UILabel!
+    @IBOutlet weak var shopSubscribeButton: UIButton!
 
     var delegate: ShopActivityTableViewCellDelegate?
     var subscribeState: Bool! = false // Not subscribe by default
@@ -53,7 +53,7 @@ class ShopActivityTableViewCell: UITableViewCell {
     // ------------------------------
     
     @IBAction func subscribeToggle(sender: AnyObject) {
-        self.delegate!.getToggleDelegate(self)
+        self.delegate!.getSubscribeStateToggleDelegate(self)
     }
     
     // ------------------------------
@@ -80,12 +80,12 @@ class ShopActivityTableViewCell: UITableViewCell {
     func unsubscribe() -> Void {
         // Set to unsubscribe
         self.subscribeState = false
-        self.customSubscribeButton(self.subscribeButton, title: "Subscribe", titleColor: UIColor.applicationTwitterLogoBlueColor(), borderColor: UIColor.applicationTwitterLogoBlueColor())
+        self.customSubscribeButton(self.shopSubscribeButton, title: "Subscribe", titleColor: UIColor.applicationTwitterLogoBlueColor(), borderColor: UIColor.applicationTwitterLogoBlueColor())
     }
     
     func subscribe() -> Void {
         // Set to subscribed
         self.subscribeState = true
-        customSubscribeButton(self.subscribeButton, title: "Subscribed", titleColor: UIColor.redColor(), borderColor: UIColor.redColor())
+        customSubscribeButton(self.shopSubscribeButton, title: "Subscribed", titleColor: UIColor.redColor(), borderColor: UIColor.redColor())
     }
 }

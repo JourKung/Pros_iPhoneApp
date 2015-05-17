@@ -15,7 +15,7 @@ class ShopDescriptionTableViewCell: UITableViewCell {
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var shopDescriptionLabel: UILabel!
     
     // ------------------------------
     // MARK: -

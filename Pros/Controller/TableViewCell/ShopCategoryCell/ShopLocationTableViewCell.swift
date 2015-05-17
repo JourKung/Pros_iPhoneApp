@@ -15,8 +15,7 @@ class ShopLocationTableViewCell: UITableViewCell {
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var locationImageView: UIImageView!
+    @IBOutlet weak var shopLocationLabel: UILabel!
     
     // ------------------------------
     // MARK: -

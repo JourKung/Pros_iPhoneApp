@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import ObjectMapper
+import ImageLoader
+import Alamofire
 
 class ShopViewController: BaseTableViewController,
     UIScrollViewDelegate,
@@ -18,17 +21,14 @@ class ShopViewController: BaseTableViewController,
     // MARK: Properties
     // ------------------------------
     
-//    var shopActivityTableViewCell: ShopActivityTableViewCell! = ShopActivityTableViewCell()
-    var feedbackVC: FeedbackViewController!
-    
-    @IBOutlet weak var rightBarButtonItem: UIBarButtonItem!
-    
     let prosAPIClient: ProsAPIClient! = ProsAPIClient()
-    var subShopCategorySegue: SubShopCategory!
     var activities: Shop!
-    var activitiesSubscribeStatus: Bool!
+    var activitiesFeedback: [Feedback]!
+    var activitiesSubscribeState: Bool!
+    var subShopCategorySegue: SubShopCategory!
     
-    var imageCache = [String: UIImage]()
+    var feedbackBarButtonItem: UIBarButtonItem!
+    var shareBarButtonItem: UIBarButtonItem!
     
     // Create the UIImageView
     let imageView = UIImageView()
@@ -55,19 +55,9 @@ class ShopViewController: BaseTableViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-//        self.shopActivityTableViewCell.delegate = self
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         
         loadData()
-        customUI()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-//        (self.tableViewOutlet.tableHeaderView as ParallaxHeaderView).refreshBlurViewForNewImage()
-        super.viewDidAppear(animated)
+        setupView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,39 +69,12 @@ class ShopViewController: BaseTableViewController,
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
-    }
-    
+
     // ------------------------------
     // MARK: -
     // MARK: Action
     // ------------------------------
-    /*
-    @IBAction func rightBarButtonItem(sender: AnyObject) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
-            println("[Log] Cancel ActionSheet")
-        }
-        alertController.addAction(cancelAction)
-        
-        let feedbackAction = UIAlertAction(title: "Feedback", style: .Default) { (action) in
-            self.performWithFeedbackViewControllerAnimated(true)
-        }
-        alertController.addAction(feedbackAction)
-        
-        let shareAction = UIAlertAction(title: "Share", style: .Default) { (action) in
-            self.performWithShareViewControllerAnimated(true)
-        }
-        alertController.addAction(shareAction)
-        
-        presentViewController(alertController, animated: true, completion: nil)
-    }
-    */
+    
     @IBAction func unwindCloseWithFeedbackViewController(segue: UIStoryboardSegue) {
         println("[Unwind] From Feedback to Shop")
     }
@@ -125,9 +88,10 @@ class ShopViewController: BaseTableViewController,
     // MARK: User interface
     // ------------------------------
     
-    func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
         customTableView()
+        customPullToRefresh()
     }
     
     func customNavigationBar() -> Void {
@@ -135,70 +99,56 @@ class ShopViewController: BaseTableViewController,
         navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
 
         // action: Selector("funcName") or "funcName" Note: funcName isn't private func
-        let feedbackBarButtonItem = UIBarButtonItem(image: UIImage(named: "00_more-toolbar"), style: UIBarButtonItemStyle.Plain, target: self, action: "performWithFeedbackViewControllerAnimated:")
-        let shareBarButtonItem = UIBarButtonItem(image: UIImage(named: "01_share-toolbar"), style: UIBarButtonItemStyle.Plain, target: self, action: "performWithShareViewControllerAnimated:")
-        navigationItem.rightBarButtonItems = [shareBarButtonItem, feedbackBarButtonItem]
+        self.feedbackBarButtonItem = UIBarButtonItem(image: UIImage(named: "00_more-toolbar"), style: UIBarButtonItemStyle.Plain, target: self, action: "performWithFeedbackViewControllerAnimated:")
+        self.shareBarButtonItem = UIBarButtonItem(image: UIImage(named: "00_icon_share"), style: UIBarButtonItemStyle.Plain, target: self, action: "performWithShareViewControllerAnimated:")
+        self.feedbackBarButtonItem.enabled = false
+        self.shareBarButtonItem.enabled = false
+        navigationItem.rightBarButtonItems = [self.shareBarButtonItem, self.feedbackBarButtonItem]
     }
+    
+//    func updateUI() -> Void {
+//        self.feedbackBarButtonItem = UIBarButtonItem(image: UIImage(named: "00_more-toolbar"), style: UIBarButtonItemStyle.Plain, target: self, action: "performWithFeedbackViewControllerAnimated:")
+//        navigationItem.rightBarButtonItems?.insert(self.feedbackBarButtonItem, atIndex: 1)
+//    }
     
     func customTableView() -> Void {
         tableView.estimatedRowHeight = 80.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
         // This will remove extra separators from tableview
-        tableView.tableFooterView = UIView(frame: CGRectZero)
-        tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+//        tableView.tableFooterView = UIView(frame: CGRectZero)
+//        tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
-//        let headerView: ParallaxHeaderView = ParallaxHeaderView.parallaxHeaderViewWithImage(UIImage(named: "00_coverDummy"), forSize: CGSizeMake(self.tableViewOutlet.frame.size.width, 200)) as ParallaxHeaderView
+//        let headerView = ParallaxHeaderView.parallaxHeaderViewWithImage(UIImage(named: "00_coverDummy"), forSize: CGSizeMake(tableView.frame.size.width, 200)) as! ParallaxHeaderView
 //        headerView.headerTitleLabel.text = "Starbucks Coffee"
 //        headerView.headerLogoImageView.image = UIImage(named: "00_logoDummy")
-//        self.tableViewOutlet.tableHeaderView = headerView
+//        tableView.tableHeaderView = headerView
+    }
+    
+    func customPullToRefresh() -> Void {
+        refreshControl!.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
     }
     
     func customParallaxHeaderTableView() -> Void {
         // Set the contentInset to make room for the image.
         tableView.contentInset = UIEdgeInsets(top: self.imageHeight, left: 0, bottom: 0, right: 0)
         
-        if let activitiyUserCoverImageUrl = self.activities?.UserCoverImageUrl {
-            let tmpURL = Utilities.cleanUrl(activitiyUserCoverImageUrl)
-            let image = self.imageCache[tmpURL]
-            
-            if (image == nil) {
-                // Download an NSData representation of the image at the URL
-                let urlRequest: NSURLRequest! = NSURLRequest(URL: NSURL(string: tmpURL)!)
-                NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-                    (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
-                    
-                    if (connectionError == nil && data != nil) {
-                        self.imageCache[tmpURL] = UIImage(data: data)
-                        
-                        dispatch_async(dispatch_get_main_queue(), {
-                            self.imageView.image = self.imageCache[tmpURL]
-                        })
-                    }
-                    else {
-                        println("Error: \(connectionError.localizedDescription)")
-                    }
-                })
-            } else {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.imageView.image = image
-                })
-            }
+        if let activitiyUserCoverImageUrl = self.activities?.coverImageURL {
+            let URL: NSURL = NSURL(string: activitiyUserCoverImageUrl)!
+            self.imageView.load(URL)
         } else {
-            self.imageView.image = UIImage(named: "00_coverDummy")
+            var blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Dark)
+            var blurEffectView = UIVisualEffectView(effect: blurEffect)
+            blurEffectView.frame = view.bounds
+            self.imageView.addSubview(blurEffectView)
         }
-    
         
         // Change the contentMode for the ImageView.
-        self.imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        
+        self.imageView.contentMode = .ScaleAspectFill
         // Add the imageView to the TableView and send it to the back.
         view.addSubview(imageView)
         view.sendSubviewToBack(imageView)
-    }
-    
-    private func updateUI() -> Void {
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -211,50 +161,55 @@ class ShopViewController: BaseTableViewController,
     // ------------------------------
     
     func loadData() -> Void {
-        if self.prosAPIClient?.getCategoriesWithCompletion() == nil {
-            return
-        }
-        
         refreshControl?.beginRefreshing()
         
-        self.prosAPIClient?.getShopByShopIdWithCompletion(self.subShopCategorySegue.shopId).responseJSON { (request, reponse, results, error) -> Void in
-            
-            if let shop = results as? [String: AnyObject] {
-                self.activities = Shop(shopId: shop["id"] as! String
-                    , name: shop["name"] as! String
-                    , UserFirstName: shop["UserFirstName"] as! String
-                    , UserLastName: shop["UserLastName"] as! String
-                    , email: shop["email"] as! String
-                    , Username: shop["Username"] as! String
-                    , shopType: shop["shopType"] as! String
-                    , UserTermCondition: shop["UserTermCondition"] as! String
-                    , UserLogoImageUrl: shop["UserLogoImageUrl"] as! String
-                    , UserCoverImageUrl: shop["UserCoverImageUrl"] as! String
-                    , UserShopDescription: shop["UserShopDescription"] as! String
-                    , UserLocationLat: shop["UserLocationLat"] as! String
-                    , UserLocationLong: shop["UserLocationLong"] as! String
-                    , Telephone: shop["Telephone"] as! String
-                    , ShopConcept: shop["ShopConcept"] as! String
-                    , created_at: shop["created_at"] as! String
-                    , updated_at: shop["updated_at"] as! String)
+        NSOperationQueue().addOperationWithBlock({
+            let form = ShopForm()
+            form.shopId = self.subShopCategorySegue.shopID
+            self.prosAPIClient.getShopByShopIdWithCompletion(form).responseJSON { (request, response, results, error) -> Void in
+                if let shop = Mapper<Shop>().map(results) {
+                    self.activities = shop
+                    self.customParallaxHeaderTableView()
+                    
+                    self.shareBarButtonItem.enabled = true
+                }
                 
-                self.customParallaxHeaderTableView()
-                
-                self.tableView.reloadData()
-                self.refreshControl?.endRefreshing()
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    self.tableView.reloadData()
+                    self.refreshControl?.endRefreshing()
+                })
             }
-        }
+        })
+                
+        NSOperationQueue().addOperationWithBlock({
+            let form = SubscribeForm()
+            form.fbId = UserDefaults.sharedInstance.getUserFbId()
+            form.shopId = self.subShopCategorySegue.shopID
+            self.prosAPIClient.getSubscribeByFbIdAndShopIdWithCompletion(form).responseJSON { (request, response, results, error) -> Void in
+                if let status = results as? Bool {
+                    self.activitiesSubscribeState = status
+                }
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    self.tableView.reloadData()
+                })
+            }
+        })
         
-        self.prosAPIClient?.getSubscribeByFbIdAndShopIdWithCompletion(UserDefaults.sharedInstance.getUserFbId(), shopId: self.subShopCategorySegue?.shopId).responseJSON {
-            (request, reponse, results, error) -> Void in
-            
-            if let status = results as? Bool {
-                self.activitiesSubscribeStatus = status
-                
-                self.tableView.reloadData()
-                self.refreshControl?.endRefreshing()
+        NSOperationQueue().addOperationWithBlock({
+            let form = FeedbackForm()
+            form.shopId = self.subShopCategorySegue?.shopID
+            self.prosAPIClient.getFeedbackWithCompletion(form).responseJSON { (request, response, results, error) -> Void in
+                if let feedback = Mapper<Feedback>().mapArray(results) {
+                    if feedback.count == 0 {
+                        self.feedbackBarButtonItem.enabled = false
+                    } else {
+                        self.activitiesFeedback = feedback
+                        self.feedbackBarButtonItem.enabled = true
+                    }
+                }
             }
-        }
+        })
     }
     
     // ------------------------------
@@ -262,143 +217,181 @@ class ShopViewController: BaseTableViewController,
     // MARK: Configuration
     // ------------------------------
     
-    private let activityCellIdentifier      = "ActivityCell"
-    private let descriptionCellIdentifier   = "DescriptionCell"
-    private let locationCellIdentifier      = "LocationCell"
-    private let supportCellIdentifier       = "SupportCell"
-    
     func activitiyTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(activityCellIdentifier, forIndexPath: indexPath) as! ShopActivityTableViewCell
-        cell.titleLabel.text = self.activities?.name
-        cell.typeLabel.text = self.activities?.shopType
-        cell.delegate = self
+        let cellIdentifier = "ActivityCell"
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ShopActivityTableViewCell
         
-        if let subscribeStatus = self.activitiesSubscribeStatus?.boolValue {
-            if subscribeStatus {
+        if let activity = self.activities {
+            
+            cell.delegate = self
+            
+            if let name = activity.name {
+                cell.shopNameLabel.text = name
+            } else {
+                cell.shopNameLabel.text = "nil"
+            }
+            
+            if let shopType = activity.shopType {
+                cell.shopTypeNameLabel.text = shopType
+            } else {
+                cell.shopTypeNameLabel.text = "nil"
+            }
+            
+            let placeholder = UIImage(named: "00_icon_people")!
+            if let logoImageURL = activity.logoImageURL {
+                let URL: NSURL! = NSURL(string: logoImageURL)
+                cell.shopLogoImageView?.load(URL, placeholder: placeholder)
+            } else {
+                cell.shopLogoImageView.image = placeholder
+            }
+        }
+
+        if let activitySubscribeState = self.activitiesSubscribeState {
+            if activitiesSubscribeState.boolValue {
                 cell.subscribe()
             } else {
                 cell.unsubscribe()
             }
         }
-        
-        if let activitiyUserLogoImageUrl = self.activities?.UserLogoImageUrl {
-            let tmpURL = Utilities.cleanUrl(activitiyUserLogoImageUrl)
-            let image = self.imageCache[tmpURL]
-            
-            if (image == nil) {
-                // Download an NSData representation of the image at the URL
-                let urlRequest: NSURLRequest! = NSURLRequest(URL: NSURL(string: tmpURL)!)
-                NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-                    (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
-                    
-                    if (connectionError == nil && data != nil) {
-                        self.imageCache[tmpURL] = UIImage(data: data)
-                        
-                        dispatch_async(dispatch_get_main_queue(), {
-                            if let cellToUpdate = self.tableView.cellForRowAtIndexPath(indexPath) as? ShopActivityTableViewCell {
-                                cellToUpdate.logoImageView.image = self.imageCache[tmpURL]
-                            }
-                        })
-                    }
-                    else {
-                        println("Error: \(connectionError.localizedDescription)")
-                    }
-                })
-            } else {
-                dispatch_async(dispatch_get_main_queue(), {
-                    if let cellToUpdate = self.tableView.cellForRowAtIndexPath(indexPath) as? ShopActivityTableViewCell {
-                        cellToUpdate.logoImageView.image = image
-                    }
-                })
-            }
-        }
-        
-        
-        
+       
         return cell
     }
     
     func descriptionTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(descriptionCellIdentifier, forIndexPath: indexPath) as! ShopDescriptionTableViewCell
-        cell.descriptionLabel.text = self.activities?.UserShopDescription
+        let cellIdentifier = "DescriptionCell"
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ShopDescriptionTableViewCell
+        cell.shopDescriptionLabel.text = self.activities?.description
         
         return cell
     }
     
     func locationTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(locationCellIdentifier, forIndexPath: indexPath) as! ShopLocationTableViewCell
-        cell.locationLabel.text = "Cupertino, CA 95014 (408) 996-1010"
+        let cellIdentifier = "LocationCell"
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ShopLocationTableViewCell
+        cell.shopLocationLabel.text = self.activities?.address
         
         return cell
     }
     
     func supportTableViewCell(indexPath: NSIndexPath!) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(supportCellIdentifier, forIndexPath: indexPath) as! ShopSupportTableViewCell
+        let cellIdentifier = "SupportCell"
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ShopSupportTableViewCell
         
         return cell
     }
     
     func performWithFeedbackViewControllerAnimated(animated: Bool) -> Void {
         let containerFeedbackVC = storyboard?.instantiateViewControllerWithIdentifier("FeedbackViewController") as! FeedbackViewController
-        // userId, shopId, coverImage Aspect Fill (Background blurEffect), logoImage
-        containerFeedbackVC.logoImage = UIImage(named: "00_logoDummy")
         containerFeedbackVC.delegate = self
+        
+        if let activity = self.activities {
+            if let logoImageURL = self.activities?.logoImageURL {
+                let URL: NSURL! = NSURL(string: logoImageURL)
+                let urlRequest: NSURLRequest! = NSURLRequest(URL: URL)
+                
+                NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+                    (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
+                    if (connectionError == nil && data != nil) {
+                        containerFeedbackVC.logoImageView.image = UIImage(data: data)
+                    } else {
+                        println("[Log] Error: \(connectionError.localizedDescription)")
+                    }
+                })
+            } else {
+                containerFeedbackVC.logoImageView.image = UIImage(named: "00_icon_people")
+            }
+        }
+        
+        if let question = self.activitiesFeedback.last?.question {
+            containerFeedbackVC.questionString = question
+        } else {
+            containerFeedbackVC.questionString = "How was your experience?"
+        }
+        
         presentViewController(containerFeedbackVC, animated: animated, completion: nil)
     }
     
     func performWithLocationViewControllerAnimated(animated: Bool) -> Void {
-        let containerLocationVC = storyboard?.instantiateViewControllerWithIdentifier("LocationViewController") as! UINavigationController//LocationViewController
-//        presentViewController(containerLocationVC, animated: animated, completion: nil)
-        navigationController?.presentViewController(containerLocationVC, animated: animated, completion: nil)
+        let containerLocationNC = storyboard?.instantiateViewControllerWithIdentifier("LocationNavigationController") as! UINavigationController
+        let containerLocationVC = LocationViewController()
+        if let activity = self.activities {
+            containerLocationVC.activities = activity
+            
+            /*
+            if let logoImageURL = activity.logoImageURL {
+                let URL: NSURL! = NSURL(string: logoImageURL)
+                let urlRequest: NSURLRequest! = NSURLRequest(URL: URL)
+                NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+                    (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
+                    if (connectionError == nil && data != nil) {
+                        containerLocationVC.logoImageCache = UIImage(data: data)
+                    } else {
+                        println("[Log] Error: \(connectionError.localizedDescription)")
+                    }
+                })
+            } else {
+                containerLocationVC.logoImageCache = UIImage(named: "00_icon_people")
+            }
+            */
+            
+            navigationController?.presentViewController(containerLocationNC, animated: animated, completion: nil)
+        }
     }
     
     func performWithShareViewControllerAnimated(animated: Bool) -> Void {
-        var logoImage: UIImage!
-        
-        if let imageCache = self.imageCache[self.activities.UserLogoImageUrl] {
-            logoImage = imageCache
-        } else {
-            logoImage = UIImage(named: "00_logoDummy")
+        if let activity = self.activities {
+            if let logoImageURL = self.activities.logoImageURL {
+                let URL: NSURL = NSURL(string: logoImageURL)!
+                let urlRequest: NSURLRequest! = NSURLRequest(URL: URL)
+                NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+                    (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
+                    if (connectionError == nil && data != nil) {
+                        
+                        let by: String! = "@ \(activity.name!)"
+                        let image: UIImage! = UIImage(data: data)
+                        
+                        let objectsToShare: [AnyObject]! = [image, by]
+                        let activityViewController: UIActivityViewController! = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+                        
+                        let excludedActivities = [
+                            //UIActivityTypeAirDrop,
+                            //UIActivityTypePostToFacebook,
+                            //UIActivityTypePostToTwitter,
+                            //UIActivityTypeMessage,
+                            //UIActivityTypeMail,
+                            //UIActivityTypePrint,
+                            //UIActivityTypeCopyToPasteboard,
+                            UIActivityTypePostToWeibo,
+                            UIActivityTypeAssignToContact,
+                            UIActivityTypeSaveToCameraRoll,
+                            UIActivityTypeAddToReadingList,
+                            UIActivityTypePostToFlickr,
+                            UIActivityTypePostToVimeo,
+                            UIActivityTypePostToTencentWeibo
+                        ]
+                        
+                        activityViewController.excludedActivityTypes = excludedActivities
+                        self.presentViewController(activityViewController, animated: animated, completion: nil)
+                    } else {
+                        println("[Log] Error: \(connectionError.localizedDescription)")
+                    }
+                })
+            }
         }
-        
-        let title: String! = self.activities?.name
-        let type: String! = self.activities?.shopType
-        let detail: String! = self.activities?.UserShopDescription
-        
-        let objectsToShare: [AnyObject]! = [logoImage, title, type, detail]
-        
-        var activityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-        let excludedActivities = [
-            //UIActivityTypeAirDrop
-            //UIActivityTypePostToFacebook,
-            //UIActivityTypePostToTwitter,
-            UIActivityTypePostToWeibo,
-            //UIActivityTypeMessage,
-            //UIActivityTypeMail,
-            //UIActivityTypePrint,
-            //UIActivityTypeCopyToPasteboard,
-            //UIActivityTypeAssignToContact,
-            UIActivityTypeSaveToCameraRoll,
-            UIActivityTypeAddToReadingList,
-            UIActivityTypePostToFlickr,
-            UIActivityTypePostToVimeo,
-            UIActivityTypePostToTencentWeibo]
-        
-        activityViewController.excludedActivityTypes = excludedActivities
-        presentViewController(activityViewController, animated: animated, completion: nil)
     }
     
     // Define method for image location changes.
     func moveImage() {
-        let imageOffset = (scrollOffset >= 0) ? scrollOffset / parallaxFactor : 0
-        let imageHeight = (scrollOffset >= 0) ? self.imageHeight : self.imageHeight - scrollOffset
-        imageView.frame = CGRect(x: 0, y: -imageHeight + imageOffset, width: view.bounds.width, height: imageHeight)
+        let imageOffset = (self.scrollOffset >= 0) ? self.scrollOffset / parallaxFactor : 0
+        let imageHeight = (self.scrollOffset >= 0) ? self.imageHeight : self.imageHeight - self.scrollOffset
+        self.imageView.frame = CGRect(x: 0, y: -imageHeight + imageOffset, width: view.bounds.width, height: imageHeight)
     }
     
     // ------------------------------
     // MARK: -
     // MARK: Scroll view delegate
     // ------------------------------
+    
     /*
     func scrollViewDidScroll(scrollView: UIScrollView) {
 //        let header: ParallaxHeaderView = self.tableViewOutlet.tableHeaderView as ParallaxHeaderView
@@ -413,7 +406,7 @@ class ShopViewController: BaseTableViewController,
     
     // Update scrollOffset on tableview scroll
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        scrollOffset = tableView.contentOffset.y + imageHeight
+        self.scrollOffset = tableView.contentOffset.y + self.imageHeight
     }
     
     // ------------------------------
@@ -430,6 +423,7 @@ class ShopViewController: BaseTableViewController,
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         switch (indexPath.row) {
         case 0:
             return activitiyTableViewCell(indexPath)
@@ -458,27 +452,37 @@ class ShopViewController: BaseTableViewController,
             break
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     // ------------------------------
     // MARK: -
     // MARK: Feedback view controller deleagete
     // ------------------------------
     
-    func feedbackWithAlertController(message: String!) {
-        let alertController = UIAlertController(title: message, message: "", preferredStyle: .Alert)
+    func feedbackWithAlertController(message: String!, rating: String!) -> Void {
+        let form = LoginWithFacebookForm()
+        let alertController = UIAlertController(title: "Thank you for submitted", message: "", preferredStyle: .Alert)
         let confirmAction = UIAlertAction(title: "Done", style: .Default, handler: nil)
         alertController.addAction(confirmAction)
-        presentViewController(alertController, animated: true, completion: nil)
+        presentViewController(alertController, animated: true, completion: {
+            self.submitFeedbackWithForm(rating)
+        })
+    }
+    
+    func submitFeedbackWithForm(rating: String!) -> Void {
+        let form = SubmitFeedbackForm()
+        if let activityFeedback = self.activitiesFeedback.last {
+            form.facebook_id = UserDefaults.sharedInstance.getUserFbId()
+            form.feedbackquestion_id = activityFeedback.feedbackID
+            form.answer = rating
+            
+            NSOperationQueue().addOperationWithBlock({
+                self.prosAPIClient.postSubmitFeedbackWithCompletion(form).responseJSON { (request, response, results, error) -> Void in
+                    if let result = results as? Bool {
+                        println("[Submit feedback] \(form.facebook_id) | \(form.feedbackquestion_id) | \(result)")
+                    }
+                }
+            })
+        }
     }
     
     // ------------------------------
@@ -486,15 +490,42 @@ class ShopViewController: BaseTableViewController,
     // MARK: Shop activity table view cell controller deleagete
     // ------------------------------
     
-    func getToggleDelegate() -> Void {
-        self.prosAPIClient?.getToggleSubscribeByFbIdAndShopIdWithCompletion(UserDefaults.sharedInstance.getUserFbId(), shopId: self.subShopCategorySegue?.shopId).responseJSON {
-            (request, reponse, results, error) -> Void in
+    func getSubscribeStateToggleDelegate(cell: AnyObject) -> Void {
+        if let status = self.activitiesSubscribeState {
+            // status ? Subscribed : Not subscribe
+            status ? (performWithUnsubscribe(cell)) : (performWithToggleAPI())
+        }
+    }
+    
+    func performWithUnsubscribe(cell: AnyObject) -> Void {
+        let alertController = UIAlertController(title: self.activities?.name, message: nil, preferredStyle: .ActionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            println("[Log] Cancel ActionSheet")
+        }
+        alertController.addAction(cancelAction)
+        
+        let unsubscribeAction = UIAlertAction(title: "Unsubscribe", style: .Destructive) { (action) in
+            self.performWithToggleAPI()
+            cell.unsubscribe()
+        }
+        alertController.addAction(unsubscribeAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func performWithToggleAPI() -> Void {
+        let form = ShopSubscribeToggleForm()
+        form.fbId = UserDefaults.sharedInstance.getUserFbId()
+        form.shopId = subShopCategorySegue.shopID
+        
+        self.prosAPIClient.getSubscribeToggleByFbIdAndShopIdWithCompletion(form).responseJSON {
+            (request, response, results, error) -> Void in
             
             if let status = results as? Bool {
-                self.activitiesSubscribeStatus = status
-                
+                println("[Log] subscribe state: \(status)")
+                self.activitiesSubscribeState = status
                 self.tableView.reloadData()
-                self.refreshControl?.endRefreshing()
             }
         }
     }

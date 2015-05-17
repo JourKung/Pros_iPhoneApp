@@ -7,29 +7,47 @@
 //
 
 import UIKit
+import ObjectMapper
 
-class Card: NSObject {
+class Card: Mappable {
    
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
-//    var objectId: String!
-//    var createdAt: NSDate!
-//    var updatedAt: NSDate!
-    
-    var title: String!
+    var id: String!
+    var shopID: String?
+    var userID: String?
+    var publishAt: String?
+    var expireAt: String?
+    var extendAt: String?
+    var point: String?
+    var shopName: String?
+    var shopLogoURL: String?
+    var shopCoverURL: String? //TOP
+    var shopType: String?
     
     // ------------------------------
     // MARK: -
     // MARK: Configuration
     // ------------------------------
     
-    init(title: String!) {
-            super.init()
-        
-        self.title = title
-        
+    required init?(_ map: Map) {
+        mapping(map)
+    }
+    
+    func mapping(map: Map) {
+        self.id <- map["id"]
+        self.shopID <- map["shopID"]
+        self.userID <- map["userID"]
+        self.publishAt <- map["publishAt"]
+        self.expireAt <- map["expireAt"]
+        self.extendAt <- map["extendAt"]
+        self.point <- map["point"]
+        self.shopName <- map["shopName"]
+        self.shopLogoURL <- map["shopLogoURL"]
+        self.shopCoverURL <- map["shopCoverURL"]
+        self.shopType <- map["shopType"]
     }
 }

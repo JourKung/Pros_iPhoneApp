@@ -8,6 +8,15 @@
 
 import UIKit
 
+let NORMAL_TEXT_FONT                = UIFont(name: "Helvetica-Neue", size: 14)
+let NORMAL_TEXT_COLOR               = UIColor(red: 0.0, green: 122.0, blue: 255.0, alpha: 1.0)
+
+let TIME_TEXT_COLOR                 = UIColor.grayColor()
+
+let LINKABLE_TEXT_FONT              = UIFont(name: "Helvetica-Neue", size: 14)
+let LINKABLE_TEXT_COLOR             = UIColor.applicationTwitterLogoBlueColor()
+let ACTIVE_LINKABLE_TEXT_COLOR      = UIColor.lightGrayColor()
+
 class Utilities: NSObject {
     
     // ------------------------------
@@ -116,6 +125,71 @@ class Utilities: NSObject {
     class func percentEncodingWithUrl(url: String!) -> String! {
         return url.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
         //return url.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: .LiteralSearch, range: nil)
+    }
+    
+    // ------------------------------
+    // MARK: -
+    // MARK: Text attributes
+    // ------------------------------
+    
+    class func newCommonTextAttributes() -> [String: AnyObject] {
+        let attributes: [String: AnyObject]! = [String: AnyObject]()
+        
+        return attributes
+    }
+    
+    // Normal text attributes
+    
+    class func normalTextAttributes() -> [String: AnyObject] {
+        var attributes: [String: AnyObject]! = newCommonTextAttributes()
+        
+        let textFont: UIFont! = LINKABLE_TEXT_FONT
+        let textColor: UIColor! = LINKABLE_TEXT_COLOR
+        
+        attributes[NSFontAttributeName] = textFont
+        attributes[NSForegroundColorAttributeName] = textColor
+        
+        return attributes
+    }
+    
+    // Time text attributes
+    
+    class func timeTextAttributes() -> [String: AnyObject] {
+        var attributes: [String: AnyObject]! = newCommonTextAttributes()
+        
+        let textFont: UIFont! = LINKABLE_TEXT_FONT
+        let textColor: UIColor! = LINKABLE_TEXT_COLOR
+        
+        attributes[NSFontAttributeName] = textFont
+        attributes[NSForegroundColorAttributeName] = textColor
+        
+        return attributes
+    }
+    
+    // Linkable text attributes
+    
+    class func linkableTextAttributes() -> [String: AnyObject] {
+        var attributes: [String: AnyObject]! = newCommonTextAttributes()
+        
+        let textFont: UIFont! = LINKABLE_TEXT_FONT
+        let textColor: UIColor! = LINKABLE_TEXT_COLOR
+        
+        attributes[NSFontAttributeName] = textFont
+        attributes[NSForegroundColorAttributeName] = textColor
+        
+        return attributes
+    }
+    
+    class func activeLinkableTextAttributes() -> [String: AnyObject] {
+        var attributes: [String: AnyObject]! = newCommonTextAttributes()
+        
+        let textFont: UIFont! = LINKABLE_TEXT_FONT
+        let textColor: UIColor! = ACTIVE_LINKABLE_TEXT_COLOR
+        
+        attributes[NSFontAttributeName] = textFont
+        attributes[NSForegroundColorAttributeName] = textColor
+        
+        return attributes
     }
 }
 

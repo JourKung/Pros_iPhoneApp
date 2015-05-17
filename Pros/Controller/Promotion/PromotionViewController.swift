@@ -8,28 +8,39 @@
 
 import UIKit
 import ObjectMapper
+import ImageLoader
 
 enum ESTScanType: Int {
     case ESTScanTypeBluetooth
     case ESTScanTypeBeacon
 }
 
-class PromotionViewController: BaseTableViewController,
-    ESTBeaconManagerDelegate {
+enum promotionType: Int {
+    case Announcement
+    case Discount
+    case Campaign
+    case MemberCard
+}
+
+class PromotionViewController: BaseViewController,
+    ESTBeaconManagerDelegate,
+    UITableViewDelegate,
+    UITableViewDataSource,
+    UIScrollViewDelegate {
     
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
-
+    
+    @IBOutlet weak var tableViewOutlet: UITableView!
     @IBOutlet weak var categoryBarButtonItem: UIBarButtonItem!
-    @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var enterRegionSwitch: UISwitch!
     @IBOutlet weak var exitRegionSwitch: UISwitch!
     
     let prosAPIClient = ProsAPIClient()
     var activities = [Promotion]()
-    var imageCache = [String: UIImage]()
+    var activitiesLikeState: Bool!
     
     var beacon: ESTBeacon!
     var beaconManager: ESTBeaconManager!
@@ -45,11 +56,8 @@ class PromotionViewController: BaseTableViewController,
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        registerForLocationNotification()
-        setupEstimoteBeacons()
-        
-        setupView()
         loadData()
+        setupView()
     }
     
     override func didReceiveMemoryWarning() {
@@ -57,12 +65,6 @@ class PromotionViewController: BaseTableViewController,
         // Dispose of any resources that can be recreated.
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
-    }
-
     // ------------------------------
     // MARK: -
     // MARK: Action
@@ -82,28 +84,33 @@ class PromotionViewController: BaseTableViewController,
     // ------------------------------
     
     func setupView() -> Void {
+        registerForLocationNotification()
+        setupEstimoteBeacons()
+                
         customNavigationBar()
         customTableView()
+        customPullToRefresh()
     }
     
     func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Pros")
         navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
-        
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "00_menu-toolbar"), style: .Plain, target: self, action: "performWithShopCategoryViewControllerAnimated:")
     }
     
     func customTableView() -> Void {
-        tableView.estimatedRowHeight = 140.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableViewOutlet.estimatedRowHeight = 320.0
+        self.tableViewOutlet.rowHeight = UITableViewAutomaticDimension
         
         // This will remove extra separators from tableview
-        tableView.tableFooterView = UIView(frame: CGRectZero)
-        tableView.separatorColor = UIColor.clearColor()
-        tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        self.tableViewOutlet.tableFooterView = UIView(frame: CGRectZero)
+        self.tableViewOutlet.separatorColor = UIColor.clearColor()
+        self.tableViewOutlet.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
-
-    func updateUI() -> Void {
+    
+    func customPullToRefresh() -> Void {
+        self.tableViewOutlet.addPullToRefresh({ [weak self] in
+            self?.loadData()
+        })
     }
     
     // ------------------------------
@@ -112,15 +119,18 @@ class PromotionViewController: BaseTableViewController,
     // ------------------------------
     
     func loadData() -> Void {
-        self.prosAPIClient.getPromotionsWithCompletion().responseJSON { (request, response, results, error) -> Void in
-            if let promotion = Mapper<Promotion>().mapArray(results) {
-                println("[+] \(promotion.count)")
-                self.activities = promotion
+        NSOperationQueue().addOperationWithBlock({
+            self.prosAPIClient.getPromotionWithCompletion().responseJSON { (request, response, results, error) -> Void in
+                if let promotion = Mapper<Promotion>().mapArray(results) {
+                    self.activities = promotion
+                }
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    self.tableViewOutlet.reloadData()
+                    self.tableViewOutlet.stopPullToRefresh()
+                })
             }
-            
-            self.tableView.reloadData()
-            self.refreshControl?.endRefreshing()
-        }
+        })
     }
     
     // ------------------------------
@@ -134,7 +144,7 @@ class PromotionViewController: BaseTableViewController,
     }
     
     func customCellShopTypeButton(cellShopButton: UIButton) -> Void {
-        cellShopButton.addBorder(UIButtonBorderSide.Right, color: UIColor(red:0.24, green:0.51, blue:0.9, alpha:1), width: 2)
+        cellShopButton.addBorder(UIButtonBorderSide.Right, color: UIColor.applicationTwitterLogoBlueColor(), width: 2)
         
         cellShopButton.layer.masksToBounds = false
         cellShopButton.layer.cornerRadius = 1
@@ -149,58 +159,75 @@ class PromotionViewController: BaseTableViewController,
     
     // ------------------------------
     // MARK: -
+    // MARK: Scroll view delegate
+    // ------------------------------
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.tableViewOutlet.fixedPullToRefreshViewForDidScroll()
+    }
+    
+    // ------------------------------
+    // MARK: -
     // MARK: Table view data source
     // ------------------------------
     
-    let cellIdentifier = "Cell"
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.activities.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! PromotionTableViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cellIdentifier = "Cell"
+        let cell = self.tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! PromotionTableViewCell
         
-        cell.titleLabel.text = self.activities[indexPath.row].shopName
-        cell.descriptionLabel.text = self.activities[indexPath.row].promotionPublishName
-        println("[PublishedAt] \(self.activities[indexPath.row].promotionPublishPublishedAt)")
-        cell.publishedAtLabel.text = NSDate().timeAgo
-        
-        cell.shopTypeButton.setTitle("#\(self.activities[indexPath.row].shopType!)", forState: .Normal)
-        customCellShopTypeButton(cell.shopTypeButton)
-        
-        let tmpURL = Utilities.cleanUrl(self.activities[indexPath.row].shopLogoURL)
-        let image = self.imageCache[tmpURL]
-        
-        if (image == nil) {
-            // Download an NSData representation of the image at the URL
-            let urlRequest: NSURLRequest! = NSURLRequest(URL: NSURL(string: tmpURL)!)
-            NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-                (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
-                
-                if (connectionError == nil && data != nil) {
-                    self.imageCache[tmpURL] = UIImage(data: data)
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) as? PromotionTableViewCell {
-                            cellToUpdate.logoImageView.image = self.imageCache[tmpURL]
-                        }
-                    })
-                }
-                else {
-                    println("Error: \(connectionError.localizedDescription)")
-                }
-            })
+        if let shopName = self.activities[indexPath.row].shopName {
+            cell.shopNameLabel.text = shopName
         } else {
-            dispatch_async(dispatch_get_main_queue(), {
-                if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) as? PromotionTableViewCell {
-                    cellToUpdate.logoImageView.image = image
-                }
-            })
+            cell.shopNameLabel.text = "nil"
+        }
+        
+        if let name = self.activities[indexPath.row].name {
+            cell.promotionNameLabel.text = name
+        } else {
+            cell.promotionNameLabel.text = "nil"
+        }
+        
+        if let type = self.activities[indexPath.row].type {
+            cell.promotionTypeNameLabel.text = type
+        } else {
+            cell.promotionTypeNameLabel.text = "nil"
+        }
+        
+        if let publishedAt = self.activities[indexPath.row].publishedAt {
+            cell.promotionPublishedAtLabel.text = ISO8601DateFormatter().dateFromString(publishedAt).timeAgo
+        } else {
+            cell.promotionPublishedAtLabel.text = "nil"
+        }
+        
+        if let shopType = self.activities[indexPath.row].shopType {
+            cell.shopTypeNameButton.setTitle("#\(shopType)", forState: .Normal)
+            customCellShopTypeButton(cell.shopTypeNameButton)
+        } else {
+            cell.shopTypeNameButton.setTitle("#nil", forState: .Normal)
+            customCellShopTypeButton(cell.shopTypeNameButton)
+        }
+        
+        cell.promotionTypeImageView.image = UIImage(named: "00_icon_megaphone-1")
+        
+        let placeholder = UIImage(named: "00_icon_people")!
+        if let activitiyShopLogoImageUrl = self.activities[indexPath.row].shopImageURL {
+            let URL: NSURL! = NSURL(string: activitiyShopLogoImageUrl)
+            cell.shopLogoImageView?.load(URL, placeholder: placeholder)
+        } else {
+            cell.shopLogoImageView.image = placeholder
+        }
+        
+        if let activityPromotionPoster = self.activities[indexPath.row].poster {
+            let URL: NSURL! = NSURL(string: activityPromotionPoster)
+            cell.promotionImageView?.load(URL)
         }
         
         return cell
@@ -212,7 +239,7 @@ class PromotionViewController: BaseTableViewController,
     // ------------------------------
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
@@ -220,16 +247,11 @@ class PromotionViewController: BaseTableViewController,
         
         if segue.identifier == "SegueToPromotionDetail" {
             println("[Segue] Promotion -> Promotion Detail")
-            
-            if let indexPath = tableView.indexPathForSelectedRow() {
+            if let indexPath = self.tableViewOutlet.indexPathForSelectedRow() {
                 let destinationController = segue.destinationViewController as! PromotionDetailViewController
-                destinationController.promotionSegue = self.activities[indexPath.row]
-                
-                if let promotionId = self.activities[indexPath.row].promotionID {
-                    println("[+] \(promotionId)")
-                }
+                destinationController.promotionIdSegue = self.activities[indexPath.row].promotionID
             }
-        } else if (segue.identifier == "SegueToShopCategory") {
+        } else if segue.identifier == "SegueToShopCategory" {
             println("[Segue] Promotion -> Shop category")
         }
     }
@@ -253,16 +275,16 @@ class PromotionViewController: BaseTableViewController,
         self.beaconManager.delegate = self
         self.beaconManager.avoidUnknownStateBeacons = true
         
-//        self.beaconRegion = ESTBeaconRegion(proximityUUID: NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D"),//self.beacon.proximityUUID,
-//            major: 37470,//self.beacon.major.unsignedShortValue, // UInt16
-//            minor: 56023,//self.beacon.minor.unsignedShortValue, // UInt16
-//            identifier: "RegionIdentifier",
-//            secured: true)//self.beacon.isSecured)
+        //        self.beaconRegion = ESTBeaconRegion(proximityUUID: NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D"),//self.beacon.proximityUUID,
+        //            major: 37470,//self.beacon.major.unsignedShortValue, // UInt16
+        //            minor: 56023,//self.beacon.minor.unsignedShortValue, // UInt16
+        //            identifier: "RegionIdentifier",
+        //            secured: true)//self.beacon.isSecured)
         
         self.beaconRegion = ESTBeaconRegion(proximityUUID: NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D"),
             identifier: "EstimoteRegion")
         
-//        println("[ESTBeaconRegion] \(self.beacon?.proximityUUID) major: \(self.beacon?.major.unsignedShortValue) minor \(self.beacon?.minor.unsignedShortValue) secured: \(self.beacon?.isSecured)")
+        //        println("[ESTBeaconRegion] \(self.beacon?.proximityUUID) major: \(self.beacon?.major.unsignedShortValue) minor \(self.beacon?.minor.unsignedShortValue) secured: \(self.beacon?.isSecured)")
         
         self.beaconRegion.notifyOnEntry = true//self.enterRegionSwitch.on
         self.beaconRegion.notifyOnExit = true//self.exitRegionSwitch.on
@@ -289,17 +311,17 @@ class PromotionViewController: BaseTableViewController,
         case .Far:
             println("Far")
             distance = "far"
-//            beaconLabel.textColor = UIColor.redColor()
+            //            beaconLabel.textColor = UIColor.redColor()
             return distance
         case .Near:
             println("Near")
             distance = "Near"
-//            beaconLabel.textColor = UIColor.purpleColor()
+            //            beaconLabel.textColor = UIColor.purpleColor()
             return distance
         case .Immediate:
             println("Immediate")
             distance = "Immediate"
-//            beaconLabel.textColor = UIColor.greenColor()
+            //            beaconLabel.textColor = UIColor.greenColor()
             return distance
         case .Unknown:
             println("Unknown")
@@ -356,14 +378,14 @@ class PromotionViewController: BaseTableViewController,
         let alertController = UIAlertController(title: "Ranging error", message: error.localizedDescription, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
         alertController.addAction(cancelAction)
-//        presentViewController(alertController, animated: true, completion: nil)
+        //        presentViewController(alertController, animated: true, completion: nil)
     }
     
     func beaconManager(manager: ESTBeaconManager!, monitoringDidFailForRegion region: ESTBeaconRegion!, withError error: NSError!) {
         let alertController = UIAlertController(title: "Monitoring error", message: error.localizedDescription, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
         alertController.addAction(cancelAction)
-//        presentViewController(alertController, animated: true, completion: nil)
+        //        presentViewController(alertController, animated: true, completion: nil)
     }
     
     func beaconManager(manager: ESTBeaconManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: ESTBeaconRegion!) {
@@ -377,9 +399,9 @@ class PromotionViewController: BaseTableViewController,
     }
     
     func beaconManager(manager: ESTBeaconManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-//        if (self.scanType == ESTScanType()) {
-//            startRangingBeacons()
-//        }
+        //        if (self.scanType == ESTScanType()) {
+        //            startRangingBeacons()
+        //        }
     }
     
     
@@ -387,7 +409,7 @@ class PromotionViewController: BaseTableViewController,
         println("[BeaconManager] didEnterRegion, region: \(region.identifier)")
         
         let notification: UILocalNotification! = UILocalNotification()
-        notification.alertBody = "Welcome, \(UserDefaults.sharedInstance.getUsername())"//"Enter region notification"
+        notification.alertBody = "Hello, \(UserDefaults.sharedInstance.getUsername()) from iBeacon"//"Enter region notification"
         notification.soundName = UILocalNotificationDefaultSoundName
         
         UIApplication.sharedApplication().presentLocalNotificationNow(notification)
@@ -397,7 +419,7 @@ class PromotionViewController: BaseTableViewController,
         println("[BeaconManager] didExitRegion, region: \(region.identifier)")
         
         let notification: UILocalNotification! = UILocalNotification()
-        notification.alertBody = "Goodbye, \(UserDefaults.sharedInstance.getUsername())"//"Exit region notification"
+        notification.alertBody = "See you again, \(UserDefaults.sharedInstance.getUsername()) from iBeacon"//"Exit region notification"
         notification.soundName = UILocalNotificationDefaultSoundName
         
         UIApplication.sharedApplication().presentLocalNotificationNow(notification)

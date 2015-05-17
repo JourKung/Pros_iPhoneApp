@@ -8,18 +8,28 @@
 
 import UIKit
 import AVFoundation
+import ObjectMapper
+import ImageLoader
 
-class CardViewController: BaseTableViewController,
-    QRCodeReaderViewControllerDelegate {
+class CardViewController: BaseViewController,
+    UITableViewDataSource,
+    UITableViewDelegate,
+    QRCodeReaderViewControllerDelegate,
+    CNPPopupControllerDelegate {
 
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
+    @IBOutlet weak var tableViewOutlet: UITableView!
     @IBOutlet weak var insertCardBarButtonItem: UIBarButtonItem!
     
+    let prosAPIClient: ProsAPIClient! = ProsAPIClient()
+    var activities = [Card]()
+    
     var cardView: RKCardView!
+    var popupController: CNPPopupController!
     
     lazy var reader = QRCodeReaderViewController(metadataObjectTypes: [AVMetadataObjectTypeQRCode, AVMetadataObjectTypeCode128Code, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeUPCECode, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeAztecCode])
     
@@ -32,18 +42,13 @@ class CardViewController: BaseTableViewController,
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        customUI()
+        loadData()
+        setupView()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
     }
     
     // ------------------------------
@@ -77,26 +82,30 @@ class CardViewController: BaseTableViewController,
     // MARK: User Interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
         customTableView()
+        customPullToRefresh()
     }
     
-    private func customNavigationBar() -> Void {
+    func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Cards")
     }
     
-    private func customTableView() -> Void {
-        tableView.estimatedRowHeight = 80.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+    func customTableView() -> Void {
+        self.tableViewOutlet.estimatedRowHeight = 80.0
+        self.tableViewOutlet.rowHeight = UITableViewAutomaticDimension
         
         // This will remove extra separators from tableview
-        tableView.tableFooterView = UIView(frame: CGRectZero)
-        tableView.separatorColor = UIColor.clearColor()
-        tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        self.tableViewOutlet.tableFooterView = UIView(frame: CGRectZero)
+        self.tableViewOutlet.separatorColor = UIColor.clearColor()
+        self.tableViewOutlet.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
-    private func updateUI() {
+    func customPullToRefresh() -> Void {
+        self.tableViewOutlet.addPullToRefresh({ [weak self] in
+            self?.loadData()
+        })
     }
     
     // ------------------------------
@@ -104,57 +113,22 @@ class CardViewController: BaseTableViewController,
     // MARK: Data
     // ------------------------------
     
-    private func loadData() -> Void {
-//        activities = ["cover": ["00_coverDummy", "01_coverDummy", "02_coverDummy", "03_coverDummy"],
-//            "logo": ["00_logoDummy", "01_logoDummy", "02_logoDummy", "03_logoDummy"],
-//            "title": ["StarBucks", "Black Canyon", "Coffee World", "Cafe Amazon"],
-//            "description": ["Coffee shop", "Coffee shop", "Coffee shop", "Coffee shop"],
-//            "point": ["99", "100", "7", "55"],
-//            "expirationDate": ["04/12/2014", "12/11/2014", "26/06/2015", "01/01/2015"]];
-        
-        // ----
-        
-//        userActivities = [User(objectId: userData["objectId"] as? String
-//            , createdAt: userData["createdAt"] as? String
-//            , updatedAt: userData["updatedAt"] as? String
-//            , fbId: userData["id"] as? String
-//            , name: userData["name"] as? String
-//            , gender: userData["gender"] as? String
-//            , birthday: userData["birthday"] as? String
-//            , email: userData["email"] as? String
-//            , profileImage: nil)]
-        
-//        userActivities = [User(objectId: "",
-//            createdAt: NSDate(),
-//            updatedAt: NSDate(),
-//            fbId: "",
-//            name: "",
-//            gender: "",
-//            birthday: "",
-//            email: "",
-//            profileImage: UIImage())]
-        
-        /*
-        UserClass.id = userData["id"] as? String
-        UserClass.name = userData["name"] as? String
-        UserClass.gender = userData["gender"] as? String
-        UserClass.birthday = userData["birthday"] as? String
-        UserClass.email = userData["email"] as? String
-        
-        let fbPictureUrl: NSURL! = NSURL(string: "https://graph.facebook.com/\(self.UserClass.id)/picture?type=large&return_ssl_resources=1")
-        let fbUrlRequest: NSURLRequest! = NSURLRequest(URL: fbPictureUrl)
-        // Run network request asynchronously
-        NSURLConnection.sendAsynchronousRequest(fbUrlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-            (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
-            if (connectionError == nil && data != nil) {
-                // Set the image in the header imageView
-                self.UserClass.picture = UIImage(data: data)
+    func loadData() -> Void {
+        NSOperationQueue().addOperationWithBlock({
+            let form = MembershipCardForm()
+            form.fbId = UserDefaults.sharedInstance.getUserFbId()
+            self.prosAPIClient.getMembershipCardWithCompletion(form).responseJSON { (request, response, results, error) -> Void in
+                if let card = Mapper<Card>().mapArray(results) {
+                    self.activities = card
+                }
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    self.tableViewOutlet.reloadData()
+                    self.tableViewOutlet.stopPullToRefresh()
+                })
             }
         })
-        
-        println("[HomeVC] \(UserClass.id) \(UserClass.email)")
-        */
-    }
+}
     
     // ------------------------------
     // MARK: -
@@ -167,7 +141,23 @@ class CardViewController: BaseTableViewController,
             self.reader.delegate = self
             self.reader.completionBlock = { (result: String?) in
                 if let result = result {
-                    println("[Log] Completion with result: \(result)")
+                    println("[Log] QR enter: \(result)")
+                    // Fn: Send to service API and Check
+                    NSOperationQueue().addOperationWithBlock({
+                        let form = InsertMembershipCardForm()
+                        form.fbId = UserDefaults.sharedInstance.getUserFbId()
+                        form.qrId = result
+                        self.prosAPIClient.getInsertMembershipCardWithCompletion(form).responseJSON { (request, response, results, error) -> Void in
+                            if let result = results as? Bool {
+                                println("[Log] qr enter response \(result)")
+                            }
+                            
+                            NSOperationQueue.mainQueue().addOperationWithBlock({
+                                self.tableViewOutlet.reloadData()
+                                self.tableViewOutlet.stopPullToRefresh()
+                            })
+                        }
+                    })
                 } else {
                     println("[Log] Completion with result is nil")
                 }
@@ -193,8 +183,27 @@ class CardViewController: BaseTableViewController,
         
         let enterAction = UIAlertAction(title: "Enter", style: .Default) { (action) in
             let serialNumberTextField = alertController.textFields![0] as! UITextField
-            println("[EnterAction] \(serialNumberTextField.text)")
+            println("[Log] serial enter: \(serialNumberTextField.text)")
             // Fn: Send to service API and Check
+            NSOperationQueue().addOperationWithBlock({
+                let form = InsertMembershipCardForm()
+                form.fbId = UserDefaults.sharedInstance.getUserFbId()
+                form.qrId = serialNumberTextField.text
+                self.prosAPIClient.getInsertMembershipCardWithCompletion(form).responseJSON { (request, response, results, error) -> Void in
+                    if let result = results as? Bool {
+                        println("[Log] serial enter response \(result)")
+                        
+                        let alert = UIAlertController(title: "Code reader", message: serialNumberTextField.text, preferredStyle: .Alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                    
+                    NSOperationQueue.mainQueue().addOperationWithBlock({
+                        self.tableViewOutlet.reloadData()
+                        self.tableViewOutlet.stopPullToRefresh()
+                    })
+                }
+            })
         }
         enterAction.enabled = false
         alertController.addAction(enterAction)
@@ -211,40 +220,72 @@ class CardViewController: BaseTableViewController,
         presentViewController(alertController, animated: true, completion: nil)
     }
     
+    func performWithSerialNumberViewControllerAnimated(animated: Bool) -> Void {
+        showPopupWithStyle(CNPPopupStyle.Fullscreen)
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: Table view data source
     // ------------------------------
     
-    private let cellIdentifier       = "Cell"
-    
     let BUFFERX: CGFloat = 12 //distance from side to the card (higher makes thinner card)
     let BUFFERY: CGFloat = 35 //distance from top to the card (higher makes shorter card)
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        let titleCount = activities["title"]!
-//        return titleCount.count
-        return 4
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.activities.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UITableViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cellIdentifier = "Cell"
+        let cell = self.tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UITableViewCell
         
         cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
         
         cardView = RKCardView(frame: CGRectMake(BUFFERX, BUFFERY-15,
             view.frame.size.width-2*BUFFERX,
             view.frame.size.height-11*BUFFERY))
-        cardView.coverImageView.image = UIImage(named: "00_coverDummy")
-        cardView.logoImageView.image = UIImage(named: "00_logoDummy")
-        cardView.titleLabel.text = "StackBucks Coffee"
-        cardView.typeLabel.text = "@Cafe"
-        cardView.pointLabel.text = "99"
-        cardView.expirationDateLabel.text = Utilities.dateWithString(NSDate(), dateStype: .ShortStyle, timeStyle: .NoStyle)
+        
+        if let shopCoverURL = self.activities[indexPath.row].shopCoverURL {
+            let URL: NSURL = NSURL(string: shopCoverURL)!
+            cardView.coverImageView?.load(URL)
+        }
+        
+        let placeholder = UIImage(named: "00_icon_people")!
+        if let activityShopLogoURL = self.activities[indexPath.row].shopLogoURL {
+            let URL: NSURL = NSURL(string: activityShopLogoURL)!
+            cardView.logoImageView?.load(URL, placeholder: placeholder)
+        } else {
+            cardView.logoImageView.image = placeholder
+        }
+        
+        if let activityShopName = self.activities[indexPath.row].shopName {
+            cardView.titleLabel.text = activityShopName
+        } else {
+            cardView.titleLabel.text = "nil"
+        }
+        
+        if let activityShopType = self.activities[indexPath.row].shopType {
+            cardView.typeLabel.text = activityShopType
+        } else {
+            cardView.typeLabel.text = "nil"
+        }
+        
+        if let activityPoint = self.activities[indexPath.row].point {
+            cardView.pointLabel.text = activityPoint
+        } else {
+            cardView.pointLabel.text = "nil"
+        }
+        
+        if let activityExpireAt = self.activities[indexPath.row].expireAt {
+            cardView.expirationDateLabel.text = Utilities.dateWithString(ISO8601DateFormatter().dateFromString(activityExpireAt), dateStype: NSDateFormatterStyle.ShortStyle, timeStyle: NSDateFormatterStyle.NoStyle)
+        } else {
+            cardView.expirationDateLabel.text = "nil"
+        }
         
         cell.contentView.addSubview(cardView)
         
@@ -256,8 +297,12 @@ class CardViewController: BaseTableViewController,
     // MARK: Table view deleagete
     // ------------------------------
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return view.frame.size.height-10*BUFFERY
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        performWithSerialNumberViewControllerAnimated(true)
     }
     
     // ------------------------------
@@ -269,7 +314,6 @@ class CardViewController: BaseTableViewController,
         self.dismissViewControllerAnimated(true, completion: { [unowned self] () -> Void in
             let alert = UIAlertController(title: "Code reader", message: result, preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-            
             self.presentViewController(alert, animated: true, completion: nil)
         })
     }
@@ -290,4 +334,52 @@ class CardViewController: BaseTableViewController,
         }
     }
 
+    // ------------------------------
+    // MARK: -
+    // MARK: CNPPopupController delegate
+    // ------------------------------
+    
+    func popupController(controller: CNPPopupController!, didDismissWithButtonTitle title: String!) {
+        println("[Log] Dismissed with button title: \(title)")
+    }
+    
+    func popupControllerDidPresent(controller: CNPPopupController!) {
+        println("[Log] Popup controller presented.")
+    }
+    
+    func showPopupWithStyle(popupStyle: CNPPopupStyle!) {
+        var paragraphStyle: NSMutableParagraphStyle! = NSMutableParagraphStyle.new()
+        paragraphStyle.lineBreakMode = NSLineBreakMode.ByCharWrapping
+        paragraphStyle.alignment = NSTextAlignment.Center
+        
+        var paragraphStyleWithLineOne: NSMutableParagraphStyle! = NSMutableParagraphStyle.new()
+        paragraphStyleWithLineOne.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        paragraphStyleWithLineOne.alignment = NSTextAlignment.Left
+        
+        let icon: UIImage! = UIImage(named: "00_qrDummy")
+        let title: NSAttributedString! = NSAttributedString(string: "Terms & Conditions",
+            attributes: [NSFontAttributeName: UIFont.boldSystemFontOfSize(24),
+                NSParagraphStyleAttributeName: paragraphStyle])
+        let lineOne: NSAttributedString! = NSAttributedString(string: "Membership in the programme is available to individuals (you) as stated in these Terms and Conditions. You may maintain only one account. Companies and/or other entities cannot enrol. There is no enrollment fee for this programme.",
+            attributes: [NSFontAttributeName: UIFont.systemFontOfSize(18),
+                NSForegroundColorAttributeName: UIColor.blackColor(),
+                NSParagraphStyleAttributeName: paragraphStyleWithLineOne])
+        
+        let buttonTitle: NSAttributedString! = NSAttributedString(string: "Close me",
+            attributes: [NSFontAttributeName: UIFont.boldSystemFontOfSize(18),
+                NSForegroundColorAttributeName: UIColor.whiteColor(),
+                NSParagraphStyleAttributeName: paragraphStyle])
+        
+        let buttonItem: CNPPopupButtonItem! = CNPPopupButtonItem.defaultButtonItemWithTitle(buttonTitle, backgroundColor: UIColor(red: 0.46, green: 0.8, blue: 1.0, alpha: 1.0))
+        buttonItem.selectionHandler = { (item: CNPPopupButtonItem!) -> Void in
+            println("[Log] Block for button: \(item.buttonTitle.string)")
+        }
+        
+        self.popupController = CNPPopupController(title: title, contents: [lineOne], buttonItems: [buttonItem], destructiveButtonItem: nil)
+        self.popupController.theme = CNPPopupTheme.defaultTheme()
+        self.popupController.theme.popupStyle = popupStyle
+        self.popupController.delegate = self
+        self.popupController.theme.presentationStyle = CNPPopupPresentationStyle.SlideInFromBottom
+        self.popupController.presentPopupControllerAnimated(true)
+    }
 }

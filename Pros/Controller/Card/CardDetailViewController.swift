@@ -46,16 +46,16 @@ class CardDetailViewController: BaseTableViewController {
     // MARK: User Interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
         customTableView()
     }
     
-    private func customNavigationBar() -> Void {
+    func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("Cards")
     }
     
-    private func customTableView() -> Void {
+    func customTableView() -> Void {
         tableView.estimatedRowHeight = 80.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -65,13 +65,14 @@ class CardDetailViewController: BaseTableViewController {
         tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
-    private func updateUI() {
-    }
-    
     // ------------------------------
     // MARK: -
     // MARK: Data
     // ------------------------------
+    
+    func loadData() -> Void {
+        
+    }
     
     // ------------------------------
     // MARK: -
@@ -83,8 +84,6 @@ class CardDetailViewController: BaseTableViewController {
     // MARK: Table view data source
     // ------------------------------
     
-    private let cellIdentifier       = "Cell"
-    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -94,6 +93,7 @@ class CardDetailViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cellIdentifier = "Cell"
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UITableViewCell
         
         cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)

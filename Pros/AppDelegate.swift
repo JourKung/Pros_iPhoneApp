@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Parse
+import Bolts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /*
         NOTE: Initialze the Parse SDK
         */
-//        Parse.setApplicationId(kParseApplicationId, clientKey:kParseClientKey)
+        Parse.setApplicationId(kParseApplicationId, clientKey:kParseClientKey)
 //        PFFacebookUtils.initializeFacebook()
         
         registerForRemoteNotificationTypes(application)
@@ -27,9 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         customNavigationBarOfAppearance()
         customTabbarOfAppearance()
-        
-//        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        
+                
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
@@ -43,9 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.sharedInstance.setUserDeviceToken(deviceTokenString)
         
         // Store the deviceToken in the current Installation and save it to Parse.
-//        var currentInstallation:PFInstallation! = PFInstallation.currentInstallation()
-//        currentInstallation.setDeviceTokenFromData(deviceToken)
-//        currentInstallation.saveInBackground()
+        let installation = PFInstallation.currentInstallation()
+        installation.setDeviceTokenFromData(deviceToken)
+        installation.saveInBackground()
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        println("[Log] Received notification: \(userInfo)");
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError)  {

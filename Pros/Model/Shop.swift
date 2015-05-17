@@ -16,10 +16,6 @@ class Shop: Mappable {
     // MARK: Properties
     // ------------------------------
     
-//    var objectId: String!
-//    var createdAt: NSDate!
-//    var updatedAt: NSDate!
-    
     var shopID: String!
     var name: String?
     var email: String?

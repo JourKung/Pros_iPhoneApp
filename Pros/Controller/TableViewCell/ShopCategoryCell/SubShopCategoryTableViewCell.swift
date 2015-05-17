@@ -15,11 +15,11 @@ class SubShopCategoryTableViewCell: UITableViewCell {
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var typeLabel: UILabel!
-    @IBOutlet weak var logoImageView: UIImageView! {
+    @IBOutlet weak var shopNameLabel: UILabel!
+    @IBOutlet weak var shopTypeNameLabel: UILabel!
+    @IBOutlet weak var shopLogoImageView: UIImageView! {
         didSet {
-            Utilities.roundCornersWithImageView(self.logoImageView, cornerRadius: self.logoImageView.frame.size.width/2, borderWidth: 0.0, color: .clearColor())
+            Utilities.roundCornersWithImageView(self.shopLogoImageView, cornerRadius: self.shopLogoImageView.frame.size.width/2, borderWidth: 0.0, color: .clearColor())
         }
     }
     

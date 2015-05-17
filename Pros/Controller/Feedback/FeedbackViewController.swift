@@ -9,7 +9,7 @@
 import UIKit
 
 protocol FeedbackViewControllerDelegate {
-    func feedbackWithAlertController(message: String!)
+    func feedbackWithAlertController(message: String!, rating: String!)
 }
 
 class FeedbackViewController: BaseViewController {
@@ -21,14 +21,16 @@ class FeedbackViewController: BaseViewController {
     
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var dialogView: UIView!
+    @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var logoImageView: UIImageView! {
         didSet {
             Utilities.roundCornersWithImageView(self.logoImageView, cornerRadius: self.logoImageView.frame.width/2, borderWidth: 3.0, color: UIColor.whiteColor())
         }
     }
     
+    let prosAPIClient: ProsAPIClient! = ProsAPIClient()
     var delegate: FeedbackViewControllerDelegate?
-    weak var logoImage: UIImage! = UIImage()
+    var questionString: String!
     
     // ------------------------------
     // MARK: -
@@ -39,7 +41,7 @@ class FeedbackViewController: BaseViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        customUI()
+        setupView()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -73,19 +75,15 @@ class FeedbackViewController: BaseViewController {
     // MARK: User interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
         blurringEffect()
         combiningScaleAndTranslateTrnsforms()
         
-        self.logoImageView.image = self.logoImage
+        self.questionLabel.text = self.questionString
     }
     
-    private func customNavigationBar() -> Void {
-    }
-    
-    private func updateUI() -> Void {
-        
+    func customNavigationBar() -> Void {
     }
     
     // ------------------------------
@@ -93,8 +91,7 @@ class FeedbackViewController: BaseViewController {
     // MARK: Data
     // ------------------------------
     
-    private func loadData() -> Void {
-        
+    func loadData() -> Void {
     }
     
     // ------------------------------
@@ -102,42 +99,29 @@ class FeedbackViewController: BaseViewController {
     // MARK: Configuration
     // ------------------------------
     
-    private func sendFeedbackEvenToStatisticWithTags(tag: Int!) -> Void {
+    func sendFeedbackEvenToStatisticWithTags(tag: Int!) -> Void {
         switch (tag) {
         case 1:
-            println("[+] Send Bad")
+            self.delegate!.feedbackWithAlertController("Bad", rating: "1")
         case 2:
-            println("[+] Send Medium")
+            self.delegate!.feedbackWithAlertController("Medium", rating: "2")
         case 3:
-            println("[+] Send Good")
+            self.delegate!.feedbackWithAlertController("Good", rating: "3")
         default:
-            println("[-] Cannot detect tag of button")
+            self.delegate!.feedbackWithAlertController("Error", rating: "0")
         }
-        
-        self.delegate!.feedbackWithAlertController("Thank you for submitted")
     }
     
-    private func blurringEffect() -> Void {
+    func blurringEffect() -> Void {
         var blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Dark)
         var blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
         self.backgroundImageView.addSubview(blurEffectView)
     }
     
-    private func combiningScaleAndTranslateTrnsforms() -> Void {
+    func combiningScaleAndTranslateTrnsforms() -> Void {
         let scale = CGAffineTransformMakeScale(0.0, 0.0)
         let translate = CGAffineTransformMakeTranslation(0, 500)
         dialogView.transform = CGAffineTransformConcat(scale, translate)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -16,10 +16,6 @@ class ShopCategory: Mappable {
     // MARK: Properties
     // ------------------------------
     
-//    var objectId: String!
-//    var createdAt: NSDate!
-//    var updatedAt: NSDate!
-    
     var shopType: String!
     var typeIconURL: String?
     

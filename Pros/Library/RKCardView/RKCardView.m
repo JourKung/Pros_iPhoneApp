@@ -140,7 +140,7 @@
     titleLabel.adjustsFontSizeToFitWidth = NO;
     titleLabel.lineBreakMode = NSLineBreakByClipping;
     
-    [titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:20]];
+    [titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
     [titleLabel setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
     titleLabel.text = @"Title Label";
     
@@ -170,7 +170,7 @@
     pointLabel.lineBreakMode = NSLineBreakByClipping;
     pointLabel.numberOfLines = 1;
     
-    [pointLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:30]];
+    [pointLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:26]];
     [pointLabel setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
     pointLabel.text = @"99";
     

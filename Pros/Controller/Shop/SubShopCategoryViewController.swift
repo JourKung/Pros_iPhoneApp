@@ -7,17 +7,23 @@
 //
 
 import UIKit
+import ObjectMapper
+import ImageLoader
 
-class SubShopCategoryViewController: BaseTableViewController {
+class SubShopCategoryViewController: BaseViewController,
+    UITableViewDelegate,
+    UITableViewDataSource {
 
     // ------------------------------
     // MARK: -
     // MARK: Properties
     // ------------------------------
     
-    let prosAPIClient: ProsAPIClient! = ProsAPIClient()
-    var shopCategorySegue: ShopCategory!
-    var activities: [SubShopCategory]! = [SubShopCategory]()
+    @IBOutlet weak var tableViewOutlet: UITableView!
+    
+    let prosAPIClient = ProsAPIClient()
+    var shopTypeSegue: String!
+    var activities = [SubShopCategory]()
     var imageCache = [String: UIImage]()
     
     // ------------------------------
@@ -29,24 +35,13 @@ class SubShopCategoryViewController: BaseTableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        loadData(self.shopCategorySegue?.type)
-        customUI()
+        loadData(Utilities.percentEncodingWithUrl(self.shopTypeSegue))
+        setupView()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
     }
     
     // ------------------------------
@@ -59,26 +54,30 @@ class SubShopCategoryViewController: BaseTableViewController {
     // MARK: User interface
     // ------------------------------
     
-    func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
         customTableView()
+        customPullToRefresh()
     }
     
     func customNavigationBar() -> Void {
-        navigationItem.titleView = Utilities.titleLabelOnNavigationBar(self.shopCategorySegue?.type)
+        navigationItem.titleView = Utilities.titleLabelOnNavigationBar(self.shopTypeSegue)
         navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
     }
     
-    private func customTableView() -> Void {
-        tableView.estimatedRowHeight = 60.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+    func customTableView() -> Void {
+        self.tableViewOutlet.estimatedRowHeight = 60.0
+        self.tableViewOutlet.rowHeight = UITableViewAutomaticDimension
         
         // This will remove extra separators from tableview
-        tableView.separatorColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
-        tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        self.tableViewOutlet.separatorColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        self.tableViewOutlet.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     }
     
-    private func updateUI() -> Void {
+    func customPullToRefresh() -> Void {
+        self.tableViewOutlet.addPullToRefresh({ [weak self] in
+            self?.loadData(Utilities.percentEncodingWithUrl(self!.shopTypeSegue))
+        })
     }
     
     // ------------------------------
@@ -88,52 +87,27 @@ class SubShopCategoryViewController: BaseTableViewController {
     
     func loadData(parameter: String!) -> Void {
         if (parameter == "All") {
-            if self.prosAPIClient?.getSubCategoriesWithCompletion() == nil {
-                return
-            }
-            
-            refreshControl?.beginRefreshing()
-            
-            self.prosAPIClient?.getSubCategoriesWithCompletion().responseJSON { (request, reponse, results, error) -> Void in
-                
-                if let subShopCategories: AnyObject = results {
-                    self.activities = [SubShopCategory]()
-                    
-                    for subShopCategory in subShopCategories as! [AnyObject] {
-                        let tmpURL = subShopCategory.objectForKey("UserLogoImageUrl") as! String
-                        self.activities.append(SubShopCategory(type: subShopCategory.objectForKey("shopType") as! String
-                            , shopId: subShopCategory.objectForKey("id") as! String
-                            , title: subShopCategory.objectForKey("name") as! String
-                            , logoImageUrl: tmpURL))
-                    }
+            self.prosAPIClient.getSubCategoriesWithCompletion().responseJSON { (request, response, results, error) -> Void in
+                if let subShopCategory = Mapper<SubShopCategory>().mapArray(results) {
+                    self.activities = subShopCategory
                 }
                 
-                self.tableView.reloadData()
-                self.refreshControl?.endRefreshing()
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    self.tableViewOutlet.reloadData()
+                    self.tableViewOutlet.stopPullToRefresh()
+                })
             }
         } else {
-            if self.prosAPIClient?.getSubCategoriesByTypeWithCompletion(parameter) == nil {
-                return
-            }
-            
-            refreshControl?.beginRefreshing()
-            
-            self.prosAPIClient?.getSubCategoriesByTypeWithCompletion(parameter).responseJSON { (request, reponse, results, error) -> Void in
-                
-                if let subShopCategories: AnyObject = results {
-                    self.activities = [SubShopCategory]()
-                    
-                    for subShopCategory in subShopCategories as! [AnyObject] {
-                        let tmpURL = subShopCategory.objectForKey("UserLogoImageUrl") as! String
-                        self.activities.append(SubShopCategory(type: subShopCategory.objectForKey("shopType") as! String
-                            , shopId: subShopCategory.objectForKey("id") as! String
-                            , title: subShopCategory.objectForKey("name") as! String
-                            , logoImageUrl: tmpURL))
-                    }
+            self.prosAPIClient.getSubCategoriesByTypeWithCompletion(parameter).responseJSON { (request, response, results, error) -> Void in
+                if let subShopCategory = Mapper<SubShopCategory>().mapArray(results) {
+                    self.activities = subShopCategory
                 }
                 
-                self.tableView.reloadData()
-                self.refreshControl?.endRefreshing()
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    self.tableViewOutlet.reloadData()
+                    self.tableViewOutlet.stopPullToRefresh()
+                })
+                
             }
         }
     }
@@ -148,50 +122,36 @@ class SubShopCategoryViewController: BaseTableViewController {
     // MARK: Table view data source
     // ------------------------------
     
-    private let cellIdentifier       = "Cell"
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.activities.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! SubShopCategoryTableViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cellIdentifier = "Cell"
+        let cell = self.tableViewOutlet.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! SubShopCategoryTableViewCell
         
-        cell.titleLabel.text = self.activities[indexPath.row].title
-        cell.typeLabel.text = self.activities[indexPath.row].type
-        
-        let tmpURL = Utilities.cleanUrl(self.activities[indexPath.row].logoImageUrl)
-        let image = self.imageCache[tmpURL]
-        
-        if (image == nil) {
-            // Download an NSData representation of the image at the URL
-            let urlRequest: NSURLRequest! = NSURLRequest(URL: NSURL(string: tmpURL)!)
-            NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-                (response: NSURLResponse!, data: NSData!, connectionError: NSError!) -> Void in
-                
-                if (connectionError == nil && data != nil) {
-                    self.imageCache[tmpURL] = UIImage(data: data)
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) as? SubShopCategoryTableViewCell {
-                            cellToUpdate.logoImageView.image = self.imageCache[tmpURL]
-                        }
-                    })
-                }
-                else {
-                    println("Error: \(connectionError.localizedDescription)")
-                }
-            })
+        if let title = self.activities[indexPath.row].title {
+            cell.shopNameLabel.text = title
         } else {
-            dispatch_async(dispatch_get_main_queue(), {
-                if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) as? SubShopCategoryTableViewCell {
-                    cellToUpdate.logoImageView.image = image
-                }
-            })
+            cell.shopNameLabel.text = "nil"
+        }
+        
+        if let type = self.activities[indexPath.row].type {
+            cell.shopTypeNameLabel.text = type
+        } else {
+            cell.shopTypeNameLabel.text = "nil"
+        }
+        
+        let placeholder = UIImage(named: "00_icon_people")!
+        if let activitiyShopLogoImageUrl = self.activities[indexPath.row].logoImageUrl {
+            let URL: NSURL = NSURL(string: activitiyShopLogoImageUrl)!
+            cell.shopLogoImageView?.load(URL, placeholder: placeholder)
+        } else {
+            cell.shopLogoImageView.image = placeholder
         }
         
         return cell
@@ -202,23 +162,24 @@ class SubShopCategoryViewController: BaseTableViewController {
     // MARK: Table view deleagete
     // ------------------------------
 
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.tableViewOutlet.deselectRowAtIndexPath(indexPath, animated: true)
+    }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "SegueToShop" {
             println("[Segue] Sub shop category -> Shop")
-            
-            if let indexPath = tableView.indexPathForSelectedRow() {
+            if let indexPath = self.tableViewOutlet.indexPathForSelectedRow() {
                 let destinationController = segue.destinationViewController as! ShopViewController
                 destinationController.subShopCategorySegue = self.activities[indexPath.row]
             }
         }
     }
-    
 
 }

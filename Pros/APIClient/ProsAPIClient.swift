@@ -100,13 +100,28 @@ class ProsAPIClient: NSObject {
     // MARK: Promotions
     // ------------------------------
     
-    func getPromotionsWithCompletion() -> Request {
+    func getPromotionWithCompletion() -> Request {
         let path: String! = "/list-promotions"
         return Alamofire.request(.GET, urlString(path))
     }
     
-    func getPromotionDetailWithCompletion(fbId: String!, promotionId: String!) -> Request {
-        let path: String! = "/look-for-promotion/\(fbId)/\(promotionId)"
+    func getPromotionDetailWithCompletion(form: PromotionDetailForm!) -> Request {
+        let path: String! = "/look-for-promotion/\(form.fbId)/\(form.promotionId)"
+        return Alamofire.request(.GET, urlString(path))
+    }
+    
+    func getLikeByFbIdAndPromotionIdWithCompletion(form: LikeForm!) -> Request {
+        let path: String! = "/is-like/\(form.fbId)/\(form.promotionId)"
+        return Alamofire.request(.GET, urlString(path))
+    }
+    
+    func getLikeToggleByFbIdAndPromotionIdWithCompletion(form: PromotionLikeToggleForm!) -> Request {
+        let path: String! = "/toggle-like/\(form.fbId)/\(form.promotionId)"
+        return Alamofire.request(.GET, urlString(path))
+    }
+    
+    func getShareByFbIdAndPromotionIdWithCompletion(form: ShareForm!) -> Request {
+        let path: String! = "/new-share/\(form.fbId)/\(form.promotionId)"
         return Alamofire.request(.GET, urlString(path))
     }
     
@@ -135,19 +150,40 @@ class ProsAPIClient: NSObject {
     // MARK: Shop
     // ------------------------------
     
-    func getShopByShopIdWithCompletion(parameter: String!) -> Request {
-        let path: String! = "/look-for-shop/\(parameter)"
+    func getShopByShopIdWithCompletion(form: ShopForm!) -> Request {
+        let path: String! = "/look-for-shop/\(form.shopId)"
         return Alamofire.request(.GET, urlString(path))
     }
     
-    func getSubscribeByFbIdAndShopIdWithCompletion(fbId: String!, shopId: String!) -> Request {
-        let path: String! = "/is-subscribe/\(fbId)/\(shopId)"
+    func getSubscribeByFbIdAndShopIdWithCompletion(form: SubscribeForm!) -> Request {
+        let path: String! = "/is-subscribe/\(form.fbId)/\(form.shopId)"
         return Alamofire.request(.GET, urlString(path))
     }
     
-    func getToggleSubscribeByFbIdAndShopIdWithCompletion(fbId: String!, shopId: String!) -> Request {
-        let path: String! = "/toggle-subscribe/\(fbId)/\(shopId)"
+    func getSubscribeToggleByFbIdAndShopIdWithCompletion(form: ShopSubscribeToggleForm!) -> Request {
+        let path: String! = "/toggle-subscribe/\(form.fbId)/\(form.shopId)"
         return Alamofire.request(.GET, urlString(path))
+    }
+    
+    // ------------------------------
+    // MARK: -
+    // MARK: Feedback
+    // ------------------------------
+    
+    func getFeedbackWithCompletion(form: FeedbackForm!) -> Request {
+        let path: String! = "/get-feedback-form/\(form.shopId)"
+        return Alamofire.request(.GET, urlString(path))
+    }
+    
+    func postSubmitFeedbackWithCompletion(form: SubmitFeedbackForm!) -> Request {
+        let path: String! = "/submit-feedback"
+        
+        var parameters = defaultParametersAsDictionary()
+        parameters["feedbackquestion_id"] = form.feedbackquestion_id
+        parameters["facebook_id"] = form.facebook_id
+        parameters["answer"] = form.answer
+        
+        return Alamofire.request(.POST, urlString(path), parameters: parameters)
     }
     
     // ------------------------------
@@ -155,10 +191,30 @@ class ProsAPIClient: NSObject {
     // MARK: Notification
     // ------------------------------
     
+    func getNotificationWithCompletion(form: NotificationForm!) -> Request {
+        let path: String! = "/list-feedly/\(form.fbId)"
+        return Alamofire.request(.GET, urlString(path))
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: Cards
     // ------------------------------
+    
+    func getInsertMembershipCardWithCompletion(form: InsertMembershipCardForm!) -> Request {
+        let path: String! = "/create-membercard/\(form.fbId)/\(form.qrId)"
+        return Alamofire.request(.GET, urlString(path))
+    }
+    
+    func getMembershipCardWithCompletion(form: MembershipCardForm!) -> Request {
+        let path: String! = "/list-membercards/\(form.fbId)"
+        return Alamofire.request(.GET, urlString(path))
+    }
+    
+    func getMembershipCardDetailWithCompletion(form: MembershipCardDetailForm!) -> Request {
+        let path: String! = "/create-membercard/\(form.fbId)/\(form.shopId)"
+        return Alamofire.request(.GET, urlString(path))
+    }
     
     // ------------------------------
     // MARK: -

@@ -7,6 +7,11 @@
 //
 
 import UIKit
+import TTTAttributedLabel
+
+protocol PromotionDetailTableViewCellDelegate {
+    func getLikeToggleDelegate(cell: AnyObject)
+}
 
 class PromotionDetailTableViewCell: UITableViewCell {
     
@@ -14,25 +19,30 @@ class PromotionDetailTableViewCell: UITableViewCell {
     // MARK: -
     // MARK: Properties
     // ------------------------------
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var typeLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var releasedDate: UILabel!
-    @IBOutlet weak var expiredDate: UILabel!
-    @IBOutlet weak var logoImageView: UIImageView! {
+    /*
+    let label: TTTAttributedLabel = TTTAttributedLabel(frame: CGRectZero)
+    label.font = UIFont.systemFontOfSize(14)
+    label.textColor = UIColor.darkGrayColor()
+    label.lineBreakMode = NSLineBreakMode.ByWordWrapping
+    label.numberOfLines = 0
+    */
+    @IBOutlet weak var shopNameLabel: UILabel!
+    @IBOutlet weak var shopTypeNameLabel: UILabel!
+    @IBOutlet weak var promotionNameLabel: UILabel!
+    @IBOutlet weak var promotionDescriptionLabel: TTTAttributedLabel!
+    @IBOutlet weak var promotionTypeNameLabel: UILabel!
+    @IBOutlet weak var promotionExpiredDate: UILabel!
+    @IBOutlet weak var promotionImageView: UIImageView!
+    @IBOutlet weak var promotionTypeImageView: UIImageView!
+    @IBOutlet weak var promotionLikeButton: UIButton!
+    @IBOutlet weak var shopLogoImageView: UIImageView! {
         didSet {
-            Utilities.roundCornersWithImageView(self.logoImageView, cornerRadius: self.logoImageView.frame.size.width/2, borderWidth: 0.0, color: .clearColor())
+            Utilities.roundCornersWithImageView(self.shopLogoImageView, cornerRadius: self.shopLogoImageView.frame.size.width/2, borderWidth: 0.0, color: .clearColor())
         }
     }
-    @IBOutlet weak var promotionImageView: UIImageView! {
-        didSet {
-            Utilities.roundCornersWithImageView(self.promotionImageView, cornerRadius: 5.0, borderWidth: 0.0, color: .clearColor())
-        }
-    }
     
-    private var likeState: Bool! = false
+    var delegate: PromotionDetailTableViewCellDelegate?
+    var likeState: Bool! = false // Not subscribe by default
     
     // ------------------------------
     // MARK: -
@@ -56,13 +66,7 @@ class PromotionDetailTableViewCell: UITableViewCell {
     // ------------------------------
     
     @IBAction func likeToggle(sender: AnyObject) {
-        self.likeState = !self.likeState
-        
-        if (self.likeState == true) {
-            like()
-        } else {
-            unlike()
-        }
+        self.delegate!.getLikeToggleDelegate(self)
     }
     
     // ------------------------------
@@ -70,12 +74,16 @@ class PromotionDetailTableViewCell: UITableViewCell {
     // MARK: Configuration
     // ------------------------------
     
-    private func unlike() -> Void {
-        self.likeButton.setImage(UIImage(named: "00_heart"), forState: .Normal)
+    func unlike() -> Void {
+        // Set to unlike
+        self.likeState = false
+        self.promotionLikeButton.setImage(UIImage(named: "00_icon_heart"), forState: .Normal)
     }
     
-    private func like() -> Void {
-        self.likeButton.setImage(UIImage(named: "01_heart"), forState: .Normal)
+    func like() -> Void {
+        // Set to like
+        self.likeState = true
+        self.promotionLikeButton.setImage(UIImage(named: "00_icon_heart-1"), forState: .Normal)
     }
 
 }

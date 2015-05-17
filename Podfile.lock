@@ -1,0 +1,31 @@
+PODS:
+  - Alamofire (1.2.1)
+  - Bolts/Tasks (1.1.5)
+  - EstimoteSDK (3.2.2)
+  - ImageLoader (0.3.2)
+  - ObjectMapper (0.11)
+  - Parse (1.7.2.1):
+    - Bolts/Tasks (>= 1.1.5)
+  - SVWebViewController (1.0)
+  - TTTAttributedLabel (1.13.3)
+
+DEPENDENCIES:
+  - Alamofire (~> 1.2)
+  - EstimoteSDK (~> 3.2)
+  - ImageLoader (~> 0.3.2)
+  - ObjectMapper (~> 0.11)
+  - Parse
+  - SVWebViewController (~> 1.0)
+  - TTTAttributedLabel (~> 1.13)
+
+SPEC CHECKSUMS:
+  Alamofire: 1acfdf179aff68b41a48dff70c1ac7fa263e2bcb
+  Bolts: aac24961496d504aa56fc267cde95162a71bac39
+  EstimoteSDK: 357d27143d8cfb3bc7a98cf45d026409c4d0cd7d
+  ImageLoader: d500da0b730e4d437f81c7799cd2c5f4622d474c
+  ObjectMapper: fc34b29bb04086ed831174a01c8310b507a6ba25
+  Parse: 8213b05b52768b34b87e1e41fd9efc88a9933f3f
+  SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901
+  TTTAttributedLabel: 6f3174aef8e738f44dff97c2eb7d8184f6ab6277
+
+COCOAPODS: 0.36.4

@@ -23,7 +23,9 @@ class LocationViewController: BaseViewController,
     @IBOutlet weak var addressLabel: UILabel!
     
     let locationManager = CLLocationManager()
-    
+    var logoImageCache: UIImage! = UIImage()
+    var activities: AnyObject!
+
     // ------------------------------
     // MARK: -
     // MARK: View life cycle
@@ -33,19 +35,14 @@ class LocationViewController: BaseViewController,
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.mapView.delegate = self
+        if let activity = self.activities as? Shop {
+            println("[+] \(activity.address)")
+        } else {
+            println("Error")
+        }
         
-        self.locationManager.delegate = self
-        self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.startUpdatingLocation()
-        
-        customUI()
         loadData()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+        setupView()
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,18 +64,24 @@ class LocationViewController: BaseViewController,
     // MARK: User interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
+        customLocation()
     }
     
-    private func customNavigationBar() -> Void {
+    func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("LOCATION")
         
         let directionBarButtonItem: UIBarButtonItem! = UIBarButtonItem(title: "Directions", style: .Plain, target: self, action: "performWithDirectionLocation")
         navigationItem.rightBarButtonItems = [directionBarButtonItem]
     }
     
-    private func updateUI() -> Void {
+    func customLocation() -> Void {
+        self.mapView.delegate = self
+        self.locationManager.delegate = self
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.startUpdatingLocation()
     }
     
     // ------------------------------
@@ -86,8 +89,18 @@ class LocationViewController: BaseViewController,
     // MARK: Data
     // ------------------------------
     
-    private func loadData() -> Void {
-        reverseGeocodeLocation(CLLocation(latitude: 13.6517, longitude: 100.4956))
+    func loadData() -> Void {
+        reverseGeocodeLocation(CLLocation(latitude: 13.65197808, longitude: 100.49744396))
+        
+//        if let activity = self.activities {
+//            let latitude: CLLocationDegrees! = Double((activity.latitude! as NSString).doubleValue)
+//            let longitude: CLLocationDegrees! = Double((activity.longitude! as NSString).doubleValue)
+//            let geoLocation: CLLocation! = CLLocation(latitude: latitude, longitude: longitude)
+//            println("[+] LA: \(latitude) | LO: \(longitude)")
+//            reverseGeocodeLocation(geoLocation)
+//        } else {
+//            println("[+] No value")
+//        }
     }
     
     // ------------------------------
@@ -95,7 +108,7 @@ class LocationViewController: BaseViewController,
     // MARK: Configuration
     // ------------------------------
     
-    private func reverseGeocodeLocation(location: CLLocation!) -> Void {
+    func reverseGeocodeLocation(location: CLLocation!) -> Void {
         // Convert address to coordinate and annotate it on map
         let geoCoder: CLGeocoder! = CLGeocoder()
         
@@ -112,8 +125,8 @@ class LocationViewController: BaseViewController,
                 
                 // Add Annotation
                 let annotation = MKPointAnnotation()
-                annotation.title = "Starbacks Coffee"//self.restaurant.name
-                annotation.subtitle = "@Cafe"//self.restaurant.type
+                annotation.title = "Momots"
+                annotation.subtitle = "Cafe"
                 annotation.coordinate = placemark.location.coordinate
                 
                 self.addressLabel.text = "Latitude: \(placemark.location.coordinate.latitude)   Longitude: \(placemark.location.coordinate.longitude)"
@@ -124,7 +137,7 @@ class LocationViewController: BaseViewController,
         })
     }
     
-    private func getUserCurrentLocation() -> Void {
+    func getUserCurrentLocation() -> Void {
         let spanX: Double! = 0.00725
         let spanY: Double! = 0.00725
         let spanXLatitude: CLLocationDegrees! = spanX
@@ -162,8 +175,8 @@ class LocationViewController: BaseViewController,
     func performWithDirectionLocation() -> Void {
         let alertController = UIAlertController(title: "Choose the app that you'd like to open", message: nil, preferredStyle: .ActionSheet)
         
-        let latitude: CLLocationDegrees! = 13.6517
-        let longitude: CLLocationDegrees! = 100.4956
+        let latitude: CLLocationDegrees! = 13.65197808
+        let longitude: CLLocationDegrees! = 100.49744396
         
         let coordinate: CLLocationCoordinate2D! = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         
@@ -173,12 +186,12 @@ class LocationViewController: BaseViewController,
         alertController.addAction(cancelAction)
         
         let feedbackAction = UIAlertAction(title: "Apple Maps", style: .Default) { (action) in
-            self.performWithAppleMaps(coordinate, title: "Starbucks")
+            self.performWithAppleMaps(coordinate, title: "Momots")
         }
         alertController.addAction(feedbackAction)
         
         let shareAction = UIAlertAction(title: "Google Maps", style: .Default) { (action) in
-            self.performWithGoogleMaps(coordinate, title: "Coffee World")
+            self.performWithGoogleMaps(coordinate, title: "Momots")
         }
         alertController.addAction(shareAction)
         
@@ -189,7 +202,7 @@ class LocationViewController: BaseViewController,
         dismissViewControllerAnimated(true, completion: nil)//"unwindCloseWithFeedbackViewController:"
     }
     
-    private func performWithAppleMaps(coordinate: CLLocationCoordinate2D!, title: String!) -> Void {
+    func performWithAppleMaps(coordinate: CLLocationCoordinate2D!, title: String!) -> Void {
         println("[Log] Apple Maps: \(title) Latitude: \(coordinate.latitude)| Longitude: \(coordinate.longitude)")
         
         let placemark: MKPlacemark! = MKPlacemark(coordinate: coordinate, addressDictionary: nil)
@@ -198,7 +211,7 @@ class LocationViewController: BaseViewController,
         mapItem.openInMapsWithLaunchOptions(nil)
     }
     
-    private func performWithGoogleMaps(coordinate: CLLocationCoordinate2D!, title: String!) -> Void {
+    func performWithGoogleMaps(coordinate: CLLocationCoordinate2D!, title: String!) -> Void {
         println("[Log] Google Maps: \(title) Latitude: \(coordinate.latitude)| Longitude: \(coordinate.longitude)")
         
         let url: NSURL! = NSURL(string: "comgooglemaps://?daddr=\(coordinate.latitude),\(coordinate.longitude)&directionsmode=driving")
@@ -212,7 +225,7 @@ class LocationViewController: BaseViewController,
         }
     }
     
-    private func alertControllerWithAppLink(title: String!, message: String!, urlAppLink: NSURL!) -> Void {
+    func alertControllerWithAppLink(title: String!, message: String!, urlAppLink: NSURL!) -> Void {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         
         let cancelAction = UIAlertAction(title: "Close", style: .Cancel) { (action) in
@@ -251,7 +264,7 @@ class LocationViewController: BaseViewController,
         
         let leftIconView = UIImageView(frame: CGRectMake(0, 0, 53, 53))
         annotationView.image = UIImage(named: "00_pin")
-        leftIconView.image = UIImage(named: "00_logoDummy")
+        leftIconView.image = UIImage(named: "06_logoDummy")
         annotationView.leftCalloutAccessoryView = leftIconView
         
         return annotationView
@@ -263,7 +276,7 @@ class LocationViewController: BaseViewController,
     // ------------------------------
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: {(placemarks, error)->Void in
+        CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: {(placemarks, error)-> Void in
             if (error != nil) {
                 println("Reverse geocoder failed with error \(error.localizedDescription)")
                 return
@@ -281,15 +294,4 @@ class LocationViewController: BaseViewController,
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         println("Error while updating location \(error.localizedDescription)")
     }
-    
-    /*
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
-    }
-    */
-
 }

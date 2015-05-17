@@ -15,8 +15,8 @@ class ShopCategoryTableViewCell: UITableViewCell {
     // MARK: Properties
     // ------------------------------
     
-    @IBOutlet weak var typeLabel: UILabel!
-    @IBOutlet weak var typeImageView: UIImageView!
+    @IBOutlet weak var shopTypeNameLabel: UILabel!
+    @IBOutlet weak var shopTypeImageView: UIImageView!
     /*
     {
         didSet {

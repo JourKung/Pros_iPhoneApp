@@ -98,10 +98,10 @@ class UserAuthenticationViewController: BaseViewController,
     func setupView() -> Void {
         loginButton.setTitle("Log in with Facebook", forState: UIControlState.Normal)
         
-        pageImages = [UIImage(named: "01_tutorial")!,
-            UIImage(named: "02_tutorial")!,
-            UIImage(named: "03_tutorial")!,
-            UIImage(named: "04_tutorial")!]
+        pageImages = [UIImage(named: "01_00_tutorial")!,
+            UIImage(named: "01_01_tutorial")!,
+            UIImage(named: "01_02_tutorial")!,
+            UIImage(named: "01_03_tutorial")!]
         
         let pageCount = pageImages.count
         pageControl.currentPage = 0
@@ -234,7 +234,9 @@ class UserAuthenticationViewController: BaseViewController,
                 UserDefaults.sharedInstance.setUserFbId(profile["id"] as! String)
                 UserDefaults.sharedInstance.setUsername(profile["name"] as! String)
                 UserDefaults.sharedInstance.setUserEmail(profile["email"] as! String)
-                UserDefaults.sharedInstance.setUserBirthday(profile["birthday"] as! String)
+                if let birthday = profile["birthday"] as? String {
+                    UserDefaults.sharedInstance.setUserBirthday(birthday)
+                }
                 UserDefaults.sharedInstance.setUserGender(profile["gender"] as! String)
                 
                 self.prosAPIClient.putUserFacebookProfile(form).responseJSON { (request, response, results, error) -> Void in

@@ -26,7 +26,7 @@ class SettingAboutViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        customUI()
+        setupView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,20 +44,17 @@ class SettingAboutViewController: UIViewController {
     // MARK: User interface
     // ------------------------------
     
-    private func customUI() -> Void {
+    func setupView() -> Void {
         customNavigationBar()
         customTableView()
     }
     
-    private func customNavigationBar() -> Void {
+    func customNavigationBar() -> Void {
         navigationItem.titleView = Utilities.titleLabelOnNavigationBar("About")
         navigationItem.backBarButtonItem = Utilities.previousBackBarButtonItemOnNavigationBar()
     }
     
-    private func customTableView() -> Void {
-    }
-    
-    private func updateUI() -> Void {
+    func customTableView() -> Void {
     }
     
     // ------------------------------
@@ -65,7 +62,7 @@ class SettingAboutViewController: UIViewController {
     // MARK: Data
     // ------------------------------
     
-    private func loadData() -> Void {
+    func loadData() -> Void {
     }
     
     // ------------------------------

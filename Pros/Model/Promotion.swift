@@ -16,10 +16,6 @@ class Promotion: Mappable {
     // MARK: Properties
     // ------------------------------
     
-//    var objectId: String!
-//    var createdAt: NSDate!
-//    var updatedAt: NSDate!
-    
     var promotionID: String!
     var point: String?
     var name: String?
