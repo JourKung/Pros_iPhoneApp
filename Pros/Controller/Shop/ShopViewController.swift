@@ -312,12 +312,10 @@ class ShopViewController: BaseTableViewController,
     }
     
     func performWithLocationViewControllerAnimated(animated: Bool) -> Void {
-        let containerLocationNC = storyboard?.instantiateViewControllerWithIdentifier("LocationNavigationController") as! UINavigationController
-        let containerLocationVC = LocationViewController()
+        let containerLocationVC = storyboard?.instantiateViewControllerWithIdentifier("LocationViewController") as! LocationViewController
         if let activity = self.activities {
             containerLocationVC.activities = activity
             
-            /*
             if let logoImageURL = activity.logoImageURL {
                 let URL: NSURL! = NSURL(string: logoImageURL)
                 let urlRequest: NSURLRequest! = NSURLRequest(URL: URL)
@@ -332,9 +330,8 @@ class ShopViewController: BaseTableViewController,
             } else {
                 containerLocationVC.logoImageCache = UIImage(named: "00_icon_people")
             }
-            */
             
-            navigationController?.presentViewController(containerLocationNC, animated: animated, completion: nil)
+            presentViewController(containerLocationVC, animated: animated, completion: nil)
         }
     }
     
@@ -423,7 +420,6 @@ class ShopViewController: BaseTableViewController,
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         switch (indexPath.row) {
         case 0:
             return activitiyTableViewCell(indexPath)

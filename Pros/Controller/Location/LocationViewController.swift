@@ -24,7 +24,7 @@ class LocationViewController: BaseViewController,
     
     let locationManager = CLLocationManager()
     var logoImageCache: UIImage! = UIImage()
-    var activities: AnyObject!
+    var activities: Shop!
 
     // ------------------------------
     // MARK: -
@@ -34,12 +34,6 @@ class LocationViewController: BaseViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        if let activity = self.activities as? Shop {
-            println("[+] \(activity.address)")
-        } else {
-            println("Error")
-        }
         
         loadData()
         setupView()
@@ -59,13 +53,17 @@ class LocationViewController: BaseViewController,
         performWithCurrentLocation()
     }
     
+    @IBAction func direction(sender: AnyObject) {
+        performWithDirectionLocation()
+    }
+    
     // ------------------------------
     // MARK: -
     // MARK: User interface
     // ------------------------------
     
     func setupView() -> Void {
-        customNavigationBar()
+//        customNavigationBar()
         customLocation()
     }
     
@@ -90,17 +88,11 @@ class LocationViewController: BaseViewController,
     // ------------------------------
     
     func loadData() -> Void {
-        reverseGeocodeLocation(CLLocation(latitude: 13.65197808, longitude: 100.49744396))
-        
-//        if let activity = self.activities {
-//            let latitude: CLLocationDegrees! = Double((activity.latitude! as NSString).doubleValue)
-//            let longitude: CLLocationDegrees! = Double((activity.longitude! as NSString).doubleValue)
-//            let geoLocation: CLLocation! = CLLocation(latitude: latitude, longitude: longitude)
-//            println("[+] LA: \(latitude) | LO: \(longitude)")
-//            reverseGeocodeLocation(geoLocation)
-//        } else {
-//            println("[+] No value")
-//        }
+        if let activity = self.activities {
+            let latitude = NSString(string: activity.latitude!)
+            let longitude = NSString(string: activity.longitude!)
+            reverseGeocodeLocation(CLLocation(latitude: latitude.doubleValue, longitude: longitude.doubleValue))
+        }
     }
     
     // ------------------------------
@@ -125,11 +117,13 @@ class LocationViewController: BaseViewController,
                 
                 // Add Annotation
                 let annotation = MKPointAnnotation()
-                annotation.title = "Momots"
-                annotation.subtitle = "Cafe"
-                annotation.coordinate = placemark.location.coordinate
                 
-                self.addressLabel.text = "Latitude: \(placemark.location.coordinate.latitude)   Longitude: \(placemark.location.coordinate.longitude)"
+                if let activity = self.activities {
+                    annotation.title = activity.name
+                    annotation.subtitle = activity.shopType
+                    annotation.coordinate = placemark.location.coordinate
+                    self.addressLabel.text = "Latitude: \(placemark.location.coordinate.latitude)   Longitude: \(placemark.location.coordinate.longitude)"
+                }
                 
                 self.mapView.showAnnotations([annotation], animated: true)
                 self.mapView.selectAnnotation(annotation, animated: true)
@@ -186,12 +180,21 @@ class LocationViewController: BaseViewController,
         alertController.addAction(cancelAction)
         
         let feedbackAction = UIAlertAction(title: "Apple Maps", style: .Default) { (action) in
-            self.performWithAppleMaps(coordinate, title: "Momots")
+            if let name = self.activities.name {
+                self.performWithAppleMaps(coordinate, title: name)
+            } else {
+                self.performWithAppleMaps(coordinate, title: "Shop")
+            }
         }
         alertController.addAction(feedbackAction)
         
         let shareAction = UIAlertAction(title: "Google Maps", style: .Default) { (action) in
-            self.performWithGoogleMaps(coordinate, title: "Momots")
+            if let name = self.activities.name {
+                self.performWithGoogleMaps(coordinate, title: name)
+            } else {
+                self.performWithGoogleMaps(coordinate, title: "Shop")
+            }
+            
         }
         alertController.addAction(shareAction)
         
@@ -264,7 +267,13 @@ class LocationViewController: BaseViewController,
         
         let leftIconView = UIImageView(frame: CGRectMake(0, 0, 53, 53))
         annotationView.image = UIImage(named: "00_pin")
-        leftIconView.image = UIImage(named: "06_logoDummy")
+        
+        if let logoImage = self.logoImageCache {
+            leftIconView.image = self.logoImageCache
+        } else {
+            leftIconView.image = UIImage(named: "00_icon_people")
+        }
+        
         annotationView.leftCalloutAccessoryView = leftIconView
         
         return annotationView

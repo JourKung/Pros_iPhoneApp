@@ -290,7 +290,7 @@
         <!--Location View Controller-->
         <scene sceneID="For-70-Zrs">
             <objects>
-                <viewController id="j2L-nu-zNz" customClass="LocationViewController" customModule="Pros" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LocationViewController" id="j2L-nu-zNz" customClass="LocationViewController" customModule="Pros" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jXu-Mu-Tfb"/>
                         <viewControllerLayoutGuide type="bottom" id="cxO-DV-SAo"/>
@@ -318,6 +318,19 @@
                                     <action selector="currentLocation:" destination="j2L-nu-zNz" eventType="touchUpInside" id="urF-HO-5yn"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gvr-gZ-ozI" userLabel="Current Button">
+                                <rect key="frame" x="250" y="412" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="7sD-4A-Lc7"/>
+                                    <constraint firstAttribute="width" constant="60" id="J5e-JO-1fg"/>
+                                </constraints>
+                                <state key="normal" image="00_icon_direction">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="direction:" destination="j2L-nu-zNz" eventType="touchUpInside" id="XtU-ig-po6"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rK-rg-djm" userLabel="Address Label">
                                 <rect key="frame" x="0.0" y="547" width="320" height="21"/>
                                 <color key="backgroundColor" white="1" alpha="0.84999999999999998" colorSpace="calibratedWhite"/>
@@ -328,11 +341,27 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zf6-0M-F5p" userLabel="Current Button">
+                                <rect key="frame" x="16" y="28" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="E6r-ZX-1pp"/>
+                                    <constraint firstAttribute="height" constant="30" id="c0d-gU-t6i"/>
+                                </constraints>
+                                <state key="normal" image="00_icon_close">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="JYh-tA-hdV" kind="unwind" unwindAction="unwindCloseWithLocationViewController:" id="L4W-mR-Tfw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3rK-rg-djm" firstAttribute="top" secondItem="A90-nc-m01" secondAttribute="bottom" constant="-21" id="07u-2B-BL6"/>
+                            <constraint firstItem="mfm-D0-tE4" firstAttribute="top" secondItem="gvr-gZ-ozI" secondAttribute="bottom" constant="8" id="4Pi-o9-dnN"/>
                             <constraint firstAttribute="trailingMargin" secondItem="mfm-D0-tE4" secondAttribute="trailing" constant="-6" id="8V9-Pf-MVr"/>
+                            <constraint firstItem="A90-nc-m01" firstAttribute="leading" secondItem="Zf6-0M-F5p" secondAttribute="trailing" constant="-46" id="C5S-fG-M86"/>
+                            <constraint firstItem="gvr-gZ-ozI" firstAttribute="leading" secondItem="A90-nc-m01" secondAttribute="trailing" constant="-70" id="JqZ-eP-1qd"/>
                             <constraint firstAttribute="trailingMargin" secondItem="A90-nc-m01" secondAttribute="trailing" constant="-16" id="MvC-uC-yh6"/>
                             <constraint firstItem="A90-nc-m01" firstAttribute="top" secondItem="spC-zC-sg4" secondAttribute="topMargin" id="XOX-TB-LVr"/>
                             <constraint firstItem="cxO-DV-SAo" firstAttribute="top" secondItem="A90-nc-m01" secondAttribute="bottom" id="cOe-ht-Va0"/>
@@ -340,16 +369,10 @@
                             <constraint firstItem="3rK-rg-djm" firstAttribute="leading" secondItem="spC-zC-sg4" secondAttribute="leadingMargin" constant="-16" id="qUp-Ok-Bkp"/>
                             <constraint firstItem="3rK-rg-djm" firstAttribute="top" secondItem="mfm-D0-tE4" secondAttribute="bottom" constant="7" id="rEo-jE-GmL"/>
                             <constraint firstItem="A90-nc-m01" firstAttribute="leading" secondItem="spC-zC-sg4" secondAttribute="leadingMargin" constant="-16" id="wn8-cf-Vzv"/>
+                            <constraint firstItem="A90-nc-m01" firstAttribute="top" secondItem="Zf6-0M-F5p" secondAttribute="bottom" constant="-58" id="yAp-t0-Cbc"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="sOv-uq-Hfg">
-                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="vyo-1N-cqH">
-                            <color key="tintColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <segue destination="JYh-tA-hdV" kind="unwind" unwindAction="unwindCloseWithLocationViewController:" id="vhI-zF-dcg"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="sOv-uq-Hfg"/>
                     <connections>
                         <outlet property="addressLabel" destination="3rK-rg-djm" id="4yp-DM-4HX"/>
                         <outlet property="mapView" destination="A90-nc-m01" id="TGg-s0-WSo"/>
@@ -358,7 +381,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="58w-Hb-CuB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="JYh-tA-hdV" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="344" y="-29"/>
+            <point key="canvasLocation" x="-32" y="-29"/>
         </scene>
         <!--Setting View Controller-->
         <scene sceneID="WBP-Al-UJB">
@@ -1563,31 +1586,32 @@ Privacy policy created by Pros</string>
                                     <constraint firstItem="EOp-6C-vcc" firstAttribute="leading" secondItem="AJW-OZ-add" secondAttribute="leading" constant="83" id="xf7-yA-wvN"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ro-vq-P81" userLabel="Close Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="55o-Zc-ata" userLabel="Current Button">
                                 <rect key="frame" x="274" y="28" width="30" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="Q93-GM-wVe"/>
-                                    <constraint firstAttribute="height" constant="30" id="erJ-RP-qYR"/>
+                                    <constraint firstAttribute="width" constant="30" id="J4q-xS-kNY"/>
+                                    <constraint firstAttribute="height" constant="30" id="VuJ-go-IKi"/>
                                 </constraints>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" image="00_close"/>
+                                <state key="normal" image="00_icon_close">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
-                                    <segue destination="NmC-Pc-mxz" kind="unwind" unwindAction="unwindCloseWithFeedbackViewController:" id="Ab7-G0-xQk"/>
+                                    <segue destination="NmC-Pc-mxz" kind="unwind" unwindAction="unwindCloseWithFeedbackViewController:" id="9rn-0t-PUx"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Ovl-6j-J9n" firstAttribute="leading" secondItem="nVO-xe-A4P" secondAttribute="leadingMargin" constant="-16" id="0rQ-ul-UQg"/>
-                            <constraint firstItem="2ro-vq-P81" firstAttribute="top" secondItem="8W9-nN-hAS" secondAttribute="bottom" constant="8" id="DeJ-Qh-7mG"/>
                             <constraint firstItem="7Dx-xq-I4h" firstAttribute="top" secondItem="Ovl-6j-J9n" secondAttribute="bottom" id="EpK-aU-ew1"/>
                             <constraint firstItem="AJW-OZ-add" firstAttribute="top" secondItem="8W9-nN-hAS" secondAttribute="bottom" constant="63" id="KPP-Vy-x5I"/>
                             <constraint firstAttribute="trailingMargin" secondItem="AJW-OZ-add" secondAttribute="trailing" constant="28" id="Mkp-Y6-HAF"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ovl-6j-J9n" secondAttribute="trailing" constant="-16" id="Mva-do-aoD"/>
+                            <constraint firstItem="55o-Zc-ata" firstAttribute="trailing" secondItem="nVO-xe-A4P" secondAttribute="trailingMargin" id="PX9-Jy-IrK"/>
                             <constraint firstItem="Ovl-6j-J9n" firstAttribute="top" secondItem="nVO-xe-A4P" secondAttribute="topMargin" id="dEt-OU-7AG"/>
-                            <constraint firstItem="2ro-vq-P81" firstAttribute="trailing" secondItem="nVO-xe-A4P" secondAttribute="trailingMargin" id="l9n-uC-qza"/>
                             <constraint firstItem="AJW-OZ-add" firstAttribute="leading" secondItem="nVO-xe-A4P" secondAttribute="leadingMargin" constant="29" id="lNI-xW-mVh"/>
                             <constraint firstItem="7Dx-xq-I4h" firstAttribute="top" secondItem="AJW-OZ-add" secondAttribute="bottom" constant="170" id="v9u-ki-k8c"/>
+                            <constraint firstItem="55o-Zc-ata" firstAttribute="top" secondItem="8W9-nN-hAS" secondAttribute="bottom" constant="8" id="vMn-xd-LLQ"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1601,24 +1625,6 @@ Privacy policy created by Pros</string>
                 <exit id="NmC-Pc-mxz" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-490" y="-739"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Tff-wW-pJK">
-            <objects>
-                <navigationController storyboardIdentifier="LocationNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="RW1-Av-ZsL" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eTv-7X-7jy">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="j2L-nu-zNz" kind="relationship" relationship="rootViewController" id="IHm-Xf-NCz"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kdE-2o-i6Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-76" y="-29"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="d1V-z4-rP2">
@@ -1717,9 +1723,10 @@ Privacy policy created by Pros</string>
     </scenes>
     <resources>
         <image name="00_add-toolbar" width="14" height="14"/>
-        <image name="00_close" width="32" height="32"/>
         <image name="00_feedback" width="64" height="64"/>
         <image name="00_icon_card" width="32" height="32"/>
+        <image name="00_icon_close" width="44" height="44"/>
+        <image name="00_icon_direction" width="60" height="60"/>
         <image name="00_icon_heart" width="32" height="32"/>
         <image name="00_icon_home" width="32" height="32"/>
         <image name="00_icon_menu" width="32" height="32"/>
